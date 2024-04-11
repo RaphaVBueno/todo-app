@@ -1,0 +1,113 @@
+.fundo {
+  background-color: #ffb697;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  display: flex;
+}
+
+.segunda-caixa {
+  background-color: white;
+  height: 498px;
+  width: 858px;
+  position: absolute;
+  top: 220px;
+  left: 480px;
+  margin: 0;
+  border-radius: 20px;
+}
+
+.titulo {
+  position: absolute;
+  top: 38px;
+  left: 36px;
+  font-family: Arial;
+  font-size: 20px;
+}
+
+.data-botoes > p {
+  position: absolute;
+  top: 33px;
+  left: 690px;
+  font-family: Arial;
+  font-size: 20px;
+  width: 102px;
+  height: 24px;
+}
+
+.setae {
+  position: absolute;
+  top: 62px;
+  left: 643px;
+  background-color: #ffb697;
+  color: #ffb697;
+}
+
+.setad {
+  position: absolute;
+  top: 62px;
+  left: 748px;
+  background-color: #ffb697;
+  color: #ffb697;
+}
+
+.data-botoes > p1 {
+  position: absolute;
+  left: 674px;
+  top: 75px;
+}
+
+.add-tarefa {
+  position: absolute;
+  top: 130px;
+  left: 55px;
+}
+
+.caixa-de-texto {
+  width: 690px;
+  height: 20px;
+}
+
+.botao-mais {
+  position: absolute;
+  top: 3px;
+  left: 710px;
+}
+
+.tarefa1 {
+  position: absolute;
+  top: 185px;
+  left: 45px;
+  font-size: 16px;
+  font-family: Arial;
+}
+
+.linha1 {
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  border: none;
+  border-top: 1px solid #ffb697;
+  width: 90%;
+}
+
+.linha2 {
+  position: absolute;
+  top: 290px;
+  left: 40px;
+  border: none;
+  border-top: 1px solid #020355;
+  width: 90%;
+}
+
+.todo-list:has(input:checked) {
+  text-decoration: line-through;
+}
+
+.tarefas-concluidas {
+  position: absolute;
+  top: 300px;
+  left: 45px;
+  font-size: 16px;
+  font-family: Arial;
+}

@@ -4,63 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div data="Caixa maior">
-      <div data="caixa todo e hoje">
-        <h1>Todo</h1>
-        <div data="hoje">
+    <div class="fundo">
+      <div data="Caixa maior" class="segunda-caixa">
+        <div data="caixa todo e hoje">
+          <h1 class="titulo">Todo</h1>
+          <div data="data-botoes" class="data-botoes">
+            <div class="setae">
+              <form action="/dia-anterior" method="post">
+                <button type="submit"><-</button>
+              </form>
+            </div>
+            <p>Hoje</p>
+            <p1>22/03/2024</p1>
+            <div class="setad">
+              <form action="/dia-seguinte" method="post">
+                <button type="submit">-></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <hr class="linha1" />
+        <div>
           <div>
-            <form action="/dia-anterior" method="post">
-              <button type="submit"><-</button>
+            <form action="/add-tarefa" method="post" class="add-tarefa">
+              <label
+                ><input
+                  type="text"
+                  id="tarefa"
+                  name="tarefa"
+                  class="caixa-de-texto"
+                  placeholder="Adicione uma Tarefa"
+                  required
+                />
+              </label>
+              <div class="botao-mais"><button type="submit">+</button></div>
             </form>
           </div>
-          <p>hoje</p>
-          <p>15/03/2024</p>
-          <div>
-            <form action="/dia-seguinte" method="post">
-              <button type="submit">-></button>
-            </form>
-          </div>
         </div>
-      </div>
-      <hr />
-      <div>
-        <div>
-          <form action="/add-tarefa" method="post">
-            <label
-              >Adicione uma tarefa<input type="text" id="tarefa" name="tarefa"
-            /></label>
-            <div><button type="submit">+</button></div>
-          </form>
+        
+        <div data=" tarefas" class="tarefa1">
+          <div id="tarefas"></div>
+          
         </div>
+        <hr class="linha2" />
+        <div id="tarefas-concluidas" class="tarefas-concluidas"></div>
       </div>
-
-      <div data=" tarefas">
-        <div>
-          <label for="">
-            <input type="checkbox" name="" id="" />
-          </label>
-        </div>
-        <p>texto da tarefa</p>
-      </div>
-      <div data=" tarefas">
-        <div>
-          <label for="">
-            <input type="checkbox" name="" id="" />
-          </label>
-        </div>
-        <p>texto da tarefa</p>
-      </div>
-      <div data=" tarefas">
-        <div>
-          <label for="">
-            <input type="checkbox" name="" id="" />
-          </label>
-        </div>
-        <p>texto da tarefa</p>
-      </div>
-      <hr />
-    </div>
+      <script src="script.js"></script>
   </body>
 </html>
