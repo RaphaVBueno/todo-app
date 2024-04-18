@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node --env-file=.env server.js ",
+    "dev": "nodemon --env-file=.env server.js"
   },
   "type": "module",
   "keywords": [],
@@ -13,8 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.3",
-    "mongodb": "^6.5.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.4"
