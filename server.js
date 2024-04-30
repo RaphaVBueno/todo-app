@@ -1,15 +1,17 @@
 import express from 'express'
 import fs, { readFile } from 'fs'
 import postgres from 'postgres'
+import { title } from 'process'
 
 const sql = postgres(process.env.DB)
 
 const app = express()
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.use('/', express.static('public'))
 
-const port = 3001
+const port = 3000
 
 app.listen(port, () => {
   console.log('Servidor rodando em http://localhost:' + port)
@@ -33,27 +35,15 @@ INSERT INTO tasks (title, status, date, user_email) VALUES (
 `
 }
 
-const updateStatus = async (title) => {
+const updateStatus = async (title, status) => {
   await sql`
-  UPDATE tasks SET status = false WHERE title = ${title};`
+      UPDATE tasks SET status = ${status} WHERE title = ${title};
+    `
 }
 
-//app.post('/updateStatus', async (req, res) => {
-//console.log(req.body)
-//const { title } = req.body
-//try {
-//await sql`
-//UPDATE tasks SET status = false WHERE title = ${title};
-//res.json({ success: true })
-//} catch (err) {
-//console.error(err)
-//res.json({ success: false })
-//}
-//})
-
 app.post('/updateStatus', async (req, res) => {
-  const status = updateStatus()
-  res.redirect('back')
+  const status = await updateStatus(req.body.title, req.body.status)
+  res.json({ message: 'OK' })
 })
 
 app.get('/dados', async (req, res) => {
@@ -65,9 +55,3 @@ app.post('/add-tarefa', async (req, res) => {
   await uptadeDados(req.body.title)
   res.redirect('back')
 })
-
-function ler() {
-  const arquivo = fs.readFileSync('public/dados.json')
-  const dados = JSON.parse(arquivo)
-  return dados
-}

@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for todoapp-do-rapha on 2024-04-11T15:01:20-03:00
+# fly.toml app configuration file generated for todo-app-do-rapha on 2024-04-26T16:37:32-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'todoapp-do-rapha'
+app = 'todo-app-do-rapha'
 primary_region = 'gru'
 
 [build]

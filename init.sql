@@ -5,8 +5,8 @@ password   text NOT NULL,
 PRIMARY KEY (email)
 );
 
-CREATE TABLE taks (
-tittle text NOT NULL,
+CREATE TABLE tasks (
+title text NOT NULL,
 status boolean NOT NULL,
 id     SERIAL PRIMARY KEY,
 date   date NOT NULL,

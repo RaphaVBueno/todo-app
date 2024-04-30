@@ -1,4 +1,5 @@
 const tarefas = document.querySelector('#tarefas')
+const tarefasConcluidas = document.querySelector('#tarefas-concluidas')
 
 function createTarefa(tarefa) {
   const div = document.createElement('div')
@@ -7,38 +8,53 @@ function createTarefa(tarefa) {
   const input = document.createElement('input')
   const text = document.createTextNode(tarefa.title)
   input.setAttribute('type', 'checkbox')
-  label.appendChild(input)
-  label.appendChild(text)
-  div.appendChild(label)
-  tarefas.appendChild(div)
+  input.checked = tarefa.status
 
-  const titulo = tarefa.title
-  //criar um form action??
-  input.addEventListener('change', async function () {
+  input.addEventListener('change', function () {
     const status = this.checked
-    console.log(titulo)
-    const response = await fetch('/updateStatus', {
+    fetch('/updateStatus', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: titulo }),
+      body: JSON.stringify({ title: tarefa.title, status }),
     })
-
-    const result = await response.json()
-
-    if (result.success) {
-      const novaDiv = document.querySelector('#tarefas-concluidas')
-      if (status) {
-        novaDiv.appendChild(div)
-      } else {
-        tarefas.appendChild(div)
-      }
-    } else {
-      console.error('Failed to update status')
-    }
+      .then((response) => response.json())
+      .then((data) => {
+        if (status) {
+          tarefasConcluidas.appendChild(div)
+        } else {
+          tarefas.appendChild(div)
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   })
+
+  label.appendChild(input)
+  label.appendChild(text)
+  div.appendChild(label)
+  return div
 }
+
+function renderTarefas(tarefasData) {
+  for (const tarefa of tarefasData) {
+    const tarefaElement = createTarefa(tarefa)
+    if (tarefa.status) {
+      tarefasConcluidas.appendChild(tarefaElement)
+    } else {
+      tarefas.appendChild(tarefaElement)
+    }
+  }
+}
+
+fetch('/dados')
+  .then((response) => response.json())
+  .then(renderTarefas)
+  .catch((error) => {
+    console.error('Error:', error)
+  })
 
 async function getDados() {
   const response = await fetch('/dados')
