@@ -1,50 +1,42 @@
 #root {
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 2rem;
   text-align: center;
 }
 
-body {
-  margin: 0;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-a {
-  text-decoration: none;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.new-task {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.new-task input {
-  margin-right: 4px;
-  margin-bottom: 0;
+.card {
+  padding: 2em;
 }
 
-.completed-task {
-  text-decoration: line-through;
-}
-
-.incomplete-task {
-  text-decoration: none;
-}
-
-.delete-button {
-  background-color: rgba(28, 33, 44, 0.9);
-  border: none;
-  border-radius: 50%;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: 20px;
-  cursor: pointer;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
+.read-the-docs {
+  color: #888;
 }
