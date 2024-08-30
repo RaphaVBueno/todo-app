@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Box, Button, Typography } from '@mui/material';
+import Sidebar from './Sidebar';
+import './app.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Container
+      maxWidth="xl"
+      sx={{
+        display: 'flex',
+        height: '97vh',
+        width: '150vh',
+        backgroundColor: '#e1e3d1',
+        borderRadius: '16px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)',
+        padding: 2
+      }}
+    >
+    <Sidebar/>
+      <Box
+        sx={{
+          width: '67%', // 2/3 da largura do Container
+          maxHeight: '95%',
+          padding: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          height: '100%'
+        }}
+      >
+      <Typography
+          variant="h4"
+          sx={{
+            alignSelf: 'flex-start',
+            marginBottom: '80%',
+            marginLeft: '10%',
+            padding: "0"
+          }}
+        >
+          Boa noite
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            marginLeft: '0%',
+            width:'50%',
+            height:'7%',
+            borderRadius: '12px',
+            marginBottom: '16px',
+            padding: '0'
+          }}
+        >
+          <h4>Adicionar tarefa</h4>
+        </Button>
+      </Box>
+    </Container>
+  );
 }
 
-export default App
+export default App;
