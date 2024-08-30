@@ -13,29 +13,23 @@ function App() {
         backgroundColor: '#e1e3d1',
         borderRadius: '16px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)',
-        padding: 2
+        padding: 2,
+        position: 'relative' // Permite posicionar elementos de forma absoluta dentro do Container
       }}
     >
-    <Sidebar/>
+      <Sidebar />
       <Box
         sx={{
-          width: '67%', // 2/3 da largura do Container
-          maxHeight: '95%',
-          padding: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          height: '100%'
+          width: '67%',
+          height: '100%',
+          position: 'relative', // Permite posicionar elementos de forma absoluta dentro da Box
         }}
       >
-      <Typography
+        <Typography
           variant="h4"
           sx={{
-            alignSelf: 'flex-start',
-            marginBottom: '80%',
-            marginLeft: '10%',
-            padding: "0"
+            marginLeft: '20px',
+            marginTop: '40px',
           }}
         >
           Boa noite
@@ -45,16 +39,39 @@ function App() {
           sx={{
             backgroundColor: 'black',
             color: 'white',
-            marginLeft: '0%',
-            width:'50%',
-            height:'7%',
+            width: '54%',
+            height: '7%',
             borderRadius: '12px',
-            marginBottom: '16px',
-            padding: '0'
+            marginLeft: '20px',
+            position: 'absolute', // Posiciona o botão de forma absoluta dentro da Box
+            bottom: 0,
           }}
         >
-          <h4>Adicionar tarefa</h4>
+          <h3>Adicionar tarefa</h3>
         </Button>
+        <Box
+          sx={{
+            position: 'absolute', // Posiciona a Box de forma absoluta dentro da Box
+            top: '46px', 
+            right: '20px',
+            width: '70px',
+            height: '30px',
+            backgroundColor: 'white',
+            borderRadius: '4px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
+          }}
+        >
+          <Button
+            sx={{
+              backgroundColor: '#e1e3d1',
+              width: '25px',
+              height: '25px',
+              minWidth: '25px', // Garante que o botão não expanda horizontalmente
+              marginTop: '3px',
+              marginLeft: '3px'
+            }}
+          />
+        </Box>
       </Box>
     </Container>
   );
