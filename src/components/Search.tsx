@@ -9,7 +9,7 @@ export default function Search() {
       <OutlinedInput
         size="small"
         id="search"
-        placeholder="Search…"
+        placeholder="Buscar..."
         sx={{ flexGrow: 1 }}
         startAdornment={
           <InputAdornment position="start" sx={{ color: 'text.primary' }}>
@@ -17,7 +17,7 @@ export default function Search() {
           </InputAdornment>
         }
         inputProps={{
-          'aria-label': 'search',
+          'aria-label': 'Buscar',
         }}
       />
     </FormControl>

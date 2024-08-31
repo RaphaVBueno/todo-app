@@ -18,16 +18,15 @@ import TemplateFrame from './TemplateFrame'
 export default function Dashboard() {
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
+  const [date, setDate] = useState<Date | null>(new Date())
   const dashboardTheme = createTheme(getDashboardTheme(mode))
   const defaultTheme = createTheme({ palette: { mode } })
-  // This code only runs on the client side, to determine the system color preference
+
   useEffect(() => {
-    // Check if there is a preferred mode in localStorage
     const savedMode = localStorage.getItem('themeMode') as PaletteMode | null
     if (savedMode) {
       setMode(savedMode)
     } else {
-      // If no preference is found, it uses system preference
       const systemPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
       ).matches
@@ -38,7 +37,7 @@ export default function Dashboard() {
   const toggleColorMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark'
     setMode(newMode)
-    localStorage.setItem('themeMode', newMode) // Save the selected mode to localStorage
+    localStorage.setItem('themeMode', newMode)
   }
 
   const toggleCustomTheme = () => {
@@ -75,8 +74,7 @@ export default function Dashboard() {
                 mt: { xs: 8, md: 0 },
               }}
             >
-              <Header />
-              {/* <MainGrid /> */}
+              <Header date={date} setDate={setDate} />
             </Stack>
           </Box>
         </Box>

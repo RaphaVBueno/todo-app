@@ -1,12 +1,20 @@
 import Stack from '@mui/material/Stack'
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import CustomDatePicker from './CustomDatePicker'
-import NavbarBreadcrumbs from './NavbarBreadcrumbs'
-import MenuButton from './MenuButton'
-
+import type { Dispatch, SetStateAction } from 'react'
 import Search from './Search'
+import { Typography } from '@mui/material'
+import { showDate } from '../utils'
 
-export default function Header() {
+type HeaderProps = {
+  /**
+   * Data a ser exibida no cabeçalho
+   */
+  date: Date | null
+  setDate: Dispatch<SetStateAction<Date | null>>
+}
+
+export default function Header(props: HeaderProps) {
+  const { date, setDate } = props
   return (
     <Stack
       direction="row"
@@ -20,13 +28,17 @@ export default function Header() {
       }}
       spacing={2}
     >
-      <NavbarBreadcrumbs />
+      <Stack>
+        <Typography variant="h3" component="h1">
+          Bom dia
+        </Typography>
+        <Typography variant="body1" component="p">
+          {showDate(date)}
+        </Typography>
+      </Stack>
       <Stack direction="row" sx={{ gap: 1 }}>
         <Search />
-        <CustomDatePicker />
-        <MenuButton showBadge aria-label="Open notifications">
-          <NotificationsRoundedIcon />
-        </MenuButton>
+        <CustomDatePicker date={date} setDate={setDate} />
       </Stack>
     </Stack>
   )

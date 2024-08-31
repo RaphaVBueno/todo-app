@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import Button from '@mui/material/Button'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
@@ -11,6 +12,7 @@ import {
   DateValidationError,
   FieldSection,
 } from '@mui/x-date-pickers/models'
+import type { Dispatch, SetStateAction } from 'react'
 
 interface ButtonFieldProps
   extends UseDateFieldProps<Date, false>,
@@ -51,16 +53,23 @@ function ButtonField(props: ButtonFieldProps) {
   )
 }
 
-export default function CustomDatePicker() {
-  const [value, setValue] = React.useState<Date | null>(new Date('2023-04-17'))
+type CustomDatePickerProps = {
+  date: Date | null
+  setDate: Dispatch<SetStateAction<Date | null>>
+}
+
+export default function CustomDatePicker(props: CustomDatePickerProps) {
+  const { date, setDate } = props
   const [open, setOpen] = React.useState(false)
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
       <DatePicker
-        value={value}
-        label={value == null ? null : format(value, 'MMM dd, yyyy')}
-        onChange={(newValue) => setValue(newValue)}
+        value={date}
+        label={
+          date == null ? null : format(date, 'dd MMM, yyyy', { locale: ptBR })
+        }
+        onChange={(newValue) => setDate(newValue)}
         slots={{ field: ButtonField }}
         slotProps={{
           field: { setOpen } as any,
@@ -70,7 +79,6 @@ export default function CustomDatePicker() {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        views={['day', 'month', 'year']}
       />
     </LocalizationProvider>
   )

@@ -6,7 +6,6 @@ import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import MenuContent from './MenuContent'
-import CardAlert from './CardAlert'
 import OptionsMenu from './OptionsMenu'
 
 const drawerWidth = 320
@@ -37,7 +36,6 @@ export default function SideMenu() {
         sx={{
           display: 'flex',
           mt: '60px',
-          p: 1.5,
         }}
       >
         <Stack
@@ -71,7 +69,6 @@ export default function SideMenu() {
       </Box>
       <Divider />
       <MenuContent />
-      <CardAlert />
     </Drawer>
   )
 }
