@@ -1,7 +1,12 @@
-import Dashboard from './Dashboard'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Dashboard from './Dashboard.tsx'
+
+const router = createBrowserRouter([
+  { index: true, path: '/:date?', element: <Dashboard /> },
+])
 
 function App() {
-  return <Dashboard />
+  return <RouterProvider router={router} />
 }
 
 export default App

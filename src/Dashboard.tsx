@@ -54,7 +54,7 @@ export default function Dashboard() {
       <ThemeProvider theme={showCustomTheme ? dashboardTheme : defaultTheme}>
         <CssBaseline enableColorScheme />
         <Box sx={{ display: 'flex' }}>
-          <SideMenu />
+          <SideMenu date={date} />
           <AppNavbar />
           {/* Main content */}
           <Box
