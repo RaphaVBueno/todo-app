@@ -35,7 +35,7 @@ export default function SideMenu(props: SideMenuProps) {
     const fetchDados = async () => {
       try {
         const userResponse = await api.get(`/list/userList/${devUser}`)
-        console.log('requiaão feita', userResponse.data.categories)
+        console.log('requisição feita para list', userResponse.data.categories)
         setList(userResponse.data.categories)
       } catch (error) {
         console.error('Erro ao buscar dados:', error)

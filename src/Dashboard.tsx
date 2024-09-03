@@ -8,14 +8,26 @@ import {
 import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import getDashboardTheme from './theme/getDashboardTheme'
 import AppNavbar from './components/AppNavbar'
 import Header from './components/Header'
 // import MainGrid from './components/MainGrid'
 import SideMenu from './components/SideMenu'
 import TemplateFrame from './TemplateFrame'
+import api, { devUser } from './api.utils'
 
 export default function Dashboard() {
+  const [tasks, setTasks] = useState([])
+  const [checked, setChecked] = useState([])
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
   const [date, setDate] = useState<Date | null>(new Date())
@@ -34,6 +46,24 @@ export default function Dashboard() {
     }
   }, [])
 
+  useEffect(() => {
+    const fetchDados = async () => {
+      try {
+        const userResponse = await api.get('/tasks', {
+          params: {
+            userId: devUser,
+            date: date,
+          },
+        })
+        console.log('requisição feita para task', userResponse.data.tasks)
+        setTasks(userResponse.data.tasks)
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error)
+      }
+    }
+    fetchDados()
+  }, [date])
+
   const toggleColorMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark'
     setMode(newMode)
@@ -42,6 +72,19 @@ export default function Dashboard() {
 
   const toggleCustomTheme = () => {
     setShowCustomTheme((prev) => !prev)
+  }
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+
+    setChecked(newChecked)
   }
 
   return (
@@ -66,15 +109,55 @@ export default function Dashboard() {
             })}
           >
             <Stack
-              spacing={2}
+              spacing={8}
               sx={{
                 alignItems: 'center',
-                mx: 3,
+                mx: 4,
                 pb: 10,
-                mt: { xs: 8, md: 0 },
+                mt: { xs: 10, md: 0 },
               }}
             >
               <Header date={date} setDate={setDate} />
+              <List
+                sx={{
+                  width: '90%',
+                  maxWidth: 1920,
+                  bgcolor: 'background.paper',
+                  borderRadius: '8px',
+                }}
+              >
+                {tasks.map((task, index) => {
+                  const labelId = `checkbox-list-label-${index}`
+
+                  return (
+                    <ListItem
+                      key={task.id}
+                      secondaryAction={
+                        <>
+                          {/*<IconButton edge="end" aria-label="edit">
+                            <EditIcon />
+                          </IconButton>*/}
+                          <IconButton edge="end" aria-label="delete">
+                            <DeleteIcon />
+                          </IconButton>
+                        </>
+                      }
+                      disablePadding
+                    >
+                      <ListItemButton
+                        role={undefined}
+                        onClick={handleToggle(index)}
+                        dense
+                      >
+                        <ListItemIcon>
+                          <Checkbox />
+                        </ListItemIcon>
+                        <ListItemText id={labelId} primary={task.title} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                })}
+              </List>
             </Stack>
           </Box>
         </Box>
