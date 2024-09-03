@@ -27,6 +27,7 @@ import api, { devUser } from './api.utils'
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState([])
+  const [filter, setFilter] = useState<number | null>(null)
   const [checked, setChecked] = useState([])
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
@@ -75,6 +76,7 @@ export default function Dashboard() {
   }
 
   const handleToggle = (value) => () => {
+    // tem q definir oq é value, se é string, number, boolean, é só colocar assim value:number por exemplo, toda a função tem q saber qual tipo de parametro recebe
     const currentIndex = checked.indexOf(value)
     const newChecked = [...checked]
 
@@ -97,7 +99,7 @@ export default function Dashboard() {
       <ThemeProvider theme={showCustomTheme ? dashboardTheme : defaultTheme}>
         <CssBaseline enableColorScheme />
         <Box sx={{ display: 'flex' }}>
-          <SideMenu date={date} />
+          <SideMenu date={date} setFilter={setFilter} />
           <AppNavbar />
           {/* Main content */}
           <Box

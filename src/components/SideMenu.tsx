@@ -9,6 +9,7 @@ import MenuContent from './MenuContent'
 import OptionsMenu from './OptionsMenu'
 import { useEffect, useState } from 'react'
 import api, { devUser } from '../api.utils'
+import type { Dispatch, SetStateAction } from 'react'
 
 const drawerWidth = 320
 
@@ -25,11 +26,13 @@ const Drawer = styled(MuiDrawer)({
 
 type SideMenuProps = {
   date: Date | null
+  setFilter: Dispatch<SetStateAction<number | null>>
 }
 
 export default function SideMenu(props: SideMenuProps) {
-  const [list, setList] = useState()
-  const { date } = props // não precisa de date aqui viajei
+  const { setFilter } = props
+  const [list, setList] = useState([])
+  const user = devUser
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -42,7 +45,7 @@ export default function SideMenu(props: SideMenuProps) {
       }
     }
     fetchDados()
-  }, [date])
+  }, [user])
 
   return (
     <Drawer
@@ -90,7 +93,7 @@ export default function SideMenu(props: SideMenuProps) {
         </Stack>
       </Box>
       <Divider />
-      <MenuContent />
+      <MenuContent list={list} setFilter={setFilter} />
     </Drawer>
   )
 }
