@@ -9,20 +9,22 @@ import { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
 type MenuContentProps = {
-  list: Array<{ name: string; id: number; userId: number }>
-  setFilter: Dispatch<SetStateAction<number | null>>
+  list: Array<{ name: string; id: number; userId: number; color: string }>
+  setFilterColor: Dispatch<SetStateAction<string | null>>
+  filteringTasks: (filteringTasks: number) => void
 }
-
+// dois bugs desclicar no filtro não funciona e mudar o dia não desabilita o filtro
 export default function MenuContent(props: MenuContentProps) {
-  const { list, setFilter } = props
+  const { list, setFilterColor, filteringTasks } = props
   const [clicked, setClicked] = useState<number | null>()
 
-  function filterTasks(index: number, listId: number) {
+  function filterTasks(index: number, listId: number, listColor: string) {
     if (index === clicked) {
       setClicked(null)
-      setFilter(null)
+      setFilterColor(null)
     } else setClicked(index)
-    setFilter(listId)
+    setFilterColor(listColor)
+    filteringTasks(listId)
   }
 
   return (
@@ -32,10 +34,10 @@ export default function MenuContent(props: MenuContentProps) {
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               selected={index === clicked}
-              onClick={() => filterTasks(index, item.id)}
+              onClick={() => filterTasks(index, item.id, item.color)}
             >
               <ListItemIcon>
-                <Brightness1Icon style={{ color: 'red' }} />
+                <Brightness1Icon style={{ color: item.color }} />
               </ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>

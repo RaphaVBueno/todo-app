@@ -26,11 +26,12 @@ const Drawer = styled(MuiDrawer)({
 
 type SideMenuProps = {
   date: Date | null
-  setFilter: Dispatch<SetStateAction<number | null>>
+  setFilterColor: Dispatch<SetStateAction<string | null>>
+  filteringTasks: (filteringTasks: number) => void
 }
 
 export default function SideMenu(props: SideMenuProps) {
-  const { setFilter } = props
+  const { setFilterColor, filteringTasks } = props
   const [list, setList] = useState([])
   const user = devUser
 
@@ -93,7 +94,11 @@ export default function SideMenu(props: SideMenuProps) {
         </Stack>
       </Box>
       <Divider />
-      <MenuContent list={list} setFilter={setFilter} />
+      <MenuContent
+        list={list}
+        setFilterColor={setFilterColor}
+        filteringTasks={filteringTasks}
+      />
     </Drawer>
   )
 }

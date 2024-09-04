@@ -8,15 +8,6 @@ import {
 import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Checkbox from '@mui/material/Checkbox'
-import IconButton from '@mui/material/IconButton'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
 import getDashboardTheme from './theme/getDashboardTheme'
 import AppNavbar from './components/AppNavbar'
 import Header from './components/Header'
@@ -24,11 +15,23 @@ import Header from './components/Header'
 import SideMenu from './components/SideMenu'
 import TemplateFrame from './TemplateFrame'
 import api, { devUser } from './api.utils'
+import Lista from './components/Lista'
+
+type Task = {
+  id: number
+  title: string
+  status: boolean
+  date: string
+  description: string | null
+  userId: number
+  listId: number | null
+  tags: { id: number; name: string; userId: number }[]
+}
 
 export default function Dashboard() {
-  const [tasks, setTasks] = useState([])
-  const [filter, setFilter] = useState<number | null>(null)
-  const [checked, setChecked] = useState([])
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [filterColor, setFilterColor] = useState<string | null>(null)
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
   const [date, setDate] = useState<Date | null>(new Date())
@@ -75,18 +78,9 @@ export default function Dashboard() {
     setShowCustomTheme((prev) => !prev)
   }
 
-  const handleToggle = (value) => () => {
-    // tem q definir oq é value, se é string, number, boolean, é só colocar assim value:number por exemplo, toda a função tem q saber qual tipo de parametro recebe
-    const currentIndex = checked.indexOf(value)
-    const newChecked = [...checked]
-
-    if (currentIndex === -1) {
-      newChecked.push(value)
-    } else {
-      newChecked.splice(currentIndex, 1)
-    }
-
-    setChecked(newChecked)
+  function filteringTasks(listId: number) {
+    const result = tasks.filter((task) => task.listId === listId)
+    setFilteredTasks(result)
   }
 
   return (
@@ -99,7 +93,11 @@ export default function Dashboard() {
       <ThemeProvider theme={showCustomTheme ? dashboardTheme : defaultTheme}>
         <CssBaseline enableColorScheme />
         <Box sx={{ display: 'flex' }}>
-          <SideMenu date={date} setFilter={setFilter} />
+          <SideMenu
+            date={date}
+            setFilterColor={setFilterColor}
+            filteringTasks={filteringTasks}
+          />
           <AppNavbar />
           {/* Main content */}
           <Box
@@ -120,46 +118,13 @@ export default function Dashboard() {
               }}
             >
               <Header date={date} setDate={setDate} />
-              <List
-                sx={{
-                  width: '90%',
-                  maxWidth: 1920,
-                  bgcolor: 'background.paper',
-                  borderRadius: '8px',
-                }}
-              >
-                {tasks.map((task, index) => {
-                  const labelId = `checkbox-list-label-${index}`
-
-                  return (
-                    <ListItem
-                      key={task.id}
-                      secondaryAction={
-                        <>
-                          {/*<IconButton edge="end" aria-label="edit">
-                            <EditIcon />
-                          </IconButton>*/}
-                          <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon />
-                          </IconButton>
-                        </>
-                      }
-                      disablePadding
-                    >
-                      <ListItemButton
-                        role={undefined}
-                        onClick={handleToggle(index)}
-                        dense
-                      >
-                        <ListItemIcon>
-                          <Checkbox />
-                        </ListItemIcon>
-                        <ListItemText id={labelId} primary={task.title} />
-                      </ListItemButton>
-                    </ListItem>
-                  )
-                })}
-              </List>
+              {tasks.length === 0 ? (
+                <div></div>
+              ) : filterColor ? (
+                <Lista tasksList={filteredTasks} />
+              ) : (
+                <Lista tasksList={tasks} />
+              )}
             </Stack>
           </Box>
         </Box>
