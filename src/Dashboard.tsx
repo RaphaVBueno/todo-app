@@ -30,7 +30,7 @@ type Task = {
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState<Task[]>([])
-  const [filterColor, setFilterColor] = useState<string | null>(null)
+  const [filter, setFilter] = useState<number | null>(null)
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
@@ -65,6 +65,7 @@ export default function Dashboard() {
         console.error('Erro ao buscar dados:', error)
       }
     }
+    setFilter(null)
     fetchDados()
   }, [date])
 
@@ -95,7 +96,7 @@ export default function Dashboard() {
         <Box sx={{ display: 'flex' }}>
           <SideMenu
             date={date}
-            setFilterColor={setFilterColor}
+            setFilter={setFilter}
             filteringTasks={filteringTasks}
           />
           <AppNavbar />
@@ -119,10 +120,10 @@ export default function Dashboard() {
               }}
             >
               <Header date={date} setDate={setDate} />
-              {tasks.length === 0 ? (
-                <div></div>
-              ) : filterColor ? (
-                <Lista tasksList={filteredTasks} />
+              {filter ? (
+                <Lista
+                  tasksList={tasks.filter((task) => task.listId === filter)}
+                />
               ) : (
                 <Lista tasksList={tasks} />
               )}

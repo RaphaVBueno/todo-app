@@ -26,12 +26,12 @@ const Drawer = styled(MuiDrawer)({
 
 type SideMenuProps = {
   date: Date | null
-  setFilterColor: Dispatch<SetStateAction<string | null>>
+  setFilter: Dispatch<SetStateAction<number | null>>
   filteringTasks: (filteringTasks: number) => void
 }
 
 export default function SideMenu(props: SideMenuProps) {
-  const { setFilterColor, filteringTasks } = props
+  const { setFilter, filteringTasks } = props
   const [list, setList] = useState([])
   const user = devUser
 
@@ -39,7 +39,6 @@ export default function SideMenu(props: SideMenuProps) {
     const fetchDados = async () => {
       try {
         const userResponse = await api.get(`/list/userList/${devUser}`)
-        console.log('requisição feita para list', userResponse.data.categories)
         setList(userResponse.data.categories)
       } catch (error) {
         console.error('Erro ao buscar dados:', error)
@@ -96,7 +95,7 @@ export default function SideMenu(props: SideMenuProps) {
       <Divider />
       <MenuContent
         list={list}
-        setFilterColor={setFilterColor}
+        setFilter={setFilter}
         filteringTasks={filteringTasks}
       />
     </Drawer>
