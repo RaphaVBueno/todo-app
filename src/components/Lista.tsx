@@ -6,8 +6,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import ListItemText from '@mui/material/ListItemText'
-import EditIcon from '@mui/icons-material/Edit'
-import { useState } from 'react'
+//import EditIcon from '@mui/icons-material/Edit'
+import api, { devUser } from '../api.utils'
 
 type Task = {
   id: number
@@ -22,24 +22,28 @@ type Task = {
 
 type ListaProps = {
   tasksList: Task[]
+  shouldRefresh: () => void
 }
 
 export default function Lista(props: ListaProps) {
-  const { tasksList } = props
-  const [checked, setChecked] = useState([])
+  const { tasksList, shouldRefresh } = props
 
-  const handleToggle = (value) => () => {
-    // tem q definir oq é value, se é string, number, boolean, é só colocar assim value:number por exemplo, toda a função tem q saber qual tipo de parametro recebe
-    const currentIndex = checked.indexOf(value)
-    const newChecked = [...checked]
+  const handleChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    taskId: number
+  ) => {
+    const newStatus = event.target.checked
+    await updateTaskStatus(taskId, newStatus)
+  }
 
-    if (currentIndex === -1) {
-      newChecked.push(value)
-    } else {
-      newChecked.splice(currentIndex, 1)
+  const updateTaskStatus = async (id: number, status: boolean) => {
+    try {
+      const newStatus = { id: id, status: status, userId: devUser }
+      await api.post('/tasks/${id}/update', newStatus)
+      shouldRefresh()
+    } catch (error) {
+      console.error('Erro ao atualizar status da tarefa:', error)
     }
-
-    setChecked(newChecked)
   }
 
   return (
@@ -69,15 +73,22 @@ export default function Lista(props: ListaProps) {
             }
             disablePadding
           >
-            <ListItemButton
-              role={undefined}
-              onClick={handleToggle(index)}
-              dense
-            >
+            <ListItemButton role={undefined} dense>
               <ListItemIcon>
-                <Checkbox />
+                <Checkbox
+                  edge="start"
+                  checked={task.status}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                  onChange={(event) => handleChange(event, task.id)}
+                />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={task.title} />
+              <ListItemText
+                id={labelId}
+                primary={task.title}
+                sx={{ textDecoration: task.status ? 'line-through' : 'none' }}
+              />
             </ListItemButton>
           </ListItem>
         )

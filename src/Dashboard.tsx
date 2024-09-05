@@ -11,11 +11,11 @@ import Stack from '@mui/material/Stack'
 import getDashboardTheme from './theme/getDashboardTheme'
 import AppNavbar from './components/AppNavbar'
 import Header from './components/Header'
-// import MainGrid from './components/MainGrid'
 import SideMenu from './components/SideMenu'
 import TemplateFrame from './TemplateFrame'
 import api, { devUser } from './api.utils'
 import Lista from './components/Lista'
+import AddTaskButton from './components/AddTaskButton' // Importa o botão
 
 type Task = {
   id: number
@@ -106,6 +106,7 @@ export default function Dashboard() {
               flexGrow: 1,
               backgroundColor: alpha(theme.palette.background.default, 1),
               overflow: 'auto',
+              position: 'relative',
             })}
           >
             <Stack
@@ -126,6 +127,7 @@ export default function Dashboard() {
                 <Lista tasksList={tasks} />
               )}
             </Stack>
+            <AddTaskButton />{' '}
           </Box>
         </Box>
       </ThemeProvider>
