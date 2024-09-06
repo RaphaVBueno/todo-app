@@ -1,1 +1,7 @@
+export { default as Cadastro } from './Cadastro/Cadastro'
 export { default as Home } from './Home/Home'
+export { default as Login } from './Login/Login'
+export { default as NovaSenha } from './NovaSenha/NovaSenha'
+export { default as Perfil } from './Perfil/Perfil'
+export { default as RecuperarSenha } from './RecuperarSenha/RecuperarSenha'
+export { default as Settings } from './Settings/Settings'
