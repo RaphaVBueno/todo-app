@@ -12,21 +12,21 @@ type MenuContentProps = {
   list: Array<{ name: string; id: number; userId: number; color: string }>
   setFilter: Dispatch<SetStateAction<number | null>>
 }
-// dois bugs desclicar no filtro não funciona e mudar o dia não desabilita o filtro
+
 export default function MenuContent(props: MenuContentProps) {
   const { list, setFilter } = props
   const [clicked, setClicked] = useState<number | null>()
 
   function filterTasks(index: number, listId: number) {
-    if (clicked === index) {
-      setClicked(null)
-      setFilter(null)
-      console.log('valor de index', index)
-      console.log('valor de clicked', clicked)
-    } else {
-      setClicked(index)
-    }
-    setFilter(listId)
+    setClicked((prevClicked) => {
+      if (prevClicked === index) {
+        setFilter(null)
+        return null // Desmarca o item
+      } else {
+        setFilter(listId)
+        return index // Marca o novo item
+      }
+    })
   }
 
   return (

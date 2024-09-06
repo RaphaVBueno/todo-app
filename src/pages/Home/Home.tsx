@@ -28,7 +28,6 @@ function Home() {
         console.error('Erro ao buscar dados:', error)
       }
     }
-    setFilter(null)
     fetchDados()
   }, [date])
 
@@ -43,7 +42,7 @@ function Home() {
       >
         <Header date={date} setDate={setDate} />
         {filter ? (
-          <Lista tasksList={tasks.filter(task => task.listId === filter)} />
+          <Lista tasksList={tasks.filter((task) => task.listId === filter)} />
         ) : (
           <Lista tasksList={tasks} />
         )}
