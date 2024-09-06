@@ -1,12 +1,30 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Dashboard from './Dashboard.tsx'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+
+import Dashboard from './components/Dashboard.tsx'
+import {
+  Home,
+} from './pages'
+import theme from './theme'
 
 const router = createBrowserRouter([
-  { index: true, path: '/:date?', element: <Dashboard /> },
+  {
+    path: '/:date?',
+    element: <Dashboard />,
+    children: [
+      { index: true, path: ':date?', element: <Home /> },
+    ],
+  },
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+      <CssBaseline enableColorScheme />
+    </ThemeProvider>
+  )
 }
 
 export default App
