@@ -11,11 +11,10 @@ import type { Dispatch, SetStateAction } from 'react'
 type MenuContentProps = {
   list: Array<{ name: string; id: number; userId: number; color: string }>
   setFilter: Dispatch<SetStateAction<number | null>>
-  filteringTasks: (filteringTasks: number) => void
 }
 // dois bugs desclicar no filtro não funciona e mudar o dia não desabilita o filtro
 export default function MenuContent(props: MenuContentProps) {
-  const { list, setFilter, filteringTasks } = props
+  const { list, setFilter } = props
   const [clicked, setClicked] = useState<number | null>()
 
   function filterTasks(index: number, listId: number) {
@@ -28,13 +27,12 @@ export default function MenuContent(props: MenuContentProps) {
       setClicked(index)
     }
     setFilter(listId)
-    filteringTasks(listId)
   }
 
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
-        {list.map((item, index) => (
+        {list?.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               selected={index === clicked}

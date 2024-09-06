@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import ListItemText from '@mui/material/ListItemText'
 //import EditIcon from '@mui/icons-material/Edit'
-import api, { devUser } from '../api.utils'
+import { api, devUser } from '../utils'
 
 type Task = {
   id: number
@@ -81,7 +81,7 @@ export default function Lista(props: ListaProps) {
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
-                  onChange={(event) => handleChange(event, task.id)}
+                  onChange={event => handleChange(event, task.id)}
                 />
               </ListItemIcon>
               <ListItemText

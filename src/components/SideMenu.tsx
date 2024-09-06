@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { styled } from '@mui/material/styles'
 import Avatar from '@mui/material/Avatar'
 import MuiDrawer, { drawerClasses } from '@mui/material/Drawer'
@@ -5,11 +7,10 @@ import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+
 import MenuContent from './MenuContent'
 import OptionsMenu from './OptionsMenu'
-import { useEffect, useState } from 'react'
-import api, { devUser } from '../api.utils'
-import type { Dispatch, SetStateAction } from 'react'
+import { api, devUser } from '../utils'
 
 const drawerWidth = 320
 
@@ -27,11 +28,10 @@ const Drawer = styled(MuiDrawer)({
 type SideMenuProps = {
   date: Date | null
   setFilter: Dispatch<SetStateAction<number | null>>
-  filteringTasks: (filteringTasks: number) => void
 }
 
 export default function SideMenu(props: SideMenuProps) {
-  const { setFilter, filteringTasks } = props
+  const { setFilter } = props
   const [list, setList] = useState([])
   const user = devUser
 
@@ -93,11 +93,7 @@ export default function SideMenu(props: SideMenuProps) {
         </Stack>
       </Box>
       <Divider />
-      <MenuContent
-        list={list}
-        setFilter={setFilter}
-        filteringTasks={filteringTasks}
-      />
+      <MenuContent list={list} setFilter={setFilter} />
     </Drawer>
   )
 }
