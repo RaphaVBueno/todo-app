@@ -2,9 +2,10 @@ export type Task = {
   id: number
   title: string
   status: boolean
-  date: string
-  description: string | null
+  dueDate?: string
+  completedDate?: string
+  description?: string
   userId: number
-  listId: number | null
+  listId?: number
   tags: { id: number; name: string; userId: number }[]
 }

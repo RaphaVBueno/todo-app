@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -7,43 +8,30 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
 import ListItemText from '@mui/material/ListItemText'
 //import EditIcon from '@mui/icons-material/Edit'
-import { api, devUser } from '../utils'
-
-type Task = {
-  id: number
-  title: string
-  status: boolean
-  date: string
-  description: string | null
-  userId: number
-  listId: number | null
-  tags: { id: number; name: string; userId: number }[]
-}
+import { updateTaskStatus, queryClient } from '../utils'
+import { Task } from '../types'
 
 type ListaProps = {
-  tasksList: Task[]
-  shouldRefresh: () => void
+  tasksList: Task[] | null | undefined
 }
 
 export default function Lista(props: ListaProps) {
-  const { tasksList, shouldRefresh } = props
+  const { tasksList } = props
+  const { mutate } = useMutation({
+    mutationFn: updateTaskStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
+  if (!tasksList || !tasksList.length) return 'Sem tarefas'
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
-    taskId: number
+    id: number
   ) => {
-    const newStatus = event.target.checked
-    await updateTaskStatus(taskId, newStatus)
-  }
-
-  const updateTaskStatus = async (id: number, status: boolean) => {
-    try {
-      const newStatus = { id: id, status: status, userId: devUser }
-      await api.post('/tasks/${id}/update', newStatus)
-      shouldRefresh()
-    } catch (error) {
-      console.error('Erro ao atualizar status da tarefa:', error)
-    }
+    const status = event.target.checked
+    mutate({ id, status })
   }
 
   return (
@@ -87,6 +75,7 @@ export default function Lista(props: ListaProps) {
               <ListItemText
                 id={labelId}
                 primary={task.title}
+                secondary={task.dueDate}
                 sx={{ textDecoration: task.status ? 'line-through' : 'none' }}
               />
             </ListItemButton>

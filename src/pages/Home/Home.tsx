@@ -1,35 +1,25 @@
-import { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import Stack from '@mui/material/Stack'
 
 import Header from '../../components/Header'
 import Lista from '../../components/Lista'
 import AddTaskButton from '../../components/AddTaskButton'
 import { DashboardContext, Task } from '../../types'
-import { api, devUser } from '../../utils'
+import { getTasks } from '../../utils'
 
 function Home() {
-  const { date, setDate, filter, setFilter } =
-    useOutletContext<DashboardContext>()
-  const [tasks, setTasks] = useState<Task[]>([])
+  const { date, setDate, filter } = useOutletContext<DashboardContext>()
+  const {
+    isPending,
+    error,
+    data: tasks,
+  } = useQuery<Task[]>({
+    queryKey: ['tasks', date],
+    queryFn: getTasks(date),
+  })
 
-  useEffect(() => {
-    const fetchDados = async () => {
-      try {
-        const userResponse = await api.get('/tasks', {
-          params: {
-            userId: devUser,
-            date: date,
-          },
-        })
-        console.log('requisição feita para task', userResponse.data.tasks)
-        setTasks(userResponse.data.tasks)
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error)
-      }
-    }
-    fetchDados()
-  }, [date])
+  if (error) return 'Erro'
 
   return (
     <Stack sx={{ height: '100%' }} justifyContent="space-between">
@@ -41,8 +31,9 @@ function Home() {
         }}
       >
         <Header date={date} setDate={setDate} />
+        {isPending && <div>Carregando...</div>}
         {filter ? (
-          <Lista tasksList={tasks.filter((task) => task.listId === filter)} />
+          <Lista tasksList={tasks?.filter(task => task.listId === filter)} />
         ) : (
           <Lista tasksList={tasks} />
         )}
