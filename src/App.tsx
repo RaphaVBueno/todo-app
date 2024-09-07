@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 import Dashboard from './components/Dashboard.tsx'
 import {
@@ -13,6 +14,7 @@ import {
   Settings,
 } from './pages'
 import theme from './theme'
+import { queryClient } from './utils'
 
 const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
@@ -32,10 +34,12 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-      <CssBaseline enableColorScheme />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+        <CssBaseline enableColorScheme />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 
