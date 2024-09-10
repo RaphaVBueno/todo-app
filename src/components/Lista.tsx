@@ -69,7 +69,7 @@ export default function Lista(props: ListaProps) {
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
-                  onChange={event => handleChange(event, task.id)}
+                  onChange={(event) => handleChange(event, task.id)}
                 />
               </ListItemIcon>
               <ListItemText

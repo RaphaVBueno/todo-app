@@ -26,7 +26,6 @@ const Drawer = styled(MuiDrawer)({
 })
 
 type SideMenuProps = {
-  date: Date | null
   setFilter: Dispatch<SetStateAction<number | null>>
 }
 

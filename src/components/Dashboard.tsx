@@ -7,19 +7,21 @@ import AppNavbar from './AppNavbar'
 import SideMenu from './SideMenu'
 import TemplateFrame from './TemplateFrame'
 import type { DashboardContext } from '../types'
+import { toZonedTime } from 'date-fns-tz'
 
 export default function Dashboard() {
-  const [date, setDate] = useState<Date | null>(new Date())
+  const now = toZonedTime(new Date(), 'America/Sao_Paulo')
+  const [date, setDate] = useState<Date | null>(now)
   const [filter, setFilter] = useState<number | null>(null)
 
   return (
     <TemplateFrame>
       <Box sx={{ display: 'flex', height: '100%' }}>
-        <SideMenu date={date} setFilter={setFilter} />
+        <SideMenu setFilter={setFilter} />
         <AppNavbar />
         <Box
           component="main"
-          sx={theme => ({
+          sx={(theme) => ({
             flexGrow: 1,
             backgroundColor: alpha(theme.palette.background.default, 1),
             overflow: 'auto',
