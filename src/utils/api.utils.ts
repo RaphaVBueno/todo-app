@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { format } from 'date-fns'
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000',
@@ -6,11 +7,11 @@ export const api = axios.create({
 
 export const devUser = 1
 
-export const getTasks = (dueDate: Date | null) => async () => {
+export const getTasks = (dueDate: Date | null | string) => async () => {
   const res = await api.get('/tasks', {
     params: {
       userId: devUser,
-      dueDate,
+      dueDate: format(dueDate, 'yyyy-MM-dd'),
     },
   })
   return res.data.tasks
@@ -26,4 +27,9 @@ export const updateTaskStatus = async (params: {
     status,
     userId: devUser,
   })
+}
+
+export const getUserLists = async (user: number) => {
+  const res = await api.get(`/list/userList/${user}`)
+  return res.data.categories
 }

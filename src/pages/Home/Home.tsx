@@ -18,7 +18,6 @@ function Home() {
     queryKey: ['tasks', date],
     queryFn: getTasks(date),
   })
-
   if (error) return 'Erro'
 
   return (
@@ -33,7 +32,7 @@ function Home() {
         <Header date={date} setDate={setDate} />
         {isPending && <div>Carregando...</div>}
         {filter ? (
-          <Lista tasksList={tasks?.filter(task => task.listId === filter)} />
+          <Lista tasksList={tasks?.filter((task) => task.listId === filter)} />
         ) : (
           <Lista tasksList={tasks} />
         )}
