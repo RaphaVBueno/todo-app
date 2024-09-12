@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { useState } from 'react'
+import { useState, useRef, Fragment } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -13,26 +13,24 @@ import type { List } from '../types/list'
 
 type FilterButtonProps = {
   categories: List[]
+  filter: number | null
+  setFilter: Dispatch<SetStateAction<number | null>>
 }
 
 export default function FilterButton(props: FilterButtonProps) {
-  const { categories } = props
-  const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef<HTMLDivElement>(null)
-  const [selectedIndex, setSelectedIndex] = React.useState(1)
+  const { categories, filter, setFilter } = props
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef<HTMLDivElement>(null)
   const [filterName, setFilterName] = useState<string>('Filtro')
-  // adicionar opção de desligar filtro, formatar botão, e fazer o setFilter
+  //formatar botão
 
   const handleClick = () => {
-    console.info(`You clicked ${categories[selectedIndex]}`) //setar open true aqui
+    setOpen((prevOpen) => !prevOpen)
   }
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index)
-    setFilterName(categories[index].name)
+  const handleMenuItemClick = (optionName: string, filterId: number) => {
+    setFilterName(optionName)
+    setFilter(filterId)
     setOpen(false)
   }
 
@@ -52,15 +50,17 @@ export default function FilterButton(props: FilterButtonProps) {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
-        aria-label="Button group with a nested menu"
+        aria-label="Botão de filtro"
       >
-        <Button onClick={handleClick}>{filterName}</Button>
+        <Button onClick={handleClick} sx={{ height: '2.16rem' }}>
+          {filterName}
+        </Button>
         <Button
-          size="small"
+          sx={{ width: '1rem', height: '2.1rem' }}
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
@@ -89,12 +89,21 @@ export default function FilterButton(props: FilterButtonProps) {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
+                  <MenuItem
+                    key={'Desabilitar Filtro'}
+                    onClick={() => {
+                      setFilterName('Filtro'), setFilter(null), setOpen(false) //melhor dentro de uma função?
+                    }}
+                  >
+                    Desabilitar Filtro
+                  </MenuItem>
                   {categories.map((option, index) => (
                     <MenuItem
                       key={option.name}
-                      disabled={index === 2}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
+                      selected={option.id === filter}
+                      onClick={() =>
+                        handleMenuItemClick(option.name, option.id)
+                      }
                     >
                       {option.name}
                     </MenuItem>
@@ -105,6 +114,6 @@ export default function FilterButton(props: FilterButtonProps) {
           </Grow>
         )}
       </Popper>
-    </React.Fragment>
+    </Fragment>
   )
 }

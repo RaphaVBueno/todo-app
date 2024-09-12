@@ -9,7 +9,8 @@ import { DashboardContext, Task } from '../../types'
 import { getTasks } from '../../utils'
 
 function Home() {
-  const { date, setDate, filter } = useOutletContext<DashboardContext>()
+  const { date, setDate, filter, setFilter } =
+    useOutletContext<DashboardContext>()
   const {
     isPending,
     error,
@@ -29,7 +30,12 @@ function Home() {
           mt: { xs: 10, md: 0 },
         }}
       >
-        <Header date={date} setDate={setDate} />
+        <Header
+          date={date}
+          setDate={setDate}
+          filter={filter}
+          setFilter={setFilter}
+        />
         {isPending && <div>Carregando...</div>}
         {filter ? (
           <Lista tasksList={tasks?.filter((task) => task.listId === filter)} />

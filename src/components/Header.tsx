@@ -7,6 +7,7 @@ import { devUser, getUserLists, showDate } from '../utils'
 import FilterButton from './FilterButton'
 import { useQuery } from '@tanstack/react-query'
 import type { List } from '../types/list'
+import { greetings } from '../utils/greetings'
 
 type HeaderProps = {
   /**
@@ -14,10 +15,12 @@ type HeaderProps = {
    */
   date: Date | null
   setDate: Dispatch<SetStateAction<Date | null>>
+  filter: number | null
+  setFilter: Dispatch<SetStateAction<number | null>>
 }
 
 export default function Header(props: HeaderProps) {
-  const { date, setDate } = props
+  const { date, setDate, filter, setFilter } = props
 
   const { error, data: categories } = useQuery<List[]>({
     queryKey: ['list'],
@@ -39,14 +42,18 @@ export default function Header(props: HeaderProps) {
     >
       <Stack>
         <Typography variant="h3" component="h1">
-          Bom dia
+          {greetings()}
         </Typography>
         <Typography variant="body1" component="p">
           {showDate(date)}
         </Typography>
       </Stack>
       <Stack direction="row" sx={{ gap: 1 }}>
-        <FilterButton categories={categories || []} />
+        <FilterButton
+          categories={categories || []}
+          filter={filter}
+          setFilter={setFilter}
+        />
         <Search />
         <CustomDatePicker date={date} setDate={setDate} />
       </Stack>
