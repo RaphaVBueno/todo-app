@@ -6,20 +6,27 @@ import Header from '../../components/Header'
 import Lista from '../../components/Lista'
 import AddTaskButton from '../../components/AddTaskButton'
 import { DashboardContext, Task } from '../../types'
-import { getTasks } from '../../utils'
+import { getTasks, getUserLists, devUser } from '../../utils'
+import { List } from '../../types/list'
 
 function Home() {
   const { date, setDate, filter, setFilter } =
     useOutletContext<DashboardContext>()
   const {
     isPending,
-    error,
+    error: tasksError,
     data: tasks,
   } = useQuery<Task[]>({
     queryKey: ['tasks', date],
     queryFn: getTasks(date),
   })
-  if (error) return 'Erro'
+  if (tasksError) return 'Erro ao carregar tarefas'
+
+  const { error: categoriesError, data: categories } = useQuery<List[]>({
+    queryKey: ['list'],
+    queryFn: () => getUserLists(devUser),
+  })
+  if (categoriesError) return 'Erro'
 
   return (
     <Stack sx={{ height: '100%' }} justifyContent="space-between">
@@ -35,6 +42,7 @@ function Home() {
           setDate={setDate}
           filter={filter}
           setFilter={setFilter}
+          categories={categories || []}
         />
         {isPending && <div>Carregando...</div>}
         {filter ? (
@@ -43,7 +51,7 @@ function Home() {
           <Lista tasksList={tasks} />
         )}
       </Stack>
-      <AddTaskButton />
+      <AddTaskButton categories={categories || []} />
     </Stack>
   )
 }

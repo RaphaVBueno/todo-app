@@ -9,16 +9,22 @@ import {
   Autocomplete,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import { DatePicker } from '@mui/x-date-pickers'
-
-const Categorias = [
-  { title: 'Tarefas de casa' },
-  { title: 'Tarefas do trabalho' },
-]
+import * as React from 'react'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import type { List } from '../types/list'
 
 const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
-function AddTaskButton(props: ButtonProps) {
+type AddTaskButtonProps = {
+  categories: List[]
+}
+
+function AddTaskButton(props: AddTaskButtonProps) {
+  const { categories } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isMenuOpen = Boolean(anchorEl)
   const [dueDate, setDueDate] = useState<Date | null>(null)
@@ -59,7 +65,7 @@ function AddTaskButton(props: ButtonProps) {
           paper: {
             sx: {
               height: '600px',
-              width: anchorEl?.clientWidth || 'auto', // Largura igual ao botão
+              width: anchorEl?.clientWidth || 'auto',
               padding: '16px',
               display: 'flex',
               flexDirection: 'column',
@@ -88,8 +94,8 @@ function AddTaskButton(props: ButtonProps) {
         <MenuItem sx={{ p: 0, mt: '10px' }}>
           <Autocomplete
             disablePortal
-            options={Categorias}
-            getOptionLabel={(option) => option.title}
+            options={categories}
+            getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField {...params} label="Categoria" />
             )}
@@ -104,24 +110,23 @@ function AddTaskButton(props: ButtonProps) {
             renderInput={(params) => <TextField {...params} label="Tag" />}
             fullWidth
           />
-          <DatePicker
-            value={dueDate}
-            label={
-              date == null
-                ? null
-                : format(date, 'dd MMM, yyyy', { locale: ptBR })
-            }
-            onChange={(newValue) => setDate(newValue)}
-            slots={{ field: ButtonField }}
-            slotProps={{
-              field: { setOpen } as any,
-              nextIconButton: { size: 'small' },
-              previousIconButton: { size: 'small' },
-            }}
-            open={open}
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-          />
+        </MenuItem>
+        <MenuItem>
+          <LocalizationProvider
+            dateAdapter={AdapterDateFns}
+            adapterLocale={ptBR}
+          >
+            <DatePicker
+              value={dueDate}
+              label={
+                dueDate == null
+                  ? null
+                  : format(dueDate, 'dd MMM, yyyy', { locale: ptBR })
+              }
+              onChange={(newValue) => setDueDate(newValue)}
+              open={true}
+            />
+          </LocalizationProvider>
         </MenuItem>
       </Menu>
     </Box>

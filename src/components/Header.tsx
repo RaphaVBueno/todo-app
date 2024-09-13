@@ -1,11 +1,10 @@
 import Stack from '@mui/material/Stack'
 import CustomDatePicker from './CustomDatePicker'
-import { useState, type Dispatch, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from 'react'
 import Search from './Search'
 import { Typography } from '@mui/material'
 import { devUser, getUserLists, showDate } from '../utils'
 import FilterButton from './FilterButton'
-import { useQuery } from '@tanstack/react-query'
 import type { List } from '../types/list'
 import { greetings } from '../utils/greetings'
 
@@ -17,16 +16,11 @@ type HeaderProps = {
   setDate: Dispatch<SetStateAction<Date | null>>
   filter: number | null
   setFilter: Dispatch<SetStateAction<number | null>>
+  categories: List[]
 }
 
 export default function Header(props: HeaderProps) {
-  const { date, setDate, filter, setFilter } = props
-
-  const { error, data: categories } = useQuery<List[]>({
-    queryKey: ['list'],
-    queryFn: () => getUserLists(devUser),
-  })
-  if (error) return 'Erro'
+  const { date, setDate, filter, setFilter, categories } = props
 
   return (
     <Stack
