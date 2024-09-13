@@ -1,14 +1,15 @@
+import React from 'react'
 import { useMutation } from '@tanstack/react-query'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import IconButton from '@mui/material/IconButton'
-import DeleteIcon from '@mui/icons-material/Delete'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import Checkbox from '@mui/material/Checkbox'
-import ListItemText from '@mui/material/ListItemText'
-import Divider from '@mui/material/Divider'
-//import EditIcon from '@mui/icons-material/Edit'
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Checkbox,
+  ListItemText,
+  Divider,
+} from '@mui/material'
+import TaskActions from './TaskActions'
 import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
 
@@ -35,8 +36,8 @@ export default function Lista(props: ListaProps) {
     mutate({ id, status })
   }
 
-  const todoTasks = tasksList.filter(task => !task.status)
-  const completedTasks = tasksList.filter(task => task.status)
+  const todoTasks = tasksList.filter((task) => !task.status)
+  const completedTasks = tasksList.filter((task) => task.status)
 
   const handleListItemClick = (id: number, currentStatus: boolean) => {
     mutate({ id, status: !currentStatus })
@@ -63,16 +64,7 @@ export default function Lista(props: ListaProps) {
             return (
               <ListItem
                 key={task.id}
-                secondaryAction={
-                  <>
-                    {/*<IconButton edge="end" aria-label="edit">
-                      <EditIcon />
-                    </IconButton>*/}
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                }
+                secondaryAction={<TaskActions taskId={task.id} />}
                 disablePadding
               >
                 <ListItemButton
@@ -94,7 +86,9 @@ export default function Lista(props: ListaProps) {
                     id={labelId}
                     primary={task.title}
                     secondary={task.dueDate}
-                    sx={{ textDecoration: task.status ? 'line-through' : 'none' }}
+                    sx={{
+                      textDecoration: task.status ? 'line-through' : 'none',
+                    }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -123,16 +117,7 @@ export default function Lista(props: ListaProps) {
             return (
               <ListItem
                 key={task.id}
-                secondaryAction={
-                  <>
-                    {/*<IconButton edge="end" aria-label="edit">
-                      <EditIcon />
-                    </IconButton>*/}
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                }
+                secondaryAction={<TaskActions taskId={task.id} />}
                 disablePadding
               >
                 <ListItemButton
@@ -154,7 +139,9 @@ export default function Lista(props: ListaProps) {
                     id={labelId}
                     primary={task.title}
                     secondary={task.dueDate}
-                    sx={{ textDecoration: task.status ? 'line-through' : 'none' }}
+                    sx={{
+                      textDecoration: task.status ? 'line-through' : 'none',
+                    }}
                   />
                 </ListItemButton>
               </ListItem>

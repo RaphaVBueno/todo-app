@@ -1,22 +1,27 @@
 import { useState } from 'react'
-import { Button, ButtonProps, Menu, MenuItem, Box, TextField, Autocomplete } from '@mui/material'
+import {
+  Button,
+  ButtonProps,
+  Menu,
+  MenuItem,
+  Box,
+  TextField,
+  Autocomplete,
+} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import { DatePicker } from '@mui/x-date-pickers'
 
 const Categorias = [
   { title: 'Tarefas de casa' },
   { title: 'Tarefas do trabalho' },
 ]
 
-const Tag = [
-  { title: 'Urgente' },
-  { title: 'Nao sei' },
-]
+const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
 function AddTaskButton(props: ButtonProps) {
-  const { onClick } = props
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isMenuOpen = Boolean(anchorEl)
+  const [dueDate, setDueDate] = useState<Date | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -27,7 +32,7 @@ function AddTaskButton(props: ButtonProps) {
   }
 
   return (
-    <Box sx={{ maxWidth: { md: '50%' }, mb: 4 }}>
+    <Box sx={{ maxWidth: { md: '40%' }, mb: 4 }}>
       <Button
         variant="contained"
         color="primary"
@@ -53,7 +58,7 @@ function AddTaskButton(props: ButtonProps) {
         slotProps={{
           paper: {
             sx: {
-              height: '500px',
+              height: '600px',
               width: anchorEl?.clientWidth || 'auto', // Largura igual ao botão
               padding: '16px',
               display: 'flex',
@@ -85,7 +90,9 @@ function AddTaskButton(props: ButtonProps) {
             disablePortal
             options={Categorias}
             getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Categoria" />}
+            renderInput={(params) => (
+              <TextField {...params} label="Categoria" />
+            )}
             fullWidth
           />
         </MenuItem>
@@ -96,6 +103,24 @@ function AddTaskButton(props: ButtonProps) {
             getOptionLabel={(option) => option.title}
             renderInput={(params) => <TextField {...params} label="Tag" />}
             fullWidth
+          />
+          <DatePicker
+            value={dueDate}
+            label={
+              date == null
+                ? null
+                : format(date, 'dd MMM, yyyy', { locale: ptBR })
+            }
+            onChange={(newValue) => setDate(newValue)}
+            slots={{ field: ButtonField }}
+            slotProps={{
+              field: { setOpen } as any,
+              nextIconButton: { size: 'small' },
+              previousIconButton: { size: 'small' },
+            }}
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
           />
         </MenuItem>
       </Menu>
