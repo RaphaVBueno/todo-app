@@ -33,3 +33,8 @@ export const getUserLists = async (user: number) => {
   const res = await api.get(`/list/userList/${user}`)
   return res.data.categories
 }
+
+export const deleteTask = async (userId: number, id: number) => {
+  const res = await api.delete(`/tasks/${id}`, { params: { id, userId } })
+  return res.data.message
+}

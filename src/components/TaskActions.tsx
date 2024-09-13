@@ -9,6 +9,8 @@ import {
   Autocomplete,
 } from '@mui/material'
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import { useMutation } from '@tanstack/react-query'
+import { deleteTask, devUser, queryClient } from '../utils'
 
 const Categorias = [
   { title: 'Tarefas de casa' },
@@ -21,8 +23,15 @@ type TaskActionsProps = {
   taskId: number
 }
 
-export default function TaskActions({ taskId }: TaskActionsProps) {
+export default function TaskActions(props: TaskActionsProps) {
+  const { taskId } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { mutate } = useMutation({
+    mutationFn: () => deleteTask(devUser, taskId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -30,6 +39,10 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleDelete = () => {
+    mutate()
   }
 
   return (
@@ -71,7 +84,12 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
           },
         }}
       >
-        <IconButton edge="end" aria-label="delete" sx={{ ml: 2 }}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          sx={{ ml: 2 }}
+          onClick={() => handleDelete()}
+        >
           <DeleteIcon />
         </IconButton>
       </Tooltip>
