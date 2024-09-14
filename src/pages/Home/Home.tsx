@@ -46,9 +46,12 @@ function Home() {
         />
         {isPending && <div>Carregando...</div>}
         {filter ? (
-          <Lista tasksList={tasks?.filter((task) => task.listId === filter)} />
+          <Lista
+            tasksList={tasks?.filter((task) => task.listId === filter)}
+            categories={categories || []}
+          />
         ) : (
-          <Lista tasksList={tasks} />
+          <Lista tasksList={tasks} categories={categories || []} />
         )}
       </Stack>
       <AddTaskButton categories={categories || []} />

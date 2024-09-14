@@ -1,30 +1,18 @@
 import React, { useState } from 'react'
-import {
-  IconButton,
-  Tooltip,
-  Box,
-  Menu,
-  MenuItem,
-  TextField,
-  Autocomplete,
-} from '@mui/material'
+import { IconButton, Tooltip, Box } from '@mui/material'
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import { useMutation } from '@tanstack/react-query'
 import { deleteTask, devUser, queryClient } from '../utils'
-
-const Categorias = [
-  { title: 'Tarefas de casa' },
-  { title: 'Tarefas do trabalho' },
-]
-
-const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
+import { List } from '../types/list'
+import { TaskActionsMenu } from './TaskActionsMenu'
 
 type TaskActionsProps = {
   taskId: number
+  categories: List[]
 }
 
 export default function TaskActions(props: TaskActionsProps) {
-  const { taskId } = props
+  const { taskId, categories } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(devUser, taskId),
@@ -35,10 +23,6 @@ export default function TaskActions(props: TaskActionsProps) {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
   }
 
   const handleDelete = () => {
@@ -93,60 +77,11 @@ export default function TaskActions(props: TaskActionsProps) {
           <DeleteIcon />
         </IconButton>
       </Tooltip>
-
-      <Menu
+      <TaskActionsMenu
         anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            width: 380,
-            height: 350,
-            display: 'flex',
-            flexDirection: 'column',
-            padding: 16,
-          },
-        }}
-      >
-        <MenuItem sx={{ p: 0, mt: 0 }}>
-          <TextField
-            id="outlined-basic"
-            label="Título da tarefa"
-            variant="outlined"
-            fullWidth
-          />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
-          <TextField
-            id="outlined-multiline"
-            label="Descrição"
-            variant="outlined"
-            multiline
-            rows={1}
-            fullWidth
-          />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
-          <Autocomplete
-            disablePortal
-            options={Categorias}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => (
-              <TextField {...params} label="Categoria" />
-            )}
-            fullWidth
-          />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
-          <Autocomplete
-            disablePortal
-            options={Tag}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Tag" />}
-            fullWidth
-          />
-        </MenuItem>
-      </Menu>
+        setAnchorEl={setAnchorEl}
+        categories={categories}
+      />
     </Box>
   )
 }

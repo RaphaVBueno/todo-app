@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 import {
-  List,
+  List as Lists,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -12,13 +12,15 @@ import {
 import TaskActions from './TaskActions'
 import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
+import { List } from '../types/list'
 
 type ListaProps = {
   tasksList: Task[] | null | undefined
+  categories: List[]
 }
 
 export default function Lista(props: ListaProps) {
-  const { tasksList } = props
+  const { tasksList, categories } = props
   const { mutate } = useMutation({
     mutationFn: updateTaskStatus,
     onSuccess: () => {
@@ -46,7 +48,7 @@ export default function Lista(props: ListaProps) {
   return (
     <div>
       {todoTasks.length > 0 && (
-        <List
+        <Lists
           sx={{
             width: '90%',
             maxWidth: 1920,
@@ -64,7 +66,9 @@ export default function Lista(props: ListaProps) {
             return (
               <ListItem
                 key={task.id}
-                secondaryAction={<TaskActions taskId={task.id} />}
+                secondaryAction={
+                  <TaskActions taskId={task.id} categories={categories} />
+                }
                 disablePadding
               >
                 <ListItemButton
@@ -94,13 +98,13 @@ export default function Lista(props: ListaProps) {
               </ListItem>
             )
           })}
-        </List>
+        </Lists>
       )}
       {todoTasks.length > 0 && completedTasks.length > 0 && (
         <Divider sx={{ my: 2 }} />
       )}
       {completedTasks.length > 0 && (
-        <List
+        <Lists
           sx={{
             width: '90%',
             maxWidth: 1920,
@@ -117,7 +121,9 @@ export default function Lista(props: ListaProps) {
             return (
               <ListItem
                 key={task.id}
-                secondaryAction={<TaskActions taskId={task.id} />}
+                secondaryAction={
+                  <TaskActions taskId={task.id} categories={categories} />
+                }
                 disablePadding
               >
                 <ListItemButton
@@ -147,7 +153,7 @@ export default function Lista(props: ListaProps) {
               </ListItem>
             )
           })}
-        </List>
+        </Lists>
       )}
     </div>
   )
