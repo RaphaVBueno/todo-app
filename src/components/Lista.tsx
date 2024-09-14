@@ -17,10 +17,11 @@ import { List } from '../types/list'
 type ListaProps = {
   tasksList: Task[] | null | undefined
   categories: List[]
+  date: Date | null
 }
 
 export default function Lista(props: ListaProps) {
-  const { tasksList, categories } = props
+  const { tasksList, categories, date } = props
   const { mutate } = useMutation({
     mutationFn: updateTaskStatus,
     onSuccess: () => {
@@ -35,14 +36,14 @@ export default function Lista(props: ListaProps) {
     id: number
   ) => {
     const status = event.target.checked
-    mutate({ id, status })
+    mutate({ id, status, date })
   }
 
   const todoTasks = tasksList.filter((task) => !task.status)
   const completedTasks = tasksList.filter((task) => task.status)
 
   const handleListItemClick = (id: number, currentStatus: boolean) => {
-    mutate({ id, status: !currentStatus })
+    mutate({ id, status: !currentStatus, date })
   }
 
   return (

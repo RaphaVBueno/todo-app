@@ -49,9 +49,10 @@ function Home() {
           <Lista
             tasksList={tasks?.filter((task) => task.listId === filter)}
             categories={categories || []}
+            date={date}
           />
         ) : (
-          <Lista tasksList={tasks} categories={categories || []} />
+          <Lista tasksList={tasks} categories={categories || []} date={date} />
         )}
       </Stack>
       <AddTaskButton categories={categories || []} />

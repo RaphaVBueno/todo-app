@@ -20,12 +20,14 @@ export const getTasks = (dueDate: Date | null | string) => async () => {
 export const updateTaskStatus = async (params: {
   id: number
   status: boolean
+  date: Date | string | null
 }) => {
-  const { id, status } = params
+  const { id, status, date } = params
   return await api.post('/tasks/${id}/update', {
     id,
     status,
     userId: devUser,
+    completedDate: format(date, 'yyyy-MM-dd'),
   })
 }
 
