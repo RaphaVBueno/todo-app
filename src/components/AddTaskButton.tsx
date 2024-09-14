@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import {
   Button,
-  ButtonProps,
   Menu,
   MenuItem,
   Box,
@@ -16,6 +15,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import type { List } from '../types/list'
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 
 const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
@@ -64,7 +64,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
         slotProps={{
           paper: {
             sx: {
-              height: '600px',
+              height: '680px',
               width: anchorEl?.clientWidth || 'auto',
               padding: '16px',
               display: 'flex',
@@ -102,7 +102,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
           />
         </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
+        <MenuItem sx={{ p: 0, mt: '10px', mb: '50px' }}>
           <Autocomplete
             disablePortal
             options={Tag}
@@ -116,7 +116,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             dateAdapter={AdapterDateFns}
             adapterLocale={ptBR}
           >
-            <DatePicker
+            <DateCalendar
               value={dueDate}
               label={
                 dueDate == null
@@ -125,6 +125,10 @@ function AddTaskButton(props: AddTaskButtonProps) {
               }
               onChange={(newValue) => setDueDate(newValue)}
               open={true}
+              sx={{
+                width: '300px',
+                scale: '1.3',
+              }}
             />
           </LocalizationProvider>
         </MenuItem>
