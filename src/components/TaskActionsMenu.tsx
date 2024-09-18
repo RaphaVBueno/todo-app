@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
-import { Menu, MenuItem, TextField, Autocomplete } from '@mui/material'
+import {
+  Menu,
+  MenuItem,
+  TextField,
+  Autocomplete,
+  Button,
+  Stack,
+} from '@mui/material'
 import { List } from '../types/list'
 
 type TaskActionsMenuProps = {
@@ -28,11 +35,11 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
       onClose={handleClose}
       PaperProps={{
         style: {
-          width: 380,
-          height: 350,
+          width: 400,
+          height: 360,
           display: 'flex',
           flexDirection: 'column',
-          padding: 16,
+          padding: 10,
         },
       }}
     >
@@ -42,6 +49,10 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           label="Título da tarefa"
           variant="outlined"
           fullWidth
+          sx={{
+            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+          }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
@@ -54,6 +65,10 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           multiline
           rows={1}
           fullWidth
+          sx={{
+            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+          }}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
@@ -68,7 +83,16 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
               setListId(newValue.id)
             }
           }}
-          renderInput={(params) => <TextField {...params} label="Categoria" />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Categoria"
+              sx={{
+                '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+              }}
+            />
+          )}
           fullWidth
         />
       </MenuItem>
@@ -77,10 +101,44 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           disablePortal
           options={Tag}
           getOptionLabel={(option) => option.title}
-          renderInput={(params) => <TextField {...params} label="Tag" />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Tag"
+              sx={{
+                '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+              }}
+            />
+          )}
           fullWidth
         />
       </MenuItem>
+
+      <Stack
+        direction="row"
+        spacing={3}
+        justifyContent="center"
+        sx={{ mt: '45px' }}
+      >
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleClose}
+          sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
+        >
+          Cancelar
+        </Button>
+
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleClose}
+          sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
+        >
+          Salvar
+        </Button>
+      </Stack>
     </Menu>
   )
 }
