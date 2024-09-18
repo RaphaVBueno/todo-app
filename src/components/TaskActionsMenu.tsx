@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import type { Dispatch, SetStateAction } from 'react'
 import {
   Menu,
   MenuItem,
@@ -12,14 +11,14 @@ import { List } from '../types/list'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
-  setAnchorEl: Dispatch<SetStateAction<HTMLElement | null>>
+  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
   categories: List[]
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
   const { anchorEl, setAnchorEl, categories } = props
   const [listId, setListId] = useState<number | null>(null)
-  const [title, setTitle] = useState<string | null>(null)
+  const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
 
   const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
@@ -49,14 +48,11 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           label="Título da tarefa"
           variant="outlined"
           fullWidth
-          sx={{
-            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-          }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
       </MenuItem>
+
       <MenuItem sx={{ p: 0, mt: '10px' }}>
         <TextField
           id="outlined-multiline"
@@ -65,14 +61,11 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           multiline
           rows={1}
           fullWidth
-          sx={{
-            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-          }}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
       </MenuItem>
+
       <MenuItem sx={{ p: 0, mt: '10px' }}>
         <Autocomplete
           disablePortal
@@ -96,7 +89,8 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           fullWidth
         />
       </MenuItem>
-      <MenuItem sx={{ p: 0, mt: '10px' }}>
+
+      <MenuItem sx={{ p: 0, mt: '10px', mb: '30px' }}>
         <Autocomplete
           disablePortal
           options={Tag}
@@ -136,7 +130,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           onClick={handleClose}
           sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
         >
-          Salvar
+          Confirmar
         </Button>
       </Stack>
     </Menu>

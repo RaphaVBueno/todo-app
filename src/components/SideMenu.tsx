@@ -73,7 +73,7 @@ export default function SideMenu(props: SideMenuProps) {
         >
           <Avatar
             sizes="small"
-            alt="Riley Carter"
+            alt="Rapha"
             src="/static/images/avatar/7.jpg"
             sx={{ width: 36, height: 36 }}
           />
@@ -82,10 +82,10 @@ export default function SideMenu(props: SideMenuProps) {
               variant="body2"
               sx={{ fontWeight: 500, lineHeight: '16px' }}
             >
-              Riley Carter
+              Rapha
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              riley@email.com
+              rapha@gmail.com
             </Typography>
           </Box>
           <OptionsMenu />
