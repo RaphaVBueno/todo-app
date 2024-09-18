@@ -41,6 +41,6 @@ export function greetings() {
   ]
 
   const min = Math.ceil(0)
-  const max = Math.floor(55)
+  const max = Math.floor(37)
   return greetings[Math.floor(Math.random() * (max - min) + min)]
 }
