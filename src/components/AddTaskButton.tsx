@@ -68,7 +68,11 @@ function AddTaskButton() {
             fullWidth
             getOptionLabel={(option) => option.title}
             renderInput={(params) => (
-              <TextField {...params} label="Categoria" sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' }, '& .MuiFormLabel-root': { fontSize: '1.1rem' } }} />
+              <TextField
+                {...params}
+                label="Categoria"
+                sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' }, '& .MuiFormLabel-root': { fontSize: '1.1rem' } }}
+              />
             )}
           />
         </MenuItem>
@@ -79,7 +83,11 @@ function AddTaskButton() {
             options={Tag}
             getOptionLabel={(option) => option.title}
             renderInput={(params) => (
-              <TextField {...params} label="Tag" sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' }, '& .MuiFormLabel-root': { fontSize: '1.1rem' } }} />
+              <TextField
+                {...params}
+                label="Tag"
+                sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' }, '& .MuiFormLabel-root': { fontSize: '1.1rem' } }}
+              />
             )}
           />
         </MenuItem>
@@ -89,7 +97,7 @@ function AddTaskButton() {
               value={dueDate}
               onChange={setDueDate}
               sx={{
-                width: '360px',
+                width: '335px',
                 '& .MuiPickersArrowSwitcher-root': { justifyContent: 'space-between', '& button': { ml: '4px' } },
                 '& .MuiTypography-root': { fontSize: '1.1rem', margin: '0px 5px' }, // Dia da semana
                 '& .MuiPickersCalendarHeader-label': { fontSize: '1.2rem' }, // Mês
@@ -98,11 +106,11 @@ function AddTaskButton() {
             />
           </LocalizationProvider>
         </MenuItem>
-        <Stack direction="row" spacing={4} justifyContent="center" sx={{ mt: '17px' }}>
-          <Button variant="outlined" color="primary" onClick={handleClose}>
+        <Stack direction="row" spacing={5} justifyContent="center" sx={{ mt: '17px' }}>
+          <Button variant="outlined" color="primary" onClick={handleClose} sx={{ height: '40px', width: '130px', fontSize: '1rem' }}>
             Cancelar
           </Button>
-          <Button variant="outlined" color="primary" onClick={handleClose}>
+          <Button variant="outlined" color="primary" onClick={handleClose} sx={{ height: '40px', width: '130px', fontSize: '1rem' }}>
             Salvar
           </Button>
         </Stack>
