@@ -8,6 +8,7 @@ import {
   Stack,
 } from '@mui/material'
 import { List } from '../types/list'
+import { updateTask } from '../utils'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
@@ -18,9 +19,10 @@ type TaskActionsMenuProps = {
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
   const { anchorEl, setAnchorEl, categories } = props
   const [listId, setListId] = useState<number | null>(null)
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-
+  const [title, setTitle] = useState<string | null>(null)
+  const [description, setDescription] = useState<string | null>(null)
+  const [tagId, setTagId] = useState<number | null>(null)
+  //receber tasksid aqui
   const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
   const handleClose = () => {
@@ -118,10 +120,12 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         <Button
           variant="outlined"
           color="primary"
-          onClick={handleClose}
+          onClick={() => {
+            updateTask(title, description, listId, tagId), handleClose
+          }}
           sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
         >
-          Cancelar
+          Confirmar
         </Button>
 
         <Button
@@ -130,7 +134,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           onClick={handleClose}
           sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
         >
-          Confirmar
+          Cancelar
         </Button>
       </Stack>
     </Menu>

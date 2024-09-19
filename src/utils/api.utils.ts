@@ -17,6 +17,16 @@ export const getTasks = (dueDate: Date | null | string) => async () => {
   return res.data.tasks
 }
 
+export const addTask =
+  (title: string, dueDate: Date | null, userId: number) => async () => {
+    const res = await api.post('/tasks/add', {
+      title,
+      dueDate: format(dueDate, 'yyyy-MM-dd'),
+      userId,
+    })
+    return res.data.message
+  }
+
 export const updateTaskStatus = async (params: {
   id: number
   status: boolean
