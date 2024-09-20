@@ -17,15 +17,18 @@ export const getTasks = (dueDate: Date | null | string) => async () => {
   return res.data.tasks
 }
 
-export const addTask =
-  (title: string, dueDate: Date | null, userId: number) => async () => {
-    const res = await api.post('/tasks/add', {
-      title,
-      dueDate: format(dueDate, 'yyyy-MM-dd'),
-      userId,
-    })
-    return res.data.message
-  }
+export const addTask = async (
+  title: string,
+  dueDate: Date | null,
+  userId: number
+) => {
+  const res = await api.post('/tasks/add', {
+    title,
+    dueDate: dueDate ? format(dueDate, 'yyyy-MM-dd') : null,
+    userId,
+  })
+  return res.data.message
+}
 
 export const updateTaskStatus = async (params: {
   id: number

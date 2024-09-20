@@ -14,7 +14,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { List } from '../types/list'
-import { addTask, devUser } from '../utils'
+import { addTask, devUser, queryClient } from '../utils'
+import { useMutation } from '@tanstack/react-query'
 
 type AddTaskButtonProps = {
   categories: List[]
@@ -29,13 +30,28 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const isMenuOpen = Boolean(anchorEl)
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string | null>(null)
+  const { mutate } = useMutation({
+    mutationFn: ({
+      title,
+      dueDate,
+      userId,
+    }: {
+      title: string
+      dueDate: Date | null
+      userId: number
+    }) => addTask(title, dueDate, userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
 
-  const inputCleaner = () => {
-    handleClose
+  const handleSubmit = () => {
+    mutate({ title, dueDate, userId: devUser })
+    handleClose()
     setTitle('')
     setDueDate(null)
     setDescription(null)
@@ -159,12 +175,12 @@ function AddTaskButton(props: AddTaskButtonProps) {
                 '& .MuiTypography-root': {
                   fontSize: '1.1rem',
                   margin: '0px 5px',
-                }, // Dia da semana
-                '& .MuiPickersCalendarHeader-label': { fontSize: '1.2rem' }, // Mês
+                },
+                '& .MuiPickersCalendarHeader-label': { fontSize: '1.2rem' },
                 '& .MuiPickersDay-root': {
                   fontSize: '1.1rem',
                   margin: '4px 5px',
-                }, // Dia do mês
+                },
               }}
             />
           </LocalizationProvider>
@@ -186,7 +202,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
           <Button
             variant="outlined"
             color="primary"
-            onClick={addTask(title, dueDate, devUser)}
+            onClick={handleSubmit}
             sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
           >
             Salvar
