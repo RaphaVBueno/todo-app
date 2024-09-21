@@ -43,8 +43,7 @@ function ButtonField(props: ButtonFieldProps) {
       disabled={disabled}
       ref={ref}
       aria-label={ariaLabel}
-      size="small"
-      onClick={() => setOpen?.((prev) => !prev)}
+      onClick={() => setOpen?.(prev => !prev)}
       startIcon={<CalendarTodayRoundedIcon fontSize="small" />}
       sx={{ minWidth: 'fit-content' }}
     >
@@ -69,7 +68,7 @@ export default function CustomDatePicker(props: CustomDatePickerProps) {
         label={
           date == null ? null : format(date, 'dd MMM, yyyy', { locale: ptBR })
         }
-        onChange={(newValue) => setDate(newValue)}
+        onChange={newValue => setDate(newValue)}
         slots={{ field: ButtonField }}
         slotProps={{
           field: { setOpen } as any,

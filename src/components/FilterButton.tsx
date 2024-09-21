@@ -25,7 +25,7 @@ export default function FilterButton(props: FilterButtonProps) {
   //formatar botão
 
   const handleClick = () => {
-    setOpen((prevOpen) => !prevOpen)
+    setOpen(prevOpen => !prevOpen)
   }
 
   const handleMenuItemClick = (optionName: string, filterId: number) => {
@@ -35,7 +35,7 @@ export default function FilterButton(props: FilterButtonProps) {
   }
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen)
+    setOpen(prevOpen => !prevOpen)
   }
 
   const handleClose = (event: Event) => {
@@ -56,11 +56,8 @@ export default function FilterButton(props: FilterButtonProps) {
         ref={anchorRef}
         aria-label="Botão de filtro"
       >
-        <Button onClick={handleClick} sx={{ height: '2.16rem' }}>
-          {filterName}
-        </Button>
+        <Button onClick={handleClick}>{filterName}</Button>
         <Button
-          sx={{ width: '1rem', height: '2.1rem' }}
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
