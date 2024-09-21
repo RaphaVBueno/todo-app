@@ -13,6 +13,7 @@ import TaskActions from './TaskActions'
 import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
 import { List } from '../types/list'
+import { format } from 'date-fns'
 
 type ListaProps = {
   tasksList: Task[] | null | undefined
@@ -90,7 +91,11 @@ export default function Lista(props: ListaProps) {
                   <ListItemText
                     id={labelId}
                     primary={task.title}
-                    secondary={task.dueDate}
+                    secondary={`${
+                      task.dueDate
+                        ? format(new Date(task.dueDate), 'dd/MM/yyyy')
+                        : 'Sem data para conclusão'
+                    }: ${task.description ? task.description : ''}`}
                     sx={{
                       textDecoration: task.status ? 'line-through' : 'none',
                     }}

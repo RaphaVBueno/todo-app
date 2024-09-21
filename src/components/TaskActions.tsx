@@ -81,6 +81,7 @@ export default function TaskActions(props: TaskActionsProps) {
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
         categories={categories}
+        taskId={taskId}
       />
     </Box>
   )

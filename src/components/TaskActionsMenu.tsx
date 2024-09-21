@@ -8,21 +8,34 @@ import {
   Stack,
 } from '@mui/material'
 import { List } from '../types/list'
-import { updateTask } from '../utils'
+import { devUser, queryClient, updateTask, updateTaskParams } from '../utils'
+import { useMutation } from '@tanstack/react-query'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
   categories: List[]
+  taskId: number
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
-  const { anchorEl, setAnchorEl, categories } = props
+  const { anchorEl, setAnchorEl, categories, taskId } = props
   const [listId, setListId] = useState<number | null>(null)
   const [title, setTitle] = useState<string | null>(null)
   const [description, setDescription] = useState<string | null>(null)
   const [tagId, setTagId] = useState<number | null>(null)
-  //receber tasksid aqui
+  const { mutate } = useMutation({
+    mutationFn: (params: updateTaskParams) => updateTask(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
+  const handleSubmit = () => {
+    mutate({ taskId, title, description, listId, tagId, userId: devUser })
+    handleClose()
+  }
+
   const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
   const handleClose = () => {
@@ -120,9 +133,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => {
-            updateTask(title, description, listId, tagId), handleClose
-          }}
+          onClick={handleSubmit}
           sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
         >
           Confirmar

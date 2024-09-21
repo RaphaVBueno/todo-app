@@ -61,17 +61,30 @@ export const deleteTask = async (userId: number, id: number) => {
   return res.data.message
 }
 
-export const updateTask = async (
-  title: string | null,
-  description: string | null,
-  categories: number | null,
-  tag: number | null
-) => {
+export type updateTaskParams = {
+  taskId: number
+  title: string | null
+  description: string | null
+  listId: number | null
+  tagId: number | null
+  userId: number | null
+}
+
+export const updateTask = async ({
+  taskId,
+  title,
+  description,
+  listId,
+  tagId,
+  userId,
+}: updateTaskParams) => {
   const res = await api.post('/tasks/${id}/update', {
+    id: taskId,
     title,
     description,
-    listId: categories,
-    tagId: tag,
+    listId,
+    tagId,
+    userId,
   })
   return res.data.message
 }
