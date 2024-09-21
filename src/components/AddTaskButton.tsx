@@ -14,7 +14,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { List } from '../types/list'
-import { addTask, devUser, queryClient } from '../utils'
+import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
 
 type AddTaskButtonProps = {
@@ -31,15 +31,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string | null>(null)
   const { mutate } = useMutation({
-    mutationFn: ({
-      title,
-      dueDate,
-      userId,
-    }: {
-      title: string
-      dueDate: Date | null
-      userId: number
-    }) => addTask(title, dueDate, userId),
+    mutationFn: (params: AddTaskParams) => addTask(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },

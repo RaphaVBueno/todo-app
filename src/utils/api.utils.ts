@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { format } from 'date-fns'
+import { toZonedTime } from 'date-fns-tz'
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000',
@@ -17,11 +18,17 @@ export const getTasks = (dueDate: Date | null | string) => async () => {
   return res.data.tasks
 }
 
-export const addTask = async (
-  title: string,
-  dueDate: Date | null,
+export type AddTaskParams = {
+  title: string
+  dueDate: Date | null
   userId: number
-) => {
+}
+
+export const addTask = async ({ title, dueDate, userId }: AddTaskParams) => {
+  if (!dueDate) {
+    dueDate = toZonedTime(new Date(), 'America/Sao_Paulo')
+  }
+
   const res = await api.post('/tasks/add', {
     title,
     dueDate: dueDate ? format(dueDate, 'yyyy-MM-dd') : null,

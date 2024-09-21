@@ -52,7 +52,7 @@ export default function FilterButton(props: FilterButtonProps) {
   return (
     <Fragment>
       <ButtonGroup
-        variant="contained"
+        variant="outlined"
         ref={anchorRef}
         aria-label="Botão de filtro"
       >
