@@ -9,10 +9,12 @@ import { TaskActionsMenu } from './TaskActionsMenu'
 type TaskActionsProps = {
   taskId: number
   categories: List[]
+  taskDescription: string | undefined
+  taskTitle: string
 }
 
 export default function TaskActions(props: TaskActionsProps) {
-  const { taskId, categories } = props
+  const { taskId, categories, taskDescription, taskTitle } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(devUser, taskId),
@@ -82,6 +84,8 @@ export default function TaskActions(props: TaskActionsProps) {
         setAnchorEl={setAnchorEl}
         categories={categories}
         taskId={taskId}
+        taskDescription={taskDescription}
+        taskTitle={taskTitle}
       />
     </Box>
   )

@@ -14,6 +14,7 @@ import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
 import { List } from '../types/list'
 import { format } from 'date-fns'
+import Brightness1Icon from '@mui/icons-material/Brightness1'
 
 type ListaProps = {
   tasksList: Task[] | null | undefined
@@ -69,7 +70,12 @@ export default function Lista(props: ListaProps) {
               <ListItem
                 key={task.id}
                 secondaryAction={
-                  <TaskActions taskId={task.id} categories={categories} />
+                  <TaskActions
+                    taskId={task.id}
+                    categories={categories}
+                    taskDescription={task.description}
+                    taskTitle={task.title}
+                  />
                 }
                 disablePadding
               >
@@ -90,7 +96,29 @@ export default function Lista(props: ListaProps) {
                   </ListItemIcon>
                   <ListItemText
                     id={labelId}
-                    primary={task.title}
+                    primary={
+                      <>
+                        {task.title}{' '}
+                        {task.listId ? (
+                          <Brightness1Icon
+                            style={{
+                              color: `${
+                                categories[
+                                  categories.findIndex(
+                                    (categorie) => task.listId === categorie.id
+                                  )
+                                ].color
+                              }`,
+                              marginLeft: '6px',
+                              position: 'relative',
+                              top: '3px',
+                            }}
+                          />
+                        ) : (
+                          <div></div>
+                        )}
+                      </>
+                    }
                     secondary={`${
                       task.dueDate
                         ? format(new Date(task.dueDate), 'dd/MM/yyyy')
@@ -128,7 +156,12 @@ export default function Lista(props: ListaProps) {
               <ListItem
                 key={task.id}
                 secondaryAction={
-                  <TaskActions taskId={task.id} categories={categories} />
+                  <TaskActions
+                    taskId={task.id}
+                    categories={categories}
+                    taskDescription={task.description}
+                    taskTitle={task.title}
+                  />
                 }
                 disablePadding
               >
@@ -149,8 +182,29 @@ export default function Lista(props: ListaProps) {
                   </ListItemIcon>
                   <ListItemText
                     id={labelId}
-                    primary={task.title}
-                    secondary={task.dueDate}
+                    primary={
+                      <>
+                        {task.title}{' '}
+                        {task.listId ? (
+                          <Brightness1Icon
+                            style={{
+                              color: `${
+                                categories[
+                                  categories.findIndex(
+                                    (categorie) => task.listId === categorie.id
+                                  )
+                                ].color
+                              }`,
+                              marginLeft: '6px',
+                              position: 'relative',
+                              top: '3px',
+                            }}
+                          />
+                        ) : (
+                          <div></div>
+                        )}
+                      </>
+                    }
                     sx={{
                       textDecoration: task.status ? 'line-through' : 'none',
                     }}

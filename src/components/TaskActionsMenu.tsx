@@ -16,13 +16,24 @@ type TaskActionsMenuProps = {
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
   categories: List[]
   taskId: number
+  taskDescription: string | undefined
+  taskTitle: string
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
-  const { anchorEl, setAnchorEl, categories, taskId } = props
+  const {
+    anchorEl,
+    setAnchorEl,
+    categories,
+    taskId,
+    taskDescription,
+    taskTitle,
+  } = props
   const [listId, setListId] = useState<number | null>(null)
-  const [title, setTitle] = useState<string | null>(null)
-  const [description, setDescription] = useState<string | null>(null)
+  const [title, setTitle] = useState<string | null>(taskTitle)
+  const [description, setDescription] = useState<string | null>(
+    taskDescription ? taskDescription : null
+  )
   const [tagId, setTagId] = useState<number | null>(null)
   const { mutate } = useMutation({
     mutationFn: (params: updateTaskParams) => updateTask(params),
@@ -42,11 +53,20 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     setAnchorEl(null)
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    //gambiarra para lidar com o o bug dos inputs
+    const forbiddenKeys = ['d', 't', 'c']
+    if (forbiddenKeys.includes(event.key.toLowerCase())) {
+      event.stopPropagation()
+    }
+  }
+
   return (
     <Menu
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={handleClose}
+      onKeyDown={handleKeyDown}
       PaperProps={{
         style: {
           width: 400,
@@ -65,6 +85,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           fullWidth
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+          onKeyDown={handleKeyDown}
         />
       </MenuItem>
 
@@ -78,6 +99,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           fullWidth
           value={description}
           onChange={(event) => setDescription(event.target.value)}
+          onKeyDown={handleKeyDown}
         />
       </MenuItem>
 
@@ -86,6 +108,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           disablePortal
           options={categories}
           getOptionLabel={(option) => option.name}
+          onKeyDown={handleKeyDown}
           onChange={(event, newValue) => {
             if (newValue) {
               setListId(newValue.id)
@@ -110,6 +133,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           disablePortal
           options={Tag}
           getOptionLabel={(option) => option.title}
+          onKeyDown={handleKeyDown}
           renderInput={(params) => (
             <TextField
               {...params}

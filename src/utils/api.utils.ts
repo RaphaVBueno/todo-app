@@ -43,7 +43,7 @@ export const updateTaskStatus = async (params: {
   date: Date | string | null
 }) => {
   const { id, status, date } = params
-  return await api.post('/tasks/${id}/update', {
+  return await api.post(`/tasks/${id}/status`, {
     id,
     status,
     userId: devUser,
