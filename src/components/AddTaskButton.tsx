@@ -30,6 +30,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const isMenuOpen = Boolean(anchorEl)
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string | null>(null)
+  const [listId, setListId] = useState<number | null>(null)
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
     onSuccess: () => {
@@ -37,16 +38,25 @@ function AddTaskButton(props: AddTaskButtonProps) {
     },
   })
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    //gambiarra para lidar com o o bug dos inputs
+    const forbiddenKeys = ['d', 't', 'c']
+    if (forbiddenKeys.includes(event.key.toLowerCase())) {
+      event.stopPropagation()
+    }
+  }
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
 
   const handleSubmit = () => {
-    mutate({ title, dueDate, userId: devUser })
+    mutate({ title, dueDate, userId: devUser, description, listId })
     handleClose()
     setTitle('')
     setDueDate(null)
     setDescription(null)
+    setListId(null)
   }
 
   return (
@@ -66,6 +76,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        onKeyDown={handleKeyDown}
         slotProps={{
           paper: {
             sx: {
@@ -86,6 +97,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
             value={title}
             onChange={(event) => setTitle(event.target.value)}
+            onKeyDown={handleKeyDown}
             sx={{
               '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
@@ -102,6 +114,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+            onKeyDown={handleKeyDown}
             sx={{
               '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
@@ -114,6 +127,12 @@ function AddTaskButton(props: AddTaskButtonProps) {
             options={categories}
             fullWidth
             getOptionLabel={(option) => option.name}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                setListId(newValue.id)
+              }
+            }}
+            onKeyDown={handleKeyDown}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -135,6 +154,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
             options={Tag}
             getOptionLabel={(option) => option.title}
+            onKeyDown={handleKeyDown}
             renderInput={(params) => (
               <TextField
                 {...params}

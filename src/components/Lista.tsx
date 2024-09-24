@@ -13,7 +13,7 @@ import TaskActions from './TaskActions'
 import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
 import { List } from '../types/list'
-import { format } from 'date-fns'
+import { format, addDays } from 'date-fns'
 import Brightness1Icon from '@mui/icons-material/Brightness1'
 
 type ListaProps = {
@@ -31,7 +31,7 @@ export default function Lista(props: ListaProps) {
     },
   })
 
-  if (!tasksList || !tasksList.length) return 'Sem tarefas'
+  if (!tasksList || !tasksList.length) return 'Sem tarefas' //renderizar algo melhor aqui nesse sem tarefas
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -121,7 +121,10 @@ export default function Lista(props: ListaProps) {
                     }
                     secondary={`${
                       task.dueDate
-                        ? format(new Date(task.dueDate), 'dd/MM/yyyy')
+                        ? format(
+                            addDays(new Date(task.dueDate), 1),
+                            'dd/MM/yyyy'
+                          )
                         : 'Sem data para conclusão'
                     }: ${task.description ? task.description : ''}`}
                     sx={{

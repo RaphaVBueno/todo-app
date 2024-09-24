@@ -10,6 +10,7 @@ import Popper from '@mui/material/Popper'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
 import type { List } from '../types/list'
+import Brightness1Icon from '@mui/icons-material/Brightness1'
 
 type FilterButtonProps = {
   categories: List[]
@@ -25,7 +26,7 @@ export default function FilterButton(props: FilterButtonProps) {
   //formatar botão
 
   const handleClick = () => {
-    setOpen(prevOpen => !prevOpen)
+    setOpen((prevOpen) => !prevOpen)
   }
 
   const handleMenuItemClick = (optionName: string, filterId: number) => {
@@ -35,7 +36,7 @@ export default function FilterButton(props: FilterButtonProps) {
   }
 
   const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen)
+    setOpen((prevOpen) => !prevOpen)
   }
 
   const handleClose = (event: Event) => {
@@ -94,7 +95,7 @@ export default function FilterButton(props: FilterButtonProps) {
                   >
                     Desabilitar Filtro
                   </MenuItem>
-                  {categories.map((option, index) => (
+                  {categories.map((option) => (
                     <MenuItem
                       key={option.name}
                       selected={option.id === filter}
@@ -102,7 +103,18 @@ export default function FilterButton(props: FilterButtonProps) {
                         handleMenuItemClick(option.name, option.id)
                       }
                     >
-                      {option.name}
+                      {
+                        <>
+                          <Brightness1Icon
+                            style={{
+                              color: `${option.color}`,
+                              marginRight: '4px',
+                              fontSize: 'small',
+                            }}
+                          />{' '}
+                          {option.name}
+                        </>
+                      }
                     </MenuItem>
                   ))}
                 </MenuList>
