@@ -14,7 +14,6 @@ import Box from '@mui/material/Box'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
-import ToggleColorMode from './ToggleColorMode'
 import getSignUpTheme from './getSignUpTheme'
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -100,11 +99,7 @@ export default function TemplateFrame({
                   <MenuItem value="material">Material Design 2</MenuItem>
                 </Select>
               </FormControl>
-              <ToggleColorMode
-                data-screenshot="toggle-mode"
-                mode={mode}
-                toggleColorMode={toggleColorMode}
-              />
+              
             </Box>
           </Toolbar>
         </StyledAppBar>

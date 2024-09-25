@@ -1,4 +1,5 @@
-import * as React from 'react'
+//mesma coisa do arquivo login/CustomIcons.tsx
+
 import SvgIcon from '@mui/material/SvgIcon'
 
 export function FacebookIcon() {

@@ -1,5 +1,4 @@
-import React from 'react'
-import SignUp from './sign-up/SignUp'
+import SignUp from './componentsCadastro/SignUp'
 
 function Cadastro() {
   return (
