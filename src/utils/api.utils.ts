@@ -75,8 +75,8 @@ export type updateTaskParams = {
   taskId: number
   title: string | null
   description: string | null
-  listId: number | null
-  tagId: number | null
+  listId: number | null | undefined
+  tagId: number | null | undefined
   userId: number | null
 }
 

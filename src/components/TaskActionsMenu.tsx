@@ -18,6 +18,7 @@ type TaskActionsMenuProps = {
   taskId: number
   taskDescription: string | undefined
   taskTitle: string
+  taskListId: number | undefined //mudei para undefined na função de updatetask, arrumar bug para editar task e retirar a categoria
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
@@ -28,8 +29,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     taskId,
     taskDescription,
     taskTitle,
+    taskListId,
   } = props
-  const [listId, setListId] = useState<number | null>(null)
+  const [listId, setListId] = useState<number | null | undefined>(taskListId)
   const [title, setTitle] = useState<string | null>(taskTitle)
   const [description, setDescription] = useState<string | null>(
     taskDescription ? taskDescription : null
@@ -106,12 +108,20 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
       <MenuItem sx={{ p: 0, mt: '10px' }}>
         <Autocomplete
           disablePortal
-          options={categories}
+          options={[...categories, { id: null, name: 'Remover Categoria' }]}
           getOptionLabel={(option) => option.name}
+          value={categories.find((category) => category.id === listId) || null}
           onKeyDown={handleKeyDown}
           onChange={(event, newValue) => {
             if (newValue) {
               setListId(newValue.id)
+            } else {
+              setListId(null)
+            }
+          }}
+          onClose={(event, reason) => {
+            if (reason === 'blur') {
+              setListId(listId)
             }
           }}
           renderInput={(params) => (

@@ -10,7 +10,7 @@ import { getTasks, getUserLists, devUser } from '../../utils'
 import { List } from '../../types/list'
 
 function Home() {
-  const { date, setDate, filter, setFilter } =
+  const { date, setDate, filter, setFilter, searchList } =
     useOutletContext<DashboardContext>()
   const {
     isPending,
@@ -43,6 +43,7 @@ function Home() {
           filter={filter}
           setFilter={setFilter}
           categories={categories || []}
+          searchList={searchList}
         />
         {isPending && <div>Carregando...</div>}
         {filter ? (
