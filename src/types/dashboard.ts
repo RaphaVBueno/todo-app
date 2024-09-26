@@ -6,5 +6,5 @@ export type DashboardContext = {
   setFilter: Dispatch<SetStateAction<number | null>>
   date: Date | null
   setDate: Dispatch<SetStateAction<Date | null>>
-  searchList: Task | null
+  searchList: Task[] | null
 }

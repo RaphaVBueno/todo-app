@@ -4,19 +4,24 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import { useState } from 'react'
 import { Task } from '../types'
+import { searchTask } from '../utils'
+import { type Dispatch, type SetStateAction } from 'react'
 
 type SearchProps = {
-  searchList: Task | null
+  setSearchList: Dispatch<SetStateAction<Task[] | null>>
 }
 
 export default function Search(props: SearchProps) {
+  const { setSearchList } = props
   const [search, setSearch] = useState<string>('')
-  const [searchList, setSearchList] = useState<Task | null>(null)
 
-  const handleSubmit = (event: any) => {
-    setSearch(event.target.value)
-    if (search.length >= 3) {
-      //função de requisição da busca
+  const handleSubmit = async () => {
+    if (search.trim().length >= 3) {
+      const tasks = await searchTask(search)
+      setSearchList(tasks)
+      console.log('console do searc', tasks)
+    } else {
+      setSearchList(null)
     }
   }
 
@@ -27,7 +32,9 @@ export default function Search(props: SearchProps) {
         id="search"
         placeholder="Buscar..."
         value={search}
-        onChange={(event) => handleSubmit(event)}
+        onChange={(event) => {
+          setSearch(event.target.value), handleSubmit()
+        }}
         sx={{ flexGrow: 1 }}
         startAdornment={
           <InputAdornment position="start" sx={{ color: 'text.primary' }}>

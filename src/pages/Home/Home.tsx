@@ -8,10 +8,12 @@ import AddTaskButton from '../../components/AddTaskButton'
 import { DashboardContext, Task } from '../../types'
 import { getTasks, getUserLists, devUser } from '../../utils'
 import { List } from '../../types/list'
+import { useState } from 'react'
 
 function Home() {
-  const { date, setDate, filter, setFilter, searchList } =
+  const { date, setDate, filter, setFilter } =
     useOutletContext<DashboardContext>()
+  const [searchList, setSearchList] = useState<Task[] | null>(null)
   const {
     isPending,
     error: tasksError,
@@ -28,6 +30,8 @@ function Home() {
   })
   if (categoriesError) return 'Erro'
 
+  console.log('console do home', searchList)
+
   return (
     <Stack sx={{ height: '100%' }} justifyContent="space-between">
       <Stack
@@ -43,17 +47,24 @@ function Home() {
           filter={filter}
           setFilter={setFilter}
           categories={categories || []}
-          searchList={searchList}
+          setSearchList={setSearchList}
         />
-        {isPending && <div>Carregando...</div>}
-        {filter ? (
+
+        {isPending ? (
+          <div>Carregando...</div>
+        ) : (
+          // Renderiza Lista com base no filtro ou na searchList
           <Lista
-            tasksList={tasks?.filter((task) => task.listId === filter)}
+            tasksList={
+              searchList && searchList.length > 0 // Verifica se searchList tem itens
+                ? searchList
+                : filter // Se não houver searchList, verifica o filtro
+                ? tasks?.filter((task) => task.listId === filter)
+                : tasks
+            }
             categories={categories || []}
             date={date}
           />
-        ) : (
-          <Lista tasksList={tasks} categories={categories || []} date={date} />
         )}
       </Stack>
       <AddTaskButton categories={categories || []} />

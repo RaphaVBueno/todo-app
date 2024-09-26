@@ -18,11 +18,11 @@ type HeaderProps = {
   filter: number | null
   setFilter: Dispatch<SetStateAction<number | null>>
   categories: List[]
-  searchList: Task | null
+  setSearchList: Dispatch<SetStateAction<Task[] | null>>
 }
 
 export default function Header(props: HeaderProps) {
-  const { date, setDate, filter, setFilter, categories, searchList } = props
+  const { date, setDate, filter, setFilter, categories, setSearchList } = props
 
   return (
     <Stack
@@ -50,7 +50,7 @@ export default function Header(props: HeaderProps) {
           filter={filter}
           setFilter={setFilter}
         />
-        <Search searchList={searchList} />
+        <Search setSearchList={setSearchList} />
         <CustomDatePicker date={date} setDate={setDate} />
       </Stack>
     </Stack>

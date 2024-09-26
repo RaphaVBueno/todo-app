@@ -98,3 +98,8 @@ export const updateTask = async ({
   })
   return res.data.message
 }
+
+export const searchTask = async (search: string) => {
+  const res = await api.get(`/tasks/busca/${search}`)
+  return res.data.tasks
+}
