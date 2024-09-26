@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import Header from '../../components/Header'
 import Lista from '../../components/Lista'
@@ -45,15 +46,30 @@ function Home() {
           categories={categories || []}
           searchList={searchList}
         />
-        {isPending && <div>Carregando...</div>}
-        {filter ? (
-          <Lista
-            tasksList={tasks?.filter((task) => task.listId === filter)}
-            categories={categories || []}
-            date={date}
-          />
+        {isPending ? (
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{ height: '50vh' }} // Ajuste a altura conforme necessário
+          >
+            <CircularProgress />
+          </Stack>
         ) : (
-          <Lista tasksList={tasks} categories={categories || []} date={date} />
+          <>
+            {filter ? (
+              <Lista
+                tasksList={tasks?.filter((task) => task.listId === filter)}
+                categories={categories || []}
+                date={date}
+              />
+            ) : (
+              <Lista
+                tasksList={tasks}
+                categories={categories || []}
+                date={date}
+              />
+            )}
+          </>
         )}
       </Stack>
       <AddTaskButton categories={categories || []} />
