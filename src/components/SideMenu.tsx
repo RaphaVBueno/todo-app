@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import type { Dispatch, SetStateAction } from 'react'
 import { styled } from '@mui/material/styles'
 import Avatar from '@mui/material/Avatar'
 import MuiDrawer, { drawerClasses } from '@mui/material/Drawer'
@@ -7,10 +5,8 @@ import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-
 import MenuContent from './MenuContent'
 import OptionsMenu from './OptionsMenu'
-import { api, devUser } from '../utils'
 
 const drawerWidth = 320
 
@@ -25,27 +21,9 @@ const Drawer = styled(MuiDrawer)({
   },
 })
 
-type SideMenuProps = {
-  setFilter: Dispatch<SetStateAction<number | null>>
-}
+type SideMenuProps = {}
 
 export default function SideMenu(props: SideMenuProps) {
-  const { setFilter } = props
-  const [list, setList] = useState([])
-  const user = devUser
-
-  useEffect(() => {
-    const fetchDados = async () => {
-      try {
-        const userResponse = await api.get(`/list/userList/${devUser}`)
-        setList(userResponse.data.categories)
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error)
-      }
-    }
-    fetchDados()
-  }, [user])
-
   return (
     <Drawer
       variant="permanent"
@@ -92,7 +70,7 @@ export default function SideMenu(props: SideMenuProps) {
         </Stack>
       </Box>
       <Divider />
-      <MenuContent list={list} setFilter={setFilter} />
+      <MenuContent />
     </Drawer>
   )
 }

@@ -9,6 +9,7 @@ import { DashboardContext, Task } from '../../types'
 import { getTasks, getUserLists, devUser } from '../../utils'
 import { List } from '../../types/list'
 import { useState } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 
 function Home() {
   const { date, setDate, filter, setFilter } =
@@ -51,14 +52,19 @@ function Home() {
         />
 
         {isPending ? (
-          <div>Carregando...</div>
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{ height: '50vh' }} // Ajuste a altura conforme necessário
+          >
+            <CircularProgress />
+          </Stack>
         ) : (
-          // Renderiza Lista com base no filtro ou na searchList
           <Lista
             tasksList={
-              searchList && searchList.length > 0 // Verifica se searchList tem itens
+              searchList && searchList.length > 0
                 ? searchList
-                : filter // Se não houver searchList, verifica o filtro
+                : filter
                 ? tasks?.filter((task) => task.listId === filter)
                 : tasks
             }
