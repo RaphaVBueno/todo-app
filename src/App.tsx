@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { path: 'perfil', element: <Perfil /> },
       { path: 'configuracoes', element: <Settings /> },
     ],
-  },
+  },  
 ])
 
 function App() {

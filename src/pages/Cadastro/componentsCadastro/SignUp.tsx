@@ -67,14 +67,14 @@ export default function SignUp() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('')
   const [passwordError, setPasswordError] = React.useState(false)
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('')
-  // This code only runs on the client side, to determine the system color preference
+
   React.useEffect(() => {
-    // Check if there is a preferred mode in localStorage
+ 
     const savedMode = localStorage.getItem('themeMode') as PaletteMode | null
     if (savedMode) {
       setMode(savedMode)
     } else {
-      // If no preference is found, it uses system preference
+  
       const systemPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
       ).matches
@@ -85,7 +85,7 @@ export default function SignUp() {
   const toggleColorMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark'
     setMode(newMode)
-    localStorage.setItem('themeMode', newMode) // Save the selected mode to localStorage
+    localStorage.setItem('themeMode', newMode)
   }
 
   const toggleCustomTheme = () => {
@@ -227,7 +227,7 @@ export default function SignUp() {
                 Already have an account?{' '}
                 <span>
                   <Link
-                    href="/material-ui/getting-started/templates/sign-in/"
+                    href="/login"
                     variant="body2"
                     sx={{ alignSelf: 'center' }}
                   >

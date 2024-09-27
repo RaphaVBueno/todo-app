@@ -18,6 +18,8 @@ import { GoogleIcon, FacebookIcon } from './CustomIcons'
 import AppTheme from '../../../theme/AppTheme'
 import ColorModeSelect from '../../../theme/ColorModeSelect'
 
+import { useNavigate } from 'react-router-dom'
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -66,6 +68,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('')
   const [open, setOpen] = React.useState(false)
 
+  const navigate = useNavigate()
+
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -75,8 +79,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     if (emailError || passwordError) {
-      event.preventDefault()
       return
     }
     const data = new FormData(event.currentTarget)
@@ -84,6 +89,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       email: data.get('email'),
       password: data.get('password'),
     })
+
+    navigate('/')
   }
 
   const validateInputs = () => {
@@ -202,7 +209,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               Don&apos;t have an account?{' '}
               <span>
                 <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
+                  href="/cadastro"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
