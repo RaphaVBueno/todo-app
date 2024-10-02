@@ -13,6 +13,7 @@ import {
   RecuperarSenha,
   Settings,
 } from './pages'
+import Adicionar from './pages/Adicionar/adicionar.tsx'
 import theme from './theme'
 import { queryClient } from './utils'
 
@@ -28,9 +29,11 @@ const router = createBrowserRouter([
       { index: true, path: ':date?', element: <Home /> },
       { path: 'perfil', element: <Perfil /> },
       { path: 'configuracoes', element: <Settings /> },
+      { path: 'adicionar', element: <Adicionar /> },
     ],
   },  
-])
+]);
+
 
 function App() {
   return (
