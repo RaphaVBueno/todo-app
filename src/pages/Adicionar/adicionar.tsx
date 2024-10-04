@@ -84,6 +84,9 @@ function Adicionar() {
             label="Adicionar Categoria" 
             fullWidth 
             variant="outlined" 
+            sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+            }} 
           />
           {renderList([0, 1, 2, 3])}
         </Grid>
@@ -92,7 +95,10 @@ function Adicionar() {
             label="Adicionar Tag" 
             fullWidth 
             variant="outlined" 
-            sx={{ mr: 2 }} 
+            sx={{ mr: 2,
+              '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+            }} 
           />
           {renderList([11, 12, 13, 14])}
         </Grid>
