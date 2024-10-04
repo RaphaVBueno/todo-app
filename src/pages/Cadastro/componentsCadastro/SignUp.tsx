@@ -167,7 +167,7 @@ export default function SignUp() {
               sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
             >
               <FormControl>
-                <FormLabel htmlFor="name">Full name</FormLabel>
+                <FormLabel htmlFor="name">Nome</FormLabel>
                 <TextField
                   autoComplete="name"
                   name="name"
@@ -186,7 +186,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  placeholder="your@email.com"
+                  placeholder="seu@email.com"
                   name="email"
                   autoComplete="email"
                   variant="outlined"
@@ -196,7 +196,7 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">Senha</FormLabel>
                 <TextField
                   required
                   fullWidth
@@ -213,7 +213,7 @@ export default function SignUp() {
               </FormControl>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
+                label="Quero receber atualizações por e-mail."
               />
               <Button
                 type="submit"
@@ -221,17 +221,17 @@ export default function SignUp() {
                 variant="contained"
                 onClick={validateInputs}
               >
-                Sign up
+                Inscrever-se
               </Button>
               <Typography sx={{ textAlign: 'center' }}>
-                Already have an account?{' '}
+                Já tem uma conta?{' '}
                 <span>
                   <Link
                     href="/login"
                     variant="body2"
                     sx={{ alignSelf: 'center' }}
                   >
-                    Sign in
+                    Entrar
                   </Link>
                 </span>
               </Typography>
@@ -246,7 +246,7 @@ export default function SignUp() {
                 onClick={() => alert('Sign up with Google')}
                 startIcon={<GoogleIcon />}
               >
-                Sign up with Google
+                Entrar com o Google
               </Button>
               <Button
                 fullWidth
@@ -254,7 +254,7 @@ export default function SignUp() {
                 onClick={() => alert('Sign up with Facebook')}
                 startIcon={<FacebookIcon />}
               >
-                Sign up with Facebook
+                Entrar com o Facebook
               </Button>
             </Box>
           </Card>

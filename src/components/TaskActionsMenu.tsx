@@ -18,7 +18,7 @@ type TaskActionsMenuProps = {
   taskId: number
   taskDescription: string | undefined
   taskTitle: string
-  taskListId: number | undefined //mudei para undefined na função de updatetask, arrumar bug para editar task e retirar a categoria
+  taskListId: number | undefined
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
@@ -56,7 +56,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    //gambiarra para lidar com o o bug dos inputs
     const forbiddenKeys = ['d', 't', 'c']
     if (forbiddenKeys.includes(event.key.toLowerCase())) {
       event.stopPropagation()
@@ -78,6 +77,14 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           padding: 10,
         },
       }}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
     >
       <MenuItem sx={{ p: 0, mt: 0 }}>
         <TextField
@@ -85,6 +92,10 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           label="Título da tarefa"
           variant="outlined"
           fullWidth
+          sx={{
+            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+          }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           onKeyDown={handleKeyDown}
@@ -99,6 +110,10 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           multiline
           rows={1}
           fullWidth
+          sx={{
+            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
+            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
+          }}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           onKeyDown={handleKeyDown}

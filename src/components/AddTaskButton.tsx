@@ -1,63 +1,61 @@
-import { useState } from 'react'
-import {
-  Button,
-  Menu,
-  MenuItem,
-  Box,
-  TextField,
-  Autocomplete,
-  Stack,
-} from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import { ptBR } from 'date-fns/locale'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
-import { List } from '../types/list'
-import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
-import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react';
+import { Button, Menu, MenuItem, Box, TextField, Autocomplete, Stack, } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { ptBR } from 'date-fns/locale';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { List } from '../types/list';
+import { addTask, devUser, queryClient, AddTaskParams } from '../utils';
+import { useMutation } from '@tanstack/react-query';
 
 type AddTaskButtonProps = {
-  categories: List[]
-}
+  categories: List[];
+};
 
-const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
+const Tag = [
+  { title: 'Urgente' },
+  { title: 'Nao sei' }
+];
 
 function AddTaskButton(props: AddTaskButtonProps) {
-  const { categories } = props
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [dueDate, setDueDate] = useState<Date | null>(null)
-  const isMenuOpen = Boolean(anchorEl)
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string | null>(null)
-  const [listId, setListId] = useState<number | null>(null)
+  const { categories } = props;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string | null>(null);
+  const [listId, setListId] = useState<number | null>(null);
+  
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-  })
+  });
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    //gambiarra para lidar com o o bug dos inputs
-    const forbiddenKeys = ['d', 't', 'c']
+    // Gambiarra para lidar com o o bug dos inputs
+    const forbiddenKeys = ['d', 't', 'c'];
     if (forbiddenKeys.includes(event.key.toLowerCase())) {
-      event.stopPropagation()
+      event.stopPropagation();
     }
-  }
+  };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-    setAnchorEl(event.currentTarget)
-  const handleClose = () => setAnchorEl(null)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => setAnchorEl(null);
 
   const handleSubmit = () => {
-    mutate({ title, dueDate, userId: devUser, description, listId })
-    handleClose()
-    setTitle('')
-    setDueDate(null)
-    setDescription(null)
-    setListId(null)
-  }
+    mutate({ title, dueDate, userId: devUser, description, listId });
+    handleClose();
+    setTitle('');
+    setDueDate(null);
+    setDescription(null);
+    setListId(null);
+  };
 
   return (
     <Box sx={{ maxWidth: { md: '50%' }, mb: 4 }}>
@@ -74,9 +72,10 @@ function AddTaskButton(props: AddTaskButtonProps) {
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         onKeyDown={handleKeyDown}
+        sx={{ mt: '-62px' }}
         slotProps={{
           paper: {
             sx: {
@@ -129,7 +128,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             getOptionLabel={(option) => option.name}
             onChange={(event, newValue) => {
               if (newValue) {
-                setListId(newValue.id)
+                setListId(newValue.id);
               }
             }}
             onKeyDown={handleKeyDown}
@@ -171,10 +170,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
           />
         </MenuItem>
         <MenuItem>
-          <LocalizationProvider
-            dateAdapter={AdapterDateFns}
-            adapterLocale={ptBR}
-          >
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
             <DateCalendar
               value={dueDate}
               onChange={setDueDate}
@@ -197,12 +193,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             />
           </LocalizationProvider>
         </MenuItem>
-        <Stack
-          direction="row"
-          spacing={5}
-          justifyContent="center"
-          sx={{ mt: '17px' }}
-        >
+        <Stack direction="row" spacing={5} justifyContent="center" sx={{ mt: '17px' }}>
           <Button
             variant="outlined"
             color="primary"
@@ -212,17 +203,17 @@ function AddTaskButton(props: AddTaskButtonProps) {
             Cancelar
           </Button>
           <Button
-            variant="outlined"
+            variant="contained"
             color="primary"
             onClick={handleSubmit}
             sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
           >
-            Salvar
+            Adicionar
           </Button>
         </Stack>
       </Menu>
     </Box>
-  )
+  );
 }
 
-export default AddTaskButton
+export default AddTaskButton;
