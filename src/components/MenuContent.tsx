@@ -9,10 +9,12 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import LogoutIcon from '@mui/icons-material/Logout'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 const mainListItems = [
   { text: 'Pagina Inicial', icon: <HomeRoundedIcon />, route: '/' },
   { text: 'Meu Perfil', icon: <PeopleRoundedIcon />, route: '/perfil' },
+  { text: 'Gerenciar Tag e Categoria', icon: <AddCircleIcon />, route: '/adicionar' },
   { text: 'Configurações', icon: <SettingsRoundedIcon />, route: '/configuracoes' },
   { text: 'Sair', icon: <LogoutIcon />, route: '/login' },
 ]
@@ -25,7 +27,7 @@ export default function MenuContent() {
     navigate(route)
   }
 
-  return (  
+  return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
