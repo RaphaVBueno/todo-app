@@ -1,12 +1,5 @@
 import { useState } from 'react'
-import {
-  Button,
-  Menu,
-  Box,
-  TextField,
-  Autocomplete,
-  Stack,
-} from '@mui/material'
+import { Button, Menu, Box, TextField, Stack } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { ptBR } from 'date-fns/locale'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
@@ -15,12 +8,12 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { List } from '../types/list'
 import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
+import CustomAutoComplete from './CustomAutoComplete'
+import BotaoPadrao from './BotaoPadrao'
 
 type AddTaskButtonProps = {
   categories: List[]
 }
-
-const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
 function AddTaskButton(props: AddTaskButtonProps) {
   const { categories } = props
@@ -28,7 +21,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const [dueDate, setDueDate] = useState<Date | null>(null)
   const isMenuOpen = Boolean(anchorEl)
   const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string | null>(null)
+  const [description, setDescription] = useState<string | null>('')
   const [listId, setListId] = useState<number | null>(null)
 
   const { mutate } = useMutation({
@@ -37,14 +30,6 @@ function AddTaskButton(props: AddTaskButtonProps) {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },
   })
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    // Gambiarra para lidar com o o bug dos inputs
-    const forbiddenKeys = ['d', 't', 'c']
-    if (forbiddenKeys.includes(event.key.toLowerCase())) {
-      event.stopPropagation()
-    }
-  }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -57,7 +42,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
     handleClose()
     setTitle('')
     setDueDate(null)
-    setDescription(null)
+    setDescription('')
     setListId(null)
   }
 
@@ -78,7 +63,6 @@ function AddTaskButton(props: AddTaskButtonProps) {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-        onKeyDown={handleKeyDown}
         sx={{ mt: '-62px' }}
         slotProps={{
           paper: {
@@ -100,7 +84,6 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            onKeyDown={handleKeyDown}
             sx={{
               '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
@@ -117,62 +100,13 @@ function AddTaskButton(props: AddTaskButtonProps) {
             fullWidth
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            onKeyDown={handleKeyDown}
             sx={{
               '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
             }}
           />
         </Box>
-        <Box sx={{ p: 0, mt: '10px' }}>
-          <Autocomplete
-            disablePortal
-            options={categories}
-            fullWidth
-            getOptionLabel={(option) => option.name}
-            onChange={(_, newValue) => {
-              if (newValue) {
-                setListId(newValue.id)
-              }
-            }}
-            onKeyDown={handleKeyDown}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Categoria"
-                sx={{
-                  '& .MuiInputBase-root': {
-                    height: '44px',
-                    fontSize: '1.1rem',
-                  },
-                  '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-                }}
-              />
-            )}
-          />
-        </Box>
-        <Box sx={{ p: 0, mt: '10px', mb: '30px' }}>
-          <Autocomplete
-            disablePortal
-            fullWidth
-            options={Tag}
-            getOptionLabel={(option) => option.title}
-            onKeyDown={handleKeyDown}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Tag"
-                sx={{
-                  '& .MuiInputBase-root': {
-                    height: '44px',
-                    fontSize: '1.1rem',
-                  },
-                  '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-                }}
-              />
-            )}
-          />
-        </Box>
+        <CustomAutoComplete categories={categories} setListId={setListId} />
         <Box>
           <LocalizationProvider
             dateAdapter={AdapterDateFns}
@@ -206,14 +140,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
           justifyContent="center"
           sx={{ mt: '17px' }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleClose}
-            sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
-          >
-            Cancelar
-          </Button>
+          <BotaoPadrao action={handleClose} buttonName="Cancelar" />
           <Button
             variant="contained"
             color="primary"

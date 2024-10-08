@@ -55,14 +55,11 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     setAnchorEl(null)
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {}
-
   return (
     <Menu
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={handleClose}
-      onKeyDown={handleKeyDown}
       PaperProps={{
         style: {
           width: 400,
@@ -93,7 +90,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          onKeyDown={handleKeyDown}
         />
       </Box>
 
@@ -111,7 +107,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           }}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          onKeyDown={handleKeyDown}
         />
       </Box>
 
@@ -121,15 +116,14 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           options={[...categories, { id: null, name: 'Remover Categoria' }]}
           getOptionLabel={(option) => option.name}
           value={categories.find((category) => category.id === listId) || null}
-          onKeyDown={handleKeyDown}
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             if (newValue) {
               setListId(newValue.id)
             } else {
               setListId(null)
             }
           }}
-          onClose={(event, reason) => {
+          onClose={(_, reason) => {
             if (reason === 'blur') {
               setListId(listId)
             }
@@ -153,7 +147,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           disablePortal
           options={Tag}
           getOptionLabel={(option) => option.title}
-          onKeyDown={handleKeyDown}
           renderInput={(params) => (
             <TextField
               {...params}
