@@ -23,7 +23,6 @@ export default function FilterButton(props: FilterButtonProps) {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLDivElement>(null)
   const [filterName, setFilterName] = useState<string>('Filtro')
-  //formatar botão
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -88,12 +87,12 @@ export default function FilterButton(props: FilterButtonProps) {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
                   <MenuItem
-                    key={'Desabilitar Filtro'}
+                    key={'Todos'}
                     onClick={() => {
                       setFilterName('Filtro'), setFilter(null), setOpen(false) //melhor dentro de uma função?
                     }}
                   >
-                    Desabilitar Filtro
+                    Todos
                   </MenuItem>
                   {categories.map((option) => (
                     <MenuItem

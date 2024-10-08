@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   Menu,
-  MenuItem,
+  Box,
   TextField,
   Autocomplete,
   Button,
@@ -55,12 +55,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     setAnchorEl(null)
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    const forbiddenKeys = ['d', 't', 'c']
-    if (forbiddenKeys.includes(event.key.toLowerCase())) {
-      event.stopPropagation()
-    }
-  }
+  const handleKeyDown = (event: React.KeyboardEvent) => {}
 
   return (
     <Menu
@@ -86,7 +81,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         horizontal: 'right',
       }}
     >
-      <MenuItem sx={{ p: 0, mt: 0 }}>
+      <Box sx={{ p: 0, mt: 0 }}>
         <TextField
           id="outlined-basic"
           label="Título da tarefa"
@@ -100,9 +95,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           onChange={(event) => setTitle(event.target.value)}
           onKeyDown={handleKeyDown}
         />
-      </MenuItem>
+      </Box>
 
-      <MenuItem sx={{ p: 0, mt: '10px' }}>
+      <Box sx={{ p: 0, mt: '10px' }}>
         <TextField
           id="outlined-multiline"
           label="Descrição"
@@ -118,9 +113,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           onChange={(event) => setDescription(event.target.value)}
           onKeyDown={handleKeyDown}
         />
-      </MenuItem>
+      </Box>
 
-      <MenuItem sx={{ p: 0, mt: '10px' }}>
+      <Box sx={{ p: 0, mt: '10px' }}>
         <Autocomplete
           disablePortal
           options={[...categories, { id: null, name: 'Remover Categoria' }]}
@@ -151,9 +146,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           )}
           fullWidth
         />
-      </MenuItem>
+      </Box>
 
-      <MenuItem sx={{ p: 0, mt: '10px', mb: '30px' }}>
+      <Box sx={{ p: 0, mt: '10px', mb: '30px' }}>
         <Autocomplete
           disablePortal
           options={Tag}
@@ -171,7 +166,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           )}
           fullWidth
         />
-      </MenuItem>
+      </Box>
 
       <Stack
         direction="row"

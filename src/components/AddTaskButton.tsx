@@ -1,61 +1,65 @@
-import { useState } from 'react';
-import { Button, Menu, MenuItem, Box, TextField, Autocomplete, Stack, } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { ptBR } from 'date-fns/locale';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { List } from '../types/list';
-import { addTask, devUser, queryClient, AddTaskParams } from '../utils';
-import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react'
+import {
+  Button,
+  Menu,
+  Box,
+  TextField,
+  Autocomplete,
+  Stack,
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import { ptBR } from 'date-fns/locale'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
+import { List } from '../types/list'
+import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
+import { useMutation } from '@tanstack/react-query'
 
 type AddTaskButtonProps = {
-  categories: List[];
-};
+  categories: List[]
+}
 
-const Tag = [
-  { title: 'Urgente' },
-  { title: 'Nao sei' }
-];
+const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
 function AddTaskButton(props: AddTaskButtonProps) {
-  const { categories } = props;
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [dueDate, setDueDate] = useState<Date | null>(null);
-  const isMenuOpen = Boolean(anchorEl);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string | null>(null);
-  const [listId, setListId] = useState<number | null>(null);
-  
+  const { categories } = props
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [dueDate, setDueDate] = useState<Date | null>(null)
+  const isMenuOpen = Boolean(anchorEl)
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string | null>(null)
+  const [listId, setListId] = useState<number | null>(null)
+
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },
-  });
+  })
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     // Gambiarra para lidar com o o bug dos inputs
-    const forbiddenKeys = ['d', 't', 'c'];
+    const forbiddenKeys = ['d', 't', 'c']
     if (forbiddenKeys.includes(event.key.toLowerCase())) {
-      event.stopPropagation();
+      event.stopPropagation()
     }
-  };
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
-  const handleClose = () => setAnchorEl(null);
+  const handleClose = () => setAnchorEl(null)
 
   const handleSubmit = () => {
-    mutate({ title, dueDate, userId: devUser, description, listId });
-    handleClose();
-    setTitle('');
-    setDueDate(null);
-    setDescription(null);
-    setListId(null);
-  };
+    mutate({ title, dueDate, userId: devUser, description, listId })
+    handleClose()
+    setTitle('')
+    setDueDate(null)
+    setDescription(null)
+    setListId(null)
+  }
 
   return (
     <Box sx={{ maxWidth: { md: '50%' }, mb: 4 }}>
@@ -88,7 +92,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
           },
         }}
       >
-        <MenuItem sx={{ p: 0, mt: 0 }}>
+        <Box sx={{ p: 0, mt: 0 }}>
           <TextField
             id="outlined-basic"
             label="Título da tarefa"
@@ -102,8 +106,8 @@ function AddTaskButton(props: AddTaskButtonProps) {
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
             }}
           />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
+        </Box>
+        <Box sx={{ p: 0, mt: '10px' }}>
           <TextField
             id="outlined-multiline"
             label="Descrição"
@@ -119,16 +123,16 @@ function AddTaskButton(props: AddTaskButtonProps) {
               '& .MuiFormLabel-root': { fontSize: '1.1rem' },
             }}
           />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px' }}>
+        </Box>
+        <Box sx={{ p: 0, mt: '10px' }}>
           <Autocomplete
             disablePortal
             options={categories}
             fullWidth
             getOptionLabel={(option) => option.name}
-            onChange={(event, newValue) => {
+            onChange={(_, newValue) => {
               if (newValue) {
-                setListId(newValue.id);
+                setListId(newValue.id)
               }
             }}
             onKeyDown={handleKeyDown}
@@ -146,8 +150,8 @@ function AddTaskButton(props: AddTaskButtonProps) {
               />
             )}
           />
-        </MenuItem>
-        <MenuItem sx={{ p: 0, mt: '10px', mb: '30px' }}>
+        </Box>
+        <Box sx={{ p: 0, mt: '10px', mb: '30px' }}>
           <Autocomplete
             disablePortal
             fullWidth
@@ -168,9 +172,12 @@ function AddTaskButton(props: AddTaskButtonProps) {
               />
             )}
           />
-        </MenuItem>
-        <MenuItem>
-          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+        </Box>
+        <Box>
+          <LocalizationProvider
+            dateAdapter={AdapterDateFns}
+            adapterLocale={ptBR}
+          >
             <DateCalendar
               value={dueDate}
               onChange={setDueDate}
@@ -192,8 +199,13 @@ function AddTaskButton(props: AddTaskButtonProps) {
               }}
             />
           </LocalizationProvider>
-        </MenuItem>
-        <Stack direction="row" spacing={5} justifyContent="center" sx={{ mt: '17px' }}>
+        </Box>
+        <Stack
+          direction="row"
+          spacing={5}
+          justifyContent="center"
+          sx={{ mt: '17px' }}
+        >
           <Button
             variant="outlined"
             color="primary"
@@ -213,7 +225,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
         </Stack>
       </Menu>
     </Box>
-  );
+  )
 }
 
-export default AddTaskButton;
+export default AddTaskButton

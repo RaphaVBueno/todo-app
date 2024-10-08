@@ -19,7 +19,6 @@ export default function Search(props: SearchProps) {
     if (search.trim().length >= 3) {
       const tasks = await searchTask(search)
       setSearchList(tasks)
-      console.log('console do searc', tasks)
     } else {
       setSearchList(null)
     }

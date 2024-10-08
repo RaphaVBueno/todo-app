@@ -31,8 +31,6 @@ function Home() {
   })
   if (categoriesError) return 'Erro'
 
-  console.log('console do home', searchList)
-
   return (
     <Stack sx={{ height: '100%' }} justifyContent="space-between">
       <Stack

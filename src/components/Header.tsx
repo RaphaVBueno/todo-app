@@ -1,6 +1,7 @@
+import { type Dispatch, type SetStateAction } from 'react'
+import { useMemo } from 'react'
 import Stack from '@mui/material/Stack'
 import CustomDatePicker from './CustomDatePicker'
-import { type Dispatch, type SetStateAction } from 'react'
 import Search from './Search'
 import { Typography } from '@mui/material'
 import { showDate } from '../utils'
@@ -23,6 +24,7 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
   const { date, setDate, filter, setFilter, categories, setSearchList } = props
+  const greeting = useMemo(() => greetings(), [])
 
   return (
     <Stack
@@ -38,7 +40,7 @@ export default function Header(props: HeaderProps) {
     >
       <Stack>
         <Typography variant="h3" component="h1">
-          {greetings()}
+          {greeting}
         </Typography>
         <Typography variant="body1" component="p">
           {showDate(date)}
