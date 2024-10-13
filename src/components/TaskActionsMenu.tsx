@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
-import {
-  Menu,
-  Box,
-  TextField,
-  Autocomplete,
-  Button,
-  Stack,
-} from '@mui/material'
+import { Menu, Box, TextField, Stack } from '@mui/material'
 import { List } from '../types/list'
 import { devUser, queryClient, updateTask, updateTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
+import BotaoPadrao from './BotaoPadrao'
+import AutoCompleteTaskActions from './AutoCompleteTaskActions'
+import InputPadrao from './InputPadrao'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
@@ -32,9 +28,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     taskListId,
   } = props
   const [listId, setListId] = useState<number | null | undefined>(taskListId)
-  const [title, setTitle] = useState<string | null>(taskTitle)
-  const [description, setDescription] = useState<string | null>(
-    taskDescription ? taskDescription : null
+  const [title, setTitle] = useState<string>(taskTitle)
+  const [description, setDescription] = useState<string>(
+    taskDescription ? taskDescription : ''
   )
   const [tagId, setTagId] = useState<number | null>(null)
   const { mutate } = useMutation({
@@ -48,8 +44,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     mutate({ taskId, title, description, listId, tagId, userId: devUser })
     handleClose()
   }
-
-  const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -78,88 +72,22 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         horizontal: 'right',
       }}
     >
-      <Box sx={{ p: 0, mt: 0 }}>
-        <TextField
-          id="outlined-basic"
-          label="Título da tarefa"
-          variant="outlined"
-          fullWidth
-          sx={{
-            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-          }}
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
-      </Box>
+      <InputPadrao
+        action={setTitle}
+        inputName="Título da tarefa"
+        value={title}
+      />
+      <InputPadrao
+        action={setDescription}
+        inputName="Descrição"
+        value={description}
+      />
 
-      <Box sx={{ p: 0, mt: '10px' }}>
-        <TextField
-          id="outlined-multiline"
-          label="Descrição"
-          variant="outlined"
-          multiline
-          rows={1}
-          fullWidth
-          sx={{
-            '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-            '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-          }}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
-      </Box>
-
-      <Box sx={{ p: 0, mt: '10px' }}>
-        <Autocomplete
-          disablePortal
-          options={[...categories, { id: null, name: 'Remover Categoria' }]}
-          getOptionLabel={(option) => option.name}
-          value={categories.find((category) => category.id === listId) || null}
-          onChange={(_, newValue) => {
-            if (newValue) {
-              setListId(newValue.id)
-            } else {
-              setListId(null)
-            }
-          }}
-          onClose={(_, reason) => {
-            if (reason === 'blur') {
-              setListId(listId)
-            }
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Categoria"
-              sx={{
-                '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-              }}
-            />
-          )}
-          fullWidth
-        />
-      </Box>
-
-      <Box sx={{ p: 0, mt: '10px', mb: '30px' }}>
-        <Autocomplete
-          disablePortal
-          options={Tag}
-          getOptionLabel={(option) => option.title}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Tag"
-              sx={{
-                '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-              }}
-            />
-          )}
-          fullWidth
-        />
-      </Box>
+      <AutoCompleteTaskActions
+        categories={categories}
+        setListId={setListId}
+        listId={listId}
+      />
 
       <Stack
         direction="row"
@@ -167,23 +95,8 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         justifyContent="center"
         sx={{ mt: '45px' }}
       >
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleSubmit}
-          sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
-        >
-          Confirmar
-        </Button>
-
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleClose}
-          sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
-        >
-          Cancelar
-        </Button>
+        <BotaoPadrao action={handleSubmit} buttonName="Confirmar" />
+        <BotaoPadrao action={handleClose} buttonName="Cancelar" />
       </Stack>
     </Menu>
   )

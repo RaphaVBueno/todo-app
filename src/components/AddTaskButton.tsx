@@ -8,8 +8,9 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { List } from '../types/list'
 import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
-import CustomAutoComplete from './CustomAutoComplete'
+import AutoCompleteAddTask from './AutoCompleteAddTask'
 import BotaoPadrao from './BotaoPadrao'
+import InputPadrao from './InputPadrao'
 
 type AddTaskButtonProps = {
   categories: List[]
@@ -21,7 +22,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const [dueDate, setDueDate] = useState<Date | null>(null)
   const isMenuOpen = Boolean(anchorEl)
   const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string | null>('')
+  const [description, setDescription] = useState<string>('')
   const [listId, setListId] = useState<number | null>(null)
 
   const { mutate } = useMutation({
@@ -76,37 +77,21 @@ function AddTaskButton(props: AddTaskButtonProps) {
           },
         }}
       >
-        <Box sx={{ p: 0, mt: 0 }}>
-          <TextField
-            id="outlined-basic"
-            label="Título da tarefa"
-            variant="outlined"
-            fullWidth
+        <Box sx={{ p: 0, mt: '10px' }}>
+          <InputPadrao
+            action={setTitle}
+            inputName="Título da tarefa"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            sx={{
-              '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-            }}
           />
         </Box>
         <Box sx={{ p: 0, mt: '10px' }}>
-          <TextField
-            id="outlined-multiline"
-            label="Descrição"
-            variant="outlined"
-            multiline
-            rows={1}
-            fullWidth
+          <InputPadrao
+            action={setDescription}
+            inputName="Descrição"
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            sx={{
-              '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-            }}
           />
         </Box>
-        <CustomAutoComplete categories={categories} setListId={setListId} />
+        <AutoCompleteAddTask categories={categories} setListId={setListId} />
         <Box>
           <LocalizationProvider
             dateAdapter={AdapterDateFns}
@@ -141,14 +126,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
           sx={{ mt: '17px' }}
         >
           <BotaoPadrao action={handleClose} buttonName="Cancelar" />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
-          >
-            Adicionar
-          </Button>
+          <BotaoPadrao action={handleSubmit} buttonName="Adicionar" />
         </Stack>
       </Menu>
     </Box>

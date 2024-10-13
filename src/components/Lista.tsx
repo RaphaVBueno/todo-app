@@ -210,6 +210,14 @@ export default function Lista(props: ListaProps) {
                         )}
                       </>
                     }
+                    secondary={`${
+                      task.dueDate
+                        ? format(
+                            addDays(new Date(task.dueDate), 1),
+                            'dd/MM/yyyy'
+                          )
+                        : 'Sem data para conclusão'
+                    }: ${task.description ? task.description : ''}`}
                     sx={{
                       textDecoration: task.status ? 'line-through' : 'none',
                     }}

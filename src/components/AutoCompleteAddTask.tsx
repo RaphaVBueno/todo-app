@@ -3,12 +3,12 @@ import { Fragment } from 'react'
 import { List } from '../types/list'
 import type { Dispatch, SetStateAction } from 'react'
 
-type CustomAutoCompleteProps = {
+type AutoCompleteAddTask = {
   categories: List[]
   setListId: Dispatch<SetStateAction<number | null>>
 }
 
-function CustomAutoComplete(props: CustomAutoCompleteProps) {
+function AutoCompleteAddTask(props: AutoCompleteAddTask) {
   const { categories, setListId } = props
 
   const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
@@ -66,4 +66,4 @@ function CustomAutoComplete(props: CustomAutoCompleteProps) {
   )
 }
 
-export default CustomAutoComplete
+export default AutoCompleteAddTask
