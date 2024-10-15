@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import BotaoPadrao from './BotaoPadrao'
 import AutoCompleteTaskActions from './AutoCompleteTaskActions'
 import InputPadrao from './InputPadrao'
+import { Tag } from '../types/tag'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
@@ -15,6 +16,7 @@ type TaskActionsMenuProps = {
   taskDescription: string | undefined
   taskTitle: string
   taskListId: number | undefined
+  tags: Tag[]
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
@@ -26,6 +28,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     taskDescription,
     taskTitle,
     taskListId,
+    tags,
   } = props
   const [listId, setListId] = useState<number | null | undefined>(taskListId)
   const [title, setTitle] = useState<string>(taskTitle)
@@ -87,6 +90,9 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         categories={categories}
         setListId={setListId}
         listId={listId}
+        tags={tags}
+        tagId={tagId}
+        setTagId={setTagId}
       />
 
       <Stack

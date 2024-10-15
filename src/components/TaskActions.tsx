@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { deleteTask, devUser, queryClient } from '../utils'
 import { List } from '../types/list'
 import { TaskActionsMenu } from './TaskActionsMenu'
+import { Tag } from '../types/tag'
 
 type TaskActionsProps = {
   taskId: number
@@ -12,10 +13,12 @@ type TaskActionsProps = {
   taskDescription: string | undefined
   taskTitle: string
   taskListId: number | undefined
+  tags: Tag[]
 }
 
 export default function TaskActions(props: TaskActionsProps) {
-  const { taskId, categories, taskDescription, taskTitle, taskListId } = props
+  const { taskId, categories, taskDescription, taskTitle, taskListId, tags } =
+    props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(devUser, taskId),
@@ -88,6 +91,7 @@ export default function TaskActions(props: TaskActionsProps) {
         taskDescription={taskDescription}
         taskTitle={taskTitle}
         taskListId={taskListId}
+        tags={tags}
       />
     </Box>
   )

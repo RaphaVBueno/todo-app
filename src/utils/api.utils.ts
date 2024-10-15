@@ -66,6 +66,11 @@ export const getUserLists = async (user: number) => {
   return res.data.categories
 }
 
+export const getUserTags = async (user: number) => {
+  const res = await api.get(`/tag/usertaglist/${user}`)
+  return res.data.tags
+}
+
 export const deleteTask = async (userId: number, id: number) => {
   const res = await api.delete(`/tasks/${id}`, { params: { id, userId } })
   return res.data.message
@@ -88,6 +93,7 @@ export const updateTask = async ({
   tagId,
   userId,
 }: updateTaskParams) => {
+  console.log(tagId)
   const res = await api.post('/tasks/${id}/update', {
     id: taskId,
     title,

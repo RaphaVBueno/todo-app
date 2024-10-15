@@ -6,10 +6,11 @@ import Header from '../../components/Header'
 import Lista from '../../components/Lista'
 import AddTaskButton from '../../components/AddTaskButton'
 import { DashboardContext, Task } from '../../types'
-import { getTasks, getUserLists, devUser } from '../../utils'
+import { getTasks, getUserLists, devUser, getUserTags } from '../../utils'
 import { List } from '../../types/list'
 import { useState } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
+import { Tag } from '../../types/tag'
 
 function Home() {
   const { date, setDate, filter, setFilter } =
@@ -30,6 +31,12 @@ function Home() {
     queryFn: () => getUserLists(devUser),
   })
   if (categoriesError) return 'Erro'
+
+  const { error: tagsError, data: tags } = useQuery<Tag[]>({
+    queryKey: ['tag'],
+    queryFn: () => getUserTags(devUser),
+  })
+  if (tagsError) return 'Erro'
 
   return (
     <Stack sx={{ height: '100%' }} justifyContent="space-between">
@@ -53,7 +60,7 @@ function Home() {
           <Stack
             alignItems="center"
             justifyContent="center"
-            sx={{ height: '50vh' }} // Ajuste a altura conforme necessário
+            sx={{ height: '50vh' }}
           >
             <CircularProgress />
           </Stack>
@@ -68,6 +75,7 @@ function Home() {
             }
             categories={categories || []}
             date={date}
+            tags={tags || []}
           />
         )}
       </Stack>

@@ -9,21 +9,24 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material'
+import Chip from '@mui/material/Chip'
 import TaskActions from './TaskActions'
 import { updateTaskStatus, queryClient } from '../utils'
 import { Task } from '../types'
 import { List } from '../types/list'
 import { format, addDays } from 'date-fns'
 import Brightness1Icon from '@mui/icons-material/Brightness1'
+import { Tag } from '../types/tag'
 
 type ListaProps = {
   tasksList: Task[] | null | undefined
   categories: List[]
   date: Date | null
+  tags: Tag[]
 }
 
 export default function Lista(props: ListaProps) {
-  const { tasksList, categories, date } = props
+  const { tasksList, categories, date, tags } = props
   const { mutate } = useMutation({
     mutationFn: updateTaskStatus,
     onSuccess: () => {
@@ -76,6 +79,7 @@ export default function Lista(props: ListaProps) {
                     taskDescription={task.description}
                     taskTitle={task.title}
                     taskListId={task.listId}
+                    tags={tags}
                   />
                 }
                 disablePadding
@@ -100,6 +104,13 @@ export default function Lista(props: ListaProps) {
                     primary={
                       <>
                         {task.title}{' '}
+                        {task.tags ? (
+                          task.tags.map((tag) => (
+                            <Chip label={tag.name} size="small" />
+                          ))
+                        ) : (
+                          <div></div>
+                        )}
                         {task.listId ? (
                           <Brightness1Icon
                             style={{
@@ -166,6 +177,7 @@ export default function Lista(props: ListaProps) {
                     taskDescription={task.description}
                     taskTitle={task.title}
                     taskListId={task.listId}
+                    tags={tags}
                   />
                 }
                 disablePadding
