@@ -2,16 +2,17 @@ import { Box, TextField, Autocomplete } from '@mui/material'
 import { Fragment } from 'react'
 import { List } from '../types/list'
 import type { Dispatch, SetStateAction } from 'react'
+import { Tag } from '../types/tag'
 
 type AutoCompleteAddTask = {
   categories: List[]
   setListId: Dispatch<SetStateAction<number | null>>
+  tags: Tag[]
+  setTagId: Dispatch<SetStateAction<number | null>>
 }
 
 function AutoCompleteAddTask(props: AutoCompleteAddTask) {
-  const { categories, setListId } = props
-
-  const Tag = [{ title: 'Urgente' }, { title: 'Nao sei' }]
+  const { categories, setListId, tags, setTagId } = props
 
   return (
     <Fragment>
@@ -44,9 +45,14 @@ function AutoCompleteAddTask(props: AutoCompleteAddTask) {
       <Box sx={{ p: 0, mt: '10px', mb: '30px' }}>
         <Autocomplete
           disablePortal
+          options={tags}
           fullWidth
-          options={Tag}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option.name}
+          onChange={(_, newValue) => {
+            if (newValue) {
+              setTagId(newValue.id)
+            }
+          }}
           renderInput={(params) => (
             <TextField
               {...params}

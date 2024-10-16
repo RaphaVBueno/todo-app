@@ -11,19 +11,22 @@ import { useMutation } from '@tanstack/react-query'
 import AutoCompleteAddTask from './AutoCompleteAddTask'
 import BotaoPadrao from './BotaoPadrao'
 import InputPadrao from './InputPadrao'
+import { Tag } from '../types/tag'
 
 type AddTaskButtonProps = {
   categories: List[]
+  tags: Tag[]
 }
 
 function AddTaskButton(props: AddTaskButtonProps) {
-  const { categories } = props
+  const { categories, tags } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [dueDate, setDueDate] = useState<Date | null>(null)
   const isMenuOpen = Boolean(anchorEl)
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [listId, setListId] = useState<number | null>(null)
+  const [tagId, SetTagId] = useState<number | null>(null)
 
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
@@ -39,12 +42,13 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const handleClose = () => setAnchorEl(null)
 
   const handleSubmit = () => {
-    mutate({ title, dueDate, userId: devUser, description, listId })
+    mutate({ title, dueDate, userId: devUser, description, listId, tagId })
     handleClose()
     setTitle('')
     setDueDate(null)
     setDescription('')
     setListId(null)
+    SetTagId(null)
   }
 
   return (
@@ -91,7 +95,12 @@ function AddTaskButton(props: AddTaskButtonProps) {
             value={description}
           />
         </Box>
-        <AutoCompleteAddTask categories={categories} setListId={setListId} />
+        <AutoCompleteAddTask
+          categories={categories}
+          setListId={setListId}
+          tags={tags}
+          setTagId={SetTagId}
+        />
         <Box>
           <LocalizationProvider
             dateAdapter={AdapterDateFns}

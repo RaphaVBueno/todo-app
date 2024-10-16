@@ -79,7 +79,7 @@ function Home() {
           />
         )}
       </Stack>
-      <AddTaskButton categories={categories || []} />
+      <AddTaskButton categories={categories || []} tags={tags || []} />
     </Stack>
   )
 }
