@@ -24,7 +24,6 @@ export type AddTaskParams = {
   userId: number
   description: string | null
   listId: number | null
-  tagId: number | null
 }
 
 export const addTask = async ({
@@ -33,19 +32,17 @@ export const addTask = async ({
   userId,
   description,
   listId,
-  tagId,
 }: AddTaskParams) => {
   if (!dueDate) {
     dueDate = toZonedTime(new Date(), 'America/Sao_Paulo')
   }
-
+  console.log(dueDate)
   const res = await api.post('/tasks/add', {
     title,
     dueDate: dueDate ? format(dueDate, 'yyyy-MM-dd') : null,
     userId,
     description,
     listId,
-    tagId,
   })
   return res.data.message
 }

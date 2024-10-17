@@ -1,110 +1,101 @@
-import { 
-  Card, 
-  TextField, 
-  Grid, 
-  Tooltip, 
-  IconButton, 
-  List, 
-  ListItem, 
-  ListItemButton, 
-  ListItemText 
-} from '@mui/material'; 
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { TextField, Grid, IconButton, Tooltip, Box } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+
+const columns = [
+  { field: 'desk', headerName: 'Desk', width: 150 },
+  {
+    field: 'quantity',
+    headerName: 'Quantity',
+    flex: 1,
+    minWidth: 100,
+    align: 'center',
+  },
+  {
+    field: 'actions',
+    headerName: '',
+    width: 150,
+    renderCell: (params) => (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          marginRight: '16px',
+          marginTop: '5px',
+        }}
+      >
+        <Tooltip
+          title="Editar"
+          placement="top"
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, -14],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <IconButton edge="end" aria-label="edit">
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip
+          title="Deletar"
+          placement="top"
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, -14],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <IconButton edge="end" aria-label="delete" sx={{ ml: 2 }}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
+  },
+]
+
+const rows = [
+  { id: 1, desk: 'Desk 1', quantity: 10 },
+  { id: 2, desk: 'Desk 2', quantity: 20 },
+]
 
 function Adicionar() {
-  const renderList = (items) => {
-    return (
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {items.map((value) => {
-          const labelId = `list-label-${value}`;
-
-          return (
-            <ListItem key={value} disablePadding>
-              <ListItemButton dense>
-                <ListItemText id={labelId} primary={`Item ${value}`} />
-                <Tooltip
-                  title="Editar"
-                  placement="top"
-                  slotProps={{
-                    popper: {
-                      modifiers: [
-                        {
-                          name: 'offset',
-                          options: {
-                            offset: [0, -14],
-                          },
-                        },
-                      ],
-                    },
-                  }}
-                >
-                  <IconButton edge="end" aria-label="edit">
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-
-                <Tooltip
-                  title="Deletar"
-                  placement="top"
-                  slotProps={{
-                    popper: {
-                      modifiers: [
-                        {
-                          name: 'offset',
-                          options: {
-                            offset: [0, -14],
-                          },
-                        },
-                      ],
-                    },
-                  }}
-                >
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    sx={{ ml: 1, mr: '-16px' }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
-
   return (
-    <Card sx={{ maxWidth: 600, margin: 'auto', mt: 5, p: 2 }}>
-      <Grid container spacing={2}>
+    <div style={{ paddingTop: '16px' }}>
+      <Grid container spacing={4}>
         <Grid item xs={6}>
-          <TextField 
-            label="Adicionar Categoria" 
-            fullWidth 
-            variant="outlined" 
-            sx={{ '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-            }} 
-          />
-          {renderList([0, 1, 2, 3])}
+          <TextField label="Input Esquerdo" variant="outlined" fullWidth />
+          <div style={{ height: '80vh', marginTop: '20px' }}>
+            <DataGrid rows={rows} columns={columns} pageSize={5} />
+          </div>
         </Grid>
         <Grid item xs={6}>
-          <TextField 
-            label="Adicionar Tag" 
-            fullWidth 
-            variant="outlined" 
-            sx={{ mr: 2,
-              '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-              '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-            }} 
-          />
-          {renderList([11, 12, 13, 14])}
+          <TextField label="Input Direito" variant="outlined" fullWidth />
+          <div style={{ height: '80vh', marginTop: '20px' }}>
+            <DataGrid rows={rows} columns={columns} pageSize={5} />
+          </div>
         </Grid>
       </Grid>
-    </Card>
-  );
+    </div>
+  )
 }
 
-export default Adicionar;
+export default Adicionar
