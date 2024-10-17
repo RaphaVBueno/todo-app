@@ -17,7 +17,7 @@ export default function Dashboard() {
   return (
     <TemplateFrame>
       <Box sx={{ display: 'flex', height: '100%' }}>
-        <SideMenu setFilter={setFilter} />
+        <SideMenu />
         <AppNavbar />
         <Box
           component="main"

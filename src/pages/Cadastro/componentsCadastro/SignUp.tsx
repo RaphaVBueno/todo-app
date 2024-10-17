@@ -1,10 +1,6 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
 import CssBaseline from '@mui/material/CssBaseline'
-import Divider from '@mui/material/Divider'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import FormControl from '@mui/material/FormControl'
 import Link from '@mui/material/Link'
@@ -19,8 +15,9 @@ import {
   PaletteMode,
 } from '@mui/material/styles'
 import getSignUpTheme from './getSignUpTheme'
-import { GoogleIcon, FacebookIcon } from './CustomIcons'
 import TemplateFrame from './TemplateFrame'
+import { useState } from 'react'
+import CustomFormControl from './CustomFormControl'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -56,31 +53,18 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   }),
 }))
 
+//adicionat validação de data de nascimento e usuário  com verificação em banco de dados, criar uma mensagem de sucesso ou erro caso usuário ja exista
 export default function SignUp() {
-  const [mode, setMode] = React.useState<PaletteMode>('light')
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true)
+  const [mode, setMode] = useState<PaletteMode>('light')
+  const [showCustomTheme, setShowCustomTheme] = useState(true)
   const defaultTheme = createTheme({ palette: { mode } })
   const SignUpTheme = createTheme(getSignUpTheme(mode))
-  const [nameError, setNameError] = React.useState(false)
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('')
-  const [emailError, setEmailError] = React.useState(false)
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('')
-  const [passwordError, setPasswordError] = React.useState(false)
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('')
-
-  React.useEffect(() => {
- 
-    const savedMode = localStorage.getItem('themeMode') as PaletteMode | null
-    if (savedMode) {
-      setMode(savedMode)
-    } else {
-  
-      const systemPrefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches
-      setMode(systemPrefersDark ? 'dark' : 'light')
-    }
-  }, [])
+  const [nameError, setNameError] = useState(false)
+  const [nameErrorMessage, setNameErrorMessage] = useState('')
+  const [emailError, setEmailError] = useState(false)
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
 
   const toggleColorMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark'
@@ -101,7 +85,7 @@ export default function SignUp() {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true)
-      setEmailErrorMessage('Please enter a valid email address.')
+      setEmailErrorMessage('Por favor entre um email válido')
       isValid = false
     } else {
       setEmailError(false)
@@ -110,7 +94,7 @@ export default function SignUp() {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true)
-      setPasswordErrorMessage('Password must be at least 6 characters long.')
+      setPasswordErrorMessage('Sua senha deve conter pelo menos 6 caracteres.')
       isValid = false
     } else {
       setPasswordError(false)
@@ -119,7 +103,7 @@ export default function SignUp() {
 
     if (!name.value || name.value.length < 1) {
       setNameError(true)
-      setNameErrorMessage('Name is required.')
+      setNameErrorMessage('Um nome é necessário.')
       isValid = false
     } else {
       setNameError(false)
@@ -134,7 +118,7 @@ export default function SignUp() {
       event.preventDefault()
       return
     }
-    const data = new FormData(event.currentTarget)
+    const data = new FormData(event.currentTarget) //aqui fica a requisição, verificar como a data está sendo enviada para o backend
     console.log({
       name: data.get('name'),
       lastName: data.get('lastName'),
@@ -159,61 +143,56 @@ export default function SignUp() {
               variant="h4"
               sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
             >
-              Sign up
+              Cadastro
             </Typography>
             <Box
               component="form"
               onSubmit={handleSubmit}
               sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
             >
+              <CustomFormControl
+                formTitle="Nome"
+                formName="name"
+                placeholder="Seu Nome"
+                error={nameError}
+                helperText={nameErrorMessage}
+              />
+              <CustomFormControl
+                formTitle="Nome do usuário"
+                formName="username"
+                placeholder="Seu Nome de Usuário"
+                error={nameError} //customizar esses erros
+                helperText={nameErrorMessage}
+              />
+              <CustomFormControl
+                formTitle="Email"
+                formName="email"
+                placeholder="seu@email.com"
+                error={emailError}
+                helperText={emailErrorMessage}
+              />
+
               <FormControl>
-                <FormLabel htmlFor="name">Nome</FormLabel>
+                <FormLabel htmlFor="birthDate">Data de Nascimento</FormLabel>
                 <TextField
-                  autoComplete="name"
-                  name="name"
+                  type="date"
                   required
                   fullWidth
-                  id="name"
-                  placeholder="Jon Snow"
-                  error={nameError}
-                  helperText={nameErrorMessage}
-                  color={nameError ? 'error' : 'primary'}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
+                  id="birthDate"
                   placeholder="seu@email.com"
-                  name="email"
-                  autoComplete="email"
+                  name="birthDate"
                   variant="outlined"
-                  error={emailError}
+                  error={emailError} //customizar esse erro
                   helperText={emailErrorMessage}
                   color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password">Senha</FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  variant="outlined"
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  color={passwordError ? 'error' : 'primary'}
-                />
-              </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="Quero receber atualizações por e-mail."
+              <CustomFormControl
+                formTitle="Senha"
+                formName="password"
+                placeholder="••••••"
+                error={passwordError}
+                helperText={passwordErrorMessage}
               />
               <Button
                 type="submit"
@@ -236,27 +215,10 @@ export default function SignUp() {
                 </span>
               </Typography>
             </Box>
-            <Divider>
-              <Typography sx={{ color: 'text.secondary' }}>or</Typography>
-            </Divider>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert('Sign up with Google')}
-                startIcon={<GoogleIcon />}
-              >
-                Entrar com o Google
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => alert('Sign up with Facebook')}
-                startIcon={<FacebookIcon />}
-              >
-                Entrar com o Facebook
-              </Button>
-            </Box>
+
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+            ></Box>
           </Card>
         </SignUpContainer>
       </ThemeProvider>

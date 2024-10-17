@@ -15,6 +15,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 import getSignUpTheme from './getSignUpTheme'
+import ToggleColorMode from '../../../components/ToggleColorMode'
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
@@ -65,41 +66,9 @@ export default function TemplateFrame({
               p: '8px 12px',
             }}
           >
-            <Button
-              variant="text"
-              size="small"
-              aria-label="Back to templates"
-              startIcon={<ArrowBackRoundedIcon />}
-              component="a"
-              href="/material-ui/getting-started/templates/"
-              sx={{ display: { xs: 'none', sm: 'flex' } }}
-            >
-              Back to templates
-            </Button>
-            <IconButton
-              size="small"
-              aria-label="Back to templates"
-              component="a"
-              href="/material-ui/getting-started/templates/"
-              sx={{ display: { xs: 'auto', sm: 'none' } }}
-            >
-              <ArrowBackRoundedIcon />
-            </IconButton>
+            <div>Logo</div>
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <FormControl variant="outlined" sx={{ minWidth: 180 }}>
-                <Select
-                  size="small"
-                  labelId="theme-select-label"
-                  id="theme-select"
-                  value={showCustomTheme ? 'custom' : 'material'}
-                  onChange={handleChange}
-                  label="Design Language"
-                >
-                  <MenuItem value="custom">Custom Theme</MenuItem>
-                  <MenuItem value="material">Material Design 2</MenuItem>
-                </Select>
-              </FormControl>
-              
+              <ToggleColorMode data-screenshot="toggle-mode" />
             </Box>
           </Toolbar>
         </StyledAppBar>
