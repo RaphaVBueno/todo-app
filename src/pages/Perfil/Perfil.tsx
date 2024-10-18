@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   Avatar,
   Button,
@@ -8,35 +8,19 @@ import {
   Card,
   CardContent,
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { api } from '../../utils'
 
+const fetchUserData = async () => {
+  const response = await api.get('/user/1')
+  return response.data.user
+}
+
 const UserProfile = () => {
-  const [user, setUser] = useState({
-    name: '',
-    username: '',
-    email: '',
-    birthDate: '',
-    password: '',
+  const { data: user } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: fetchUserData,
   })
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await api.get('/user/1')
-        setUser({
-          name: response.data.user.name,
-          username: response.data.user.username,
-          email: response.data.user.email,
-          birthDate: response.data.user.birthDate.slice(0, 10),
-          password: response.data.user.password,
-        })
-      } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error)
-      }
-    }
-
-    fetchUserData()
-  }, [])
 
   return (
     <Card sx={{ maxWidth: 600, margin: 'auto', mt: 5 }}>
@@ -50,7 +34,7 @@ const UserProfile = () => {
             />
           </Grid>
           <Grid item>
-            <Typography variant="h5">{user.username || 'Usuário'}</Typography>
+            <Typography variant="h5">{user?.username || 'Usuário'}</Typography>
           </Grid>
           <Grid item>
             <Button variant="contained" color="primary">
@@ -64,8 +48,7 @@ const UserProfile = () => {
             <TextField
               fullWidth
               label="Nome"
-              value={user.name}
-              onChange={(e) => setUser({ ...user, name: e.target.value })}
+              defaultValue={user?.name}
               variant="outlined"
             />
           </Grid>
@@ -73,8 +56,7 @@ const UserProfile = () => {
             <TextField
               fullWidth
               label="Nome de Usuário"
-              value={user.username}
-              onChange={(e) => setUser({ ...user, username: e.target.value })}
+              defaultValue={user?.username}
               variant="outlined"
             />
           </Grid>
@@ -82,8 +64,7 @@ const UserProfile = () => {
             <TextField
               fullWidth
               label="Email"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              defaultValue={user?.email}
               variant="outlined"
             />
           </Grid>
@@ -92,8 +73,7 @@ const UserProfile = () => {
               fullWidth
               type="date"
               label="Data de Nascimento"
-              value={user.birthDate}
-              onChange={(e) => setUser({ ...user, birthDate: e.target.value })}
+              defaultValue={user?.birthDate.slice(0, 10)}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
@@ -105,8 +85,7 @@ const UserProfile = () => {
               fullWidth
               type="password"
               label="Senha"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              defaultValue={user?.password}
               variant="outlined"
             />
           </Grid>
