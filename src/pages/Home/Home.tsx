@@ -24,18 +24,19 @@ function Home() {
     queryKey: ['tasks', date],
     queryFn: getTasks(date),
   })
-  if (tasksError) return 'Erro ao carregar tarefas'
 
   const { error: categoriesError, data: categories } = useQuery<List[]>({
     queryKey: ['list'],
     queryFn: () => getUserLists(devUser),
   })
-  if (categoriesError) return 'Erro'
 
   const { error: tagsError, data: tags } = useQuery<Tag[]>({
     queryKey: ['tag'],
     queryFn: () => getUserTags(devUser),
   })
+
+  if (categoriesError) return 'Erro'
+  if (tasksError) return 'Erro ao carregar tarefas'
   if (tagsError) return 'Erro'
 
   return (
@@ -70,7 +71,7 @@ function Home() {
               searchList && searchList.length > 0
                 ? searchList
                 : filter
-                ? tasks?.filter((task) => task.listId === filter)
+                ? tasks?.filter(task => task.listId === filter)
                 : tasks
             }
             categories={categories || []}
