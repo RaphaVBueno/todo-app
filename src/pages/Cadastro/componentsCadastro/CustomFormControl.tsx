@@ -1,8 +1,8 @@
 import FormLabel from '@mui/material/FormLabel'
 import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
+import TextField, { TextFieldProps } from '@mui/material/TextField'
 
-type CustomFormControlProps = {
+interface CustomFormControlProps extends TextFieldProps<'outlined'> {
   formTitle: string
   formName: string
   placeholder: string | undefined
@@ -11,7 +11,7 @@ type CustomFormControlProps = {
 }
 
 function CustomFormControl(props: CustomFormControlProps) {
-  const { formName, placeholder, error, helperText, formTitle } = props
+  const { formName, placeholder, error, helperText, formTitle, ...rest } = props
 
   return (
     <FormControl>
@@ -26,6 +26,7 @@ function CustomFormControl(props: CustomFormControlProps) {
         error={error}
         helperText={helperText}
         color={error ? 'error' : 'primary'}
+        {...rest}
       />
     </FormControl>
   )
