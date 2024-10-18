@@ -18,6 +18,7 @@ import getSignUpTheme from './getSignUpTheme'
 import TemplateFrame from './TemplateFrame'
 import { useState } from 'react'
 import CustomFormControl from './CustomFormControl'
+import { addUser } from '../../../utils'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -53,7 +54,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   }),
 }))
 
-//adicionat validação de data de nascimento e usuário  com verificação em banco de dados, criar uma mensagem de sucesso ou erro caso usuário ja exista
+//adicionar msg de sucesso ou falha na criação do usuário, fazer verificação de erros no backend
 export default function SignUp() {
   const [mode, setMode] = useState<PaletteMode>('light')
   const [showCustomTheme, setShowCustomTheme] = useState(true)
@@ -65,6 +66,10 @@ export default function SignUp() {
   const [emailErrorMessage, setEmailErrorMessage] = useState('')
   const [passwordError, setPasswordError] = useState(false)
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+  const [dateError, setDateError] = useState(false)
+  const [dateErrorMessage, setDateErrorMessage] = useState('')
+  const [usernameError, setUsernameError] = useState(false)
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
 
   const toggleColorMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark'
@@ -80,6 +85,8 @@ export default function SignUp() {
     const email = document.getElementById('email') as HTMLInputElement
     const password = document.getElementById('password') as HTMLInputElement
     const name = document.getElementById('name') as HTMLInputElement
+    const date = document.getElementById('birthDate') as HTMLInputElement
+    const username = document.getElementById('username') as HTMLInputElement
 
     let isValid = true
 
@@ -101,7 +108,7 @@ export default function SignUp() {
       setPasswordErrorMessage('')
     }
 
-    if (!name.value || name.value.length < 1) {
+    if (!name.value || name.value.length < 3) {
       setNameError(true)
       setNameErrorMessage('Um nome é necessário.')
       isValid = false
@@ -110,21 +117,44 @@ export default function SignUp() {
       setNameErrorMessage('')
     }
 
+    if (!date.value) {
+      setDateError(true)
+      setDateErrorMessage('Adicione uma data Valida.')
+      isValid = false
+    } else {
+      setDateError(false)
+      setDateErrorMessage('')
+    }
+
+    if (!username.value || name.value.length < 3) {
+      setUsernameError(true)
+      setUsernameErrorMessage('Adicione um usuário valido.')
+      isValid = false
+    } else {
+      setUsernameError(false)
+      setUsernameErrorMessage('')
+    }
+
     return isValid
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault()
+    event.preventDefault()
+
+    const isValid = validateInputs()
+
+    if (!isValid) {
       return
     }
-    const data = new FormData(event.currentTarget) //aqui fica a requisição, verificar como a data está sendo enviada para o backend
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+    const form = event.currentTarget
+    const userData = {
+      email: (form.querySelector('#email') as HTMLInputElement).value,
+      password: (form.querySelector('#password') as HTMLInputElement).value,
+      name: (form.querySelector('#name') as HTMLInputElement).value,
+      birthDate: (form.querySelector('#birthDate') as HTMLInputElement).value,
+      username: (form.querySelector('#username') as HTMLInputElement).value,
+    }
+    addUser(userData)
   }
 
   return (
@@ -161,8 +191,8 @@ export default function SignUp() {
                 formTitle="Nome do usuário"
                 formName="username"
                 placeholder="Seu Nome de Usuário"
-                error={nameError} //customizar esses erros
-                helperText={nameErrorMessage}
+                error={usernameError}
+                helperText={usernameErrorMessage}
               />
               <CustomFormControl
                 formTitle="Email"
@@ -182,9 +212,9 @@ export default function SignUp() {
                   placeholder="seu@email.com"
                   name="birthDate"
                   variant="outlined"
-                  error={emailError} //customizar esse erro
-                  helperText={emailErrorMessage}
-                  color={passwordError ? 'error' : 'primary'}
+                  error={dateError} //customizar esse erro
+                  helperText={dateErrorMessage}
+                  color={dateError ? 'error' : 'primary'}
                 />
               </FormControl>
               <CustomFormControl

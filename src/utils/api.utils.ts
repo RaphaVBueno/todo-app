@@ -95,7 +95,6 @@ export const updateTask = async ({
   tagId,
   userId,
 }: updateTaskParams) => {
-  console.log(tagId)
   const res = await api.post('/tasks/${id}/update', {
     id: taskId,
     title,
@@ -110,4 +109,29 @@ export const updateTask = async ({
 export const searchTask = async (search: string) => {
   const res = await api.get(`/tasks/busca/${search}`)
   return res.data.tasks
+}
+
+export type addUserParams = {
+  email: string | null
+  password: string | null
+  name: string | null
+  birthDate: string | null
+  username: string | null
+}
+
+export const addUser = async ({
+  email,
+  password,
+  name,
+  birthDate,
+  username,
+}: addUserParams) => {
+  const res = await api.post(`/user/add`, {
+    email,
+    password,
+    name,
+    birthDate: format(birthDate, 'yyyy-MM-dd'),
+    username,
+  })
+  return res.data.message
 }
