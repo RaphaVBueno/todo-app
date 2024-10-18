@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Menu from '@mui/material/Menu'
 import {
+  Menu,
   TextField,
   Grid,
   IconButton,
@@ -9,10 +9,9 @@ import {
   Button,
 } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
 
-const columns = [
+const columnsLeft = (handleMenuOpen) => [
   {
     field: 'título',
     headerName: 'Título',
@@ -59,7 +58,90 @@ const columns = [
             },
           }}
         >
-          <IconButton edge="end" aria-label="edit">
+          <IconButton edge="end" aria-label="edit" onClick={handleMenuOpen}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip
+          title="Deletar"
+          placement="top"
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, -14],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <IconButton edge="end" aria-label="delete" sx={{ ml: 2 }}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
+  },
+]
+
+const columnsRight = (handleMenuOpen) => [
+  {
+    field: 'título',
+    headerName: 'Título',
+    flex: 1,
+    width: 100,
+    sortable: false,
+    disableColumnMenu: true,
+  },
+  {
+    field: 'quantidade',
+    headerName: 'Quantidade',
+    width: 150,
+    disableColumnMenu: true,
+  },
+  {
+    field: 'cor',
+    headerName: 'Cor',
+    width: 100,
+    disableColumnMenu: true,
+  },
+  {
+    field: 'actions',
+    headerName: '',
+    width: 100,
+    sortable: false,
+    disableColumnMenu: true,
+    renderCell: (params) => (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          marginRight: '16px',
+          marginTop: '5px',
+        }}
+      >
+        <Tooltip
+          title="Editar"
+          placement="top"
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [0, -14],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <IconButton edge="end" aria-label="edit" onClick={handleMenuOpen}>
             <EditIcon />
           </IconButton>
         </Tooltip>
@@ -90,14 +172,14 @@ const columns = [
 ]
 
 const rows = [
-  { id: 1, título: 'Trabalho', quantidade: 10 },
-  { id: 2, título: 'Escola', quantidade: 20 },
+  { id: 1, título: 'Trabalho', quantidade: 10, cor: 'Azul' },
+  { id: 2, título: 'Escola', quantidade: 20, cor: 'Vermelho' },
 ]
 
 function Adicionar() {
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const handleMenuOpen = (event: any) => {
+  const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -121,17 +203,14 @@ function Adicionar() {
               variant="contained"
               color="primary"
               sx={{ marginLeft: '16px', width: '100px', height: '38px' }}
-              onClick={handleMenuOpen}
             >
               Salvar
             </Button>
           </Box>
-
-          <div style={{ height: '82vh', marginTop: '20px' }}>
-            <DataGrid rows={rows} columns={columns} />
+          <div style={{ height: '80vh', marginTop: '20px' }}>
+            <DataGrid rows={rows} columns={columnsLeft(handleMenuOpen)} />
           </div>
         </Grid>
-
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextField label="Adicionar Tag" variant="outlined" fullWidth />
@@ -139,14 +218,13 @@ function Adicionar() {
               variant="contained"
               color="primary"
               sx={{ marginLeft: '16px', width: '100px', height: '38px' }}
-              onClick={handleMenuOpen}
             >
               Salvar
             </Button>
           </Box>
 
-          <div style={{ height: '82vh', marginTop: '20px' }}>
-            <DataGrid rows={rows} columns={columns} />
+          <div style={{ height: '80vh', marginTop: '20px' }}>
+            <DataGrid rows={rows} columns={columnsRight(handleMenuOpen)} />
           </div>
         </Grid>
       </Grid>
