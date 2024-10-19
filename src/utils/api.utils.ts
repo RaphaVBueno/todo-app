@@ -4,6 +4,9 @@ import { toZonedTime } from 'date-fns-tz'
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000',
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
 })
 
 export const devUser = 1
@@ -11,7 +14,6 @@ export const devUser = 1
 export const getTasks = (dueDate: Date | null | string) => async () => {
   const res = await api.get('/tasks', {
     params: {
-      userId: devUser,
       dueDate: format(dueDate, 'yyyy-MM-dd'),
     },
   })
@@ -134,4 +136,13 @@ export const addUser = async ({
     username,
   })
   return res.data.message
+}
+
+type LoginParams = {
+  email: string
+  password: string
+}
+export const login = async (data: LoginParams) => {
+  const res = await api.post('/login', data)
+  return res.data.token
 }

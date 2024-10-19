@@ -78,7 +78,7 @@ export default function SignUp() {
   }
 
   const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev)
+    setShowCustomTheme(prev => !prev)
   }
 
   const validateInputs = () => {
@@ -138,7 +138,7 @@ export default function SignUp() {
     return isValid
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const isValid = validateInputs()
@@ -154,7 +154,7 @@ export default function SignUp() {
       birthDate: (form.querySelector('#birthDate') as HTMLInputElement).value,
       username: (form.querySelector('#username') as HTMLInputElement).value,
     }
-    addUser(userData)
+    await addUser(userData)
   }
 
   return (
