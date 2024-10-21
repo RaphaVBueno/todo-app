@@ -1,16 +1,14 @@
+import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import Stack from '@mui/material/Stack'
+import { Stack, CircularProgress } from '@mui/material'
 
-import Header from '../../components/Header'
-import Lista from '../../components/Lista'
-import AddTaskButton from '../../components/AddTaskButton'
-import { DashboardContext, Task } from '../../types'
-import { getTasks, getUserLists, devUser, getUserTags } from '../../utils'
-import { List } from '../../types/list'
-import { useState } from 'react'
-import CircularProgress from '@mui/material/CircularProgress'
-import { Tag } from '../../types/tag'
+import { getTasks, getUserLists, devUser, getUserTags } from '@/utils'
+import { DashboardContext, Task, List, Tag } from '@/types'
+
+import Header from './Header'
+import Lista from './Lista'
+import AddTaskButton from './AddTaskButton'
 
 function Home() {
   const { date, setDate, filter, setFilter } =

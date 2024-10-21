@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import { Button, Menu, Box, TextField, Stack } from '@mui/material'
+import { Button, Menu, Box, Stack } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { ptBR } from 'date-fns/locale'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
-import { List } from '../types/list'
-import { addTask, devUser, queryClient, AddTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
+
+import { List, Tag } from '@/types'
+import { addTask, devUser, queryClient, AddTaskParams } from '@/utils'
+import BotaoPadrao from '@/components/BotaoPadrao'
+import InputPadrao from '@/components/InputPadrao'
+
 import AutoCompleteAddTask from './AutoCompleteAddTask'
-import BotaoPadrao from './BotaoPadrao'
-import InputPadrao from './InputPadrao'
-import { Tag } from '../types/tag'
 
 type AddTaskButtonProps = {
   categories: List[]

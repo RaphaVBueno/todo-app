@@ -1,8 +1,8 @@
 import { Box, TextField, Autocomplete } from '@mui/material'
 import { Fragment } from 'react'
-import { List } from '../types/list'
+import { List } from '../../types/list'
 import type { Dispatch, SetStateAction } from 'react'
-import { Tag } from '../types/tag'
+import { Tag } from '../../types/tag'
 
 type AutoCompleteAddTask = {
   categories: List[]
@@ -21,13 +21,13 @@ function AutoCompleteAddTask(props: AutoCompleteAddTask) {
           disablePortal
           options={categories}
           fullWidth
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={option => option.name}
           onChange={(_, newValue) => {
             if (newValue) {
               setListId(newValue.id)
             }
           }}
-          renderInput={(params) => (
+          renderInput={params => (
             <TextField
               {...params}
               label="Categoria"
@@ -47,13 +47,13 @@ function AutoCompleteAddTask(props: AutoCompleteAddTask) {
           disablePortal
           options={tags}
           fullWidth
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={option => option.name}
           onChange={(_, newValue) => {
             if (newValue) {
               setTagId(newValue.id)
             }
           }}
-          renderInput={(params) => (
+          renderInput={params => (
             <TextField
               {...params}
               label="Tag"

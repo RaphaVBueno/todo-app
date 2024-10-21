@@ -1,14 +1,14 @@
 import { type Dispatch, type SetStateAction } from 'react'
 import { useMemo } from 'react'
 import Stack from '@mui/material/Stack'
-import CustomDatePicker from './CustomDatePicker'
-import Search from './Search'
+import CustomDatePicker from '../../components/CustomDatePicker'
+import Search from '../../components/Search'
 import { Typography } from '@mui/material'
-import { showDate } from '../utils'
-import FilterButton from './FilterButton'
-import type { List } from '../types/list'
-import { greetings } from '../utils/greetings'
-import { Task } from '../types'
+import { showDate } from '../../utils'
+import FilterButton from '../../components/FilterButton'
+import type { List } from '../../types/list'
+import { greetings } from '../../utils/greetings'
+import { Task } from '../../types'
 
 type HeaderProps = {
   /**
