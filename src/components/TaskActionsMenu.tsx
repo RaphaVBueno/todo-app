@@ -5,7 +5,7 @@ import { devUser, queryClient, updateTask, updateTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
 import BotaoPadrao from './BotaoPadrao'
 import AutoCompleteTaskActions from './AutoCompleteTaskActions'
-import InputPadrao from './InputPadrao'
+import Input from './Input'
 import { Tag } from '../types/tag'
 
 type TaskActionsMenuProps = {
@@ -75,14 +75,14 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         horizontal: 'right',
       }}
     >
-      <InputPadrao
-        action={setTitle}
-        inputName="Título da tarefa"
+      <Input
+        onChange={e => setTitle(e.target.value)}
+        label="Título da tarefa"
         value={title}
       />
-      <InputPadrao
-        action={setDescription}
-        inputName="Descrição"
+      <Input
+        onChange={e => setDescription(e.target.value)}
+        label="Descrição"
         value={description}
       />
 

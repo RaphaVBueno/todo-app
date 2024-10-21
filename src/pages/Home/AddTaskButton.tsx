@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query'
 import { List, Tag } from '@/types'
 import { addTask, devUser, queryClient, AddTaskParams } from '@/utils'
 import BotaoPadrao from '@/components/BotaoPadrao'
-import InputPadrao from '@/components/InputPadrao'
+import Input from '@/components/Input'
 
 import AutoCompleteAddTask from './AutoCompleteAddTask'
 
@@ -83,16 +83,16 @@ function AddTaskButton(props: AddTaskButtonProps) {
         }}
       >
         <Box sx={{ p: 0, mt: '10px' }}>
-          <InputPadrao
-            action={setTitle}
-            inputName="Título da tarefa"
+          <Input
+            onChange={e => setTitle(e.target.value)}
+            label="Título da tarefa"
             value={title}
           />
         </Box>
         <Box sx={{ p: 0, mt: '10px' }}>
-          <InputPadrao
-            action={setDescription}
-            inputName="Descrição"
+          <Input
+            onChange={e => setDescription(e.target.value)}
+            label="Descrição"
             value={description}
           />
         </Box>
