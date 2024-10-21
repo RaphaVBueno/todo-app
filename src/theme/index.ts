@@ -21,7 +21,6 @@ const theme = createTheme({
   components: {
     ...datePickersCustomizations,
     ...inputsCustomizations,
-    ...inputsCustomizations,
     ...dataDisplayCustomizations,
     ...feedbackCustomizations,
     ...navigationCustomizations,

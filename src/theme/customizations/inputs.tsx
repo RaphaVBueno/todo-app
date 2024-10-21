@@ -425,9 +425,6 @@ export const inputsCustomizations: Components<Theme> = {
           },
         ],
       }),
-      notchedOutline: {
-        border: 'none',
-      },
     },
   },
   MuiInputAdornment: {

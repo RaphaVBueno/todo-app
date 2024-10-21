@@ -121,19 +121,10 @@ export type addUserParams = {
   username: string | null
 }
 
-export const addUser = async ({
-  email,
-  password,
-  name,
-  birthDate,
-  username,
-}: addUserParams) => {
+export const addUser = async (params: addUserParams) => {
   const res = await api.post(`/user/add`, {
-    email,
-    password,
-    name,
-    birthDate: format(birthDate, 'yyyy-MM-dd'),
-    username,
+    ...params,
+    birthDate: format(params.birthDate, 'yyyy-MM-dd'),
   })
   return res.data.message
 }

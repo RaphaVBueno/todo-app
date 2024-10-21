@@ -1,32 +1,34 @@
-import FormLabel from '@mui/material/FormLabel'
-import FormControl from '@mui/material/FormControl'
-import TextField, { TextFieldProps } from '@mui/material/TextField'
+import { forwardRef } from 'react'
+import {
+  FormLabel,
+  FormControl,
+  OutlinedInput,
+  FormHelperText,
+  OutlinedInputProps,
+} from '@mui/material'
 
-interface InputProps
-  extends Omit<TextFieldProps<'outlined'>, 'variant' | 'error'> {
+interface InputProps extends Omit<OutlinedInputProps, 'error'> {
   error?: string
 }
 
-function Input(props: InputProps) {
+const Input = forwardRef(function Input(props: InputProps, ref) {
   const { name, label, required = true, error, ...rest } = props
   return (
-    <FormControl>
+    <FormControl error={Boolean(error)}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
-      <TextField
-        error={Boolean(error)}
-        helperText={error}
+      <OutlinedInput
         id={name}
         name={name}
         autoFocus
         fullWidth
         required={required}
-        variant="outlined"
-        color={error ? 'error' : 'primary'}
         aria-label={name}
+        inputRef={ref}
         {...rest}
       />
+      {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   )
-}
+})
 
 export default Input
