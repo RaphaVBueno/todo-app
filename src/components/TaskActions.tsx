@@ -21,7 +21,7 @@ export default function TaskActions(props: TaskActionsProps) {
     props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { mutate } = useMutation({
-    mutationFn: () => deleteTask(devUser, taskId),
+    mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },

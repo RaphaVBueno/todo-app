@@ -38,17 +38,17 @@ export default function Lista(props: ListaProps) {
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
-    id: number
+    taskId: number
   ) => {
     const status = event.target.checked
-    mutate({ id, status, date })
+    mutate({ taskId, status, date })
   }
 
-  const todoTasks = tasksList.filter(task => !task.status)
-  const completedTasks = tasksList.filter(task => task.status)
+  const todoTasks = tasksList.filter((task) => !task.status)
+  const completedTasks = tasksList.filter((task) => task.status)
 
-  const handleListItemClick = (id: number, currentStatus: boolean) => {
-    mutate({ id, status: !currentStatus, date })
+  const handleListItemClick = (taskId: number, currentStatus: boolean) => {
+    mutate({ taskId, status: !currentStatus, date })
   }
 
   return (
@@ -96,7 +96,7 @@ export default function Lista(props: ListaProps) {
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}
-                      onChange={event => handleChange(event, task.id)}
+                      onChange={(event) => handleChange(event, task.id)}
                     />
                   </ListItemIcon>
                   <ListItemText
@@ -105,7 +105,7 @@ export default function Lista(props: ListaProps) {
                       <>
                         {task.title}{' '}
                         {task.tags ? (
-                          task.tags.map(tag => (
+                          task.tags.map((tag) => (
                             <Chip label={tag.name} size="small" />
                           ))
                         ) : (
@@ -117,7 +117,7 @@ export default function Lista(props: ListaProps) {
                               color: `${
                                 categories[
                                   categories.findIndex(
-                                    categorie => task.listId === categorie.id
+                                    (categorie) => task.listId === categorie.id
                                   )
                                 ].color
                               }`,
@@ -194,7 +194,7 @@ export default function Lista(props: ListaProps) {
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ 'aria-labelledby': labelId }}
-                      onChange={event => handleChange(event, task.id)}
+                      onChange={(event) => handleChange(event, task.id)}
                     />
                   </ListItemIcon>
                   <ListItemText
@@ -208,7 +208,7 @@ export default function Lista(props: ListaProps) {
                               color: `${
                                 categories[
                                   categories.findIndex(
-                                    categorie => task.listId === categorie.id
+                                    (categorie) => task.listId === categorie.id
                                   )
                                 ].color
                               }`,

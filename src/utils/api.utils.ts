@@ -52,13 +52,13 @@ export const addTask = async ({
 }
 
 export const updateTaskStatus = async (params: {
-  id: number
+  taskId: number
   status: boolean
   date: Date | string | null
 }) => {
-  const { id, status, date } = params
-  return await api.post(`/tasks/${id}/status`, {
-    id,
+  const { taskId, status, date } = params
+  return await api.post(`/tasks/${taskId}/status`, {
+    taskId,
     status,
     userId: devUser,
     completedDate: format(date, 'yyyy-MM-dd'),
@@ -75,8 +75,8 @@ export const getUserTags = async (user: number) => {
   return res.data.tags
 }
 
-export const deleteTask = async (userId: number, id: number) => {
-  const res = await api.delete(`/tasks/${id}`, { params: { id, userId } })
+export const deleteTask = async (taskId: number) => {
+  const res = await api.delete(`/tasks/${taskId}`)
   return res.data.message
 }
 
@@ -98,7 +98,7 @@ export const updateTask = async ({
   userId,
 }: updateTaskParams) => {
   const res = await api.post('/tasks/${id}/update', {
-    id: taskId,
+    taskId,
     title,
     description,
     listId,
