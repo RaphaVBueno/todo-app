@@ -1,3 +1,5 @@
+import { List } from './list'
+
 export type Task = {
   id: number
   title: string
@@ -8,4 +10,5 @@ export type Task = {
   userId: number
   listId?: number
   tags: { id: number; name: string; userId: number }[]
+  list: List
 }

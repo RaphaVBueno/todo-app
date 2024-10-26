@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Stack, CircularProgress } from '@mui/material'
+import { Stack } from '@mui/material'
 
 import { getTasks, getUserLists, devUser, getUserTags } from '@/utils'
 import { DashboardContext, Task, List, Tag } from '@/types'
@@ -9,6 +9,7 @@ import { DashboardContext, Task, List, Tag } from '@/types'
 import Header from './Header'
 import Lista from './Lista'
 import AddTaskButton from './AddTaskButton'
+import Loading from '@/components/Loading'
 
 function Home() {
   const { date, setDate, filter, setFilter } =
@@ -56,20 +57,14 @@ function Home() {
         />
 
         {isPending ? (
-          <Stack
-            alignItems="center"
-            justifyContent="center"
-            sx={{ height: '50vh' }}
-          >
-            <CircularProgress />
-          </Stack>
+          <Loading />
         ) : (
           <Lista
             tasksList={
               searchList && searchList.length > 0
                 ? searchList
                 : filter
-                ? tasks?.filter(task => task.listId === filter)
+                ? tasks?.filter((task) => task.listId === filter)
                 : tasks
             }
             categories={categories || []}

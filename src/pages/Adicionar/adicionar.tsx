@@ -178,6 +178,7 @@ const rows = [
 
 function Adicionar() {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [color, setColor] = useState('#7e7e7e')
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -192,6 +193,16 @@ function Adicionar() {
   return (
     <div style={{ paddingTop: '16px' }}>
       <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <input
+            type="color"
+            name="input"
+            id="color-input"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
+          <div style={{ width: 40, height: 40, backgroundColor: color }} />
+        </Grid>
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextField

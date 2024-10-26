@@ -7,23 +7,27 @@ import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import LogoutIcon from '@mui/icons-material/Logout'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+
+import { useAuth } from '@/hooks'
 
 const mainListItems = [
   { text: 'Pagina Inicial', icon: <HomeRoundedIcon />, route: '/' },
   { text: 'Meu Perfil', icon: <PeopleRoundedIcon />, route: '/perfil' },
-  { text: 'Gerenciar Tag e Categoria', icon: <AddCircleIcon />, route: '/adicionar' },
-  { text: 'Configurações', icon: <SettingsRoundedIcon />, route: '/configuracoes' },
-  { text: 'Sair', icon: <LogoutIcon />, route: '/login' },
+  {
+    text: 'Gerenciar Tag e Categoria',
+    icon: <AddCircleIcon />,
+    route: '/adicionar',
+  },
 ]
 
 export default function MenuContent() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { signOut } = useAuth()
 
-  const handleNavigation = (route) => {
+  const handleNavigation = (route: string) => {
     navigate(route)
   }
 
@@ -41,6 +45,14 @@ export default function MenuContent() {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItemButton onClick={() => signOut()}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sair" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Stack>
   )

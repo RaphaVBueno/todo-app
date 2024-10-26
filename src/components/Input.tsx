@@ -14,13 +14,12 @@ interface InputProps extends Omit<OutlinedInputProps, 'error'> {
 const Input = forwardRef(function Input(props: InputProps, ref) {
   const { name, label, required = true, error, ...rest } = props
   return (
-    <FormControl error={Boolean(error)}>
+    <FormControl error={Boolean(error)} fullWidth>
       <FormLabel htmlFor={name}>{label}</FormLabel>
       <OutlinedInput
         id={name}
         name={name}
         autoFocus
-        fullWidth
         required={required}
         aria-label={name}
         inputRef={ref}

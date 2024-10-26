@@ -56,8 +56,6 @@ export default function Lista(props: ListaProps) {
       {todoTasks.length > 0 && (
         <Lists
           sx={{
-            width: '90%',
-            maxWidth: 1920,
             bgcolor: 'background.paper',
             borderRadius: '8px',
             mb: 2,
@@ -106,7 +104,7 @@ export default function Lista(props: ListaProps) {
                         {task.title}{' '}
                         {task.tags ? (
                           task.tags.map((tag) => (
-                            <Chip label={tag.name} size="small" />
+                            <Chip label={tag.name} size="small" key={tag.id} />
                           ))
                         ) : (
                           <div></div>
@@ -114,13 +112,7 @@ export default function Lista(props: ListaProps) {
                         {task.listId ? (
                           <Brightness1Icon
                             style={{
-                              color: `${
-                                categories[
-                                  categories.findIndex(
-                                    (categorie) => task.listId === categorie.id
-                                  )
-                                ].color
-                              }`,
+                              color: task.list.color,
                               marginLeft: '6px',
                               position: 'relative',
                               top: '3px',

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Avatar,
   Button,
@@ -8,19 +7,12 @@ import {
   Card,
   CardContent,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import { api } from '../../utils'
-
-const fetchUserData = async () => {
-  const response = await api.get('/user/1')
-  return response.data.user
-}
+import { useAuth } from '@/hooks'
 
 const UserProfile = () => {
-  const { data: user } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: fetchUserData,
-  })
+  const { user } = useAuth()
+
+  if (!user) return ''
 
   return (
     <Card sx={{ maxWidth: 600, margin: 'auto', mt: 5 }}>
@@ -85,7 +77,6 @@ const UserProfile = () => {
               fullWidth
               type="password"
               label="Senha"
-              defaultValue={user?.password}
               variant="outlined"
             />
           </Grid>

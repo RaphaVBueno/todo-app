@@ -1,3 +1,4 @@
+import { Usuario } from '@/types'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -129,11 +130,21 @@ export const addUser = async (params: addUserParams) => {
   return res.data.message
 }
 
-type LoginParams = {
+export type LoginParams = {
   email: string
   password: string
 }
 export const login = async (data: LoginParams) => {
   const res = await api.post('/login', data)
-  return res.data.token
+  const { token } = res.data
+
+  api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+  return token
+}
+
+export const getUser = async () => {
+  const res = await api.get('/user/me')
+  const { user } = res.data as { user: Usuario }
+  return user
 }

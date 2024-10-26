@@ -3,11 +3,12 @@ import { Box, Button, Typography, Stack } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card, Input } from '@/components'
-import { login } from '@/utils'
+import { useAuth } from '@/hooks'
 
 import { validations, Fields } from './fields'
 
 export default function Login() {
+  const { signIn } = useAuth()
   const navigate = useNavigate()
   const {
     register,
@@ -15,12 +16,9 @@ export default function Login() {
     formState: { errors },
   } = useForm<Fields>()
 
-  const onSubmit: SubmitHandler<Fields> = async data => {
-    const token = await login(data)
-    if (token) {
-      localStorage.setItem('token', token)
-      navigate('/')
-    }
+  const onSubmit: SubmitHandler<Fields> = async (data) => {
+    await signIn(data)
+    navigate('/')
   }
 
   return (
