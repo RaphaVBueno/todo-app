@@ -13,7 +13,12 @@ function BotaoPadrao(props: BotaoPadraoProps) {
       variant="outlined"
       color="primary"
       onClick={action}
-      sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
+      sx={{
+        height: '40px',
+        width: '130px',
+        fontSize: '1rem',
+        marginRight: '5px',
+      }}
     >
       {buttonName}
     </Button>

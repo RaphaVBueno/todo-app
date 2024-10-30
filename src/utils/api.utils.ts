@@ -114,23 +114,32 @@ export const searchTask = async (search: string) => {
   return res.data.tasks
 }
 
-export type addUserParams = {
+export type AddUserParams = {
   email: string | null
   password: string | null
   name: string | null
-  birthDate: string | null
+  birthDate: string
   username: string | null
 }
 
-export const addUserOLD = async (params: addUserParams) => {
-  const res = await api.post(`/user/add`, {
-    ...params,
-    birthDate: format(params.birthDate, 'yyyy-MM-dd'), //arrumar data
-  })
-  if (res.status === 400) {
+export const addUser = async (params: AddUserParams) => {
+  try {
+    const res = await api.post(`/user/add`, {
+      ...params,
+      birthDate: format(params.birthDate, 'yyyy-MM-dd'),
+    })
+    return { success: true, message: res.data.message }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        message: error.response?.data.message || 'Erro ao adicionar usuário',
+      }
+    } else {
+      console.error('Erro inesperado:', error)
+      return { success: false, message: 'Erro inesperado' }
+    }
   }
-
-  return res.data.message
 }
 
 export type LoginParams = {

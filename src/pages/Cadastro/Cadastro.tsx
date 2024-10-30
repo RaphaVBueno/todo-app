@@ -1,18 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Box, Button, Typography, Stack } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card, Input } from '@/components'
-import { addUserParams, api } from '@/utils'
-import { format } from 'date-fns'
+import { AddUserParams, addUser } from '@/utils'
 
 import { Fields, validations } from './fields'
 import { useState } from 'react'
 import ErrorMessage from '@/components/ErrorMessage'
-import axios from 'axios'
 
 function Cadastro() {
-  const navigate = useNavigate()
   const [message, setMessage] = useState('')
   const [openMessage, setOpenMessage] = useState(false)
   const [sucess, setSucess] = useState(false)
@@ -24,26 +21,17 @@ function Cadastro() {
   } = useForm<Fields>()
 
   const onSubmit: SubmitHandler<Fields> = async (data) => {
-    await addUser(data)
-    //navigate('/login')
-  }
+    type result = {
+      message: string
+      sucess: boolean
+    }
+    const result = await addUser(data as AddUserParams)
 
-  const addUser = async (params: addUserParams) => {
-    try {
-      const res = await api.post(`/user/add`, {
-        ...params,
-        birthDate: format(params.birthDate, 'yyyy-MM-dd'), //arrumar data
-      })
-      setMessage(res.data.message)
-      setOpenMessage(true)
-      setSucess(true)
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.message)
-        setOpenMessage(true)
-      } else {
-        console.error('Erro inesperado:', error)
-      }
+    setMessage(result.message)
+    setOpenMessage(true)
+
+    if (result.success) {
+      setSucess(result.success)
     }
   }
 

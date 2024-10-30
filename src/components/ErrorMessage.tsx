@@ -3,16 +3,19 @@ import type { Dispatch, SetStateAction } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
+import BotaoPadrao from './BotaoPadrao'
+import { useNavigate } from 'react-router-dom'
 
 type ErrorMessageParams = {
   message: string | null
   openMessage: boolean
   setOpenMessage: Dispatch<SetStateAction<boolean>>
-  sucess: boolean
+  sucess?: boolean
 }
 //criar um botão para a pagina de login quando der sucesso
 function ErrorMessage(props: ErrorMessageParams) {
   const { message, openMessage, setOpenMessage, sucess } = props
+  const navigate = useNavigate()
 
   const style = {
     position: 'absolute',
@@ -27,6 +30,7 @@ function ErrorMessage(props: ErrorMessageParams) {
   }
 
   const handleClose = () => setOpenMessage(false)
+  const goToLoging = () => navigate('/login')
 
   return (
     <div>
@@ -43,6 +47,20 @@ function ErrorMessage(props: ErrorMessageParams) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {message}
           </Typography>
+          <Box
+            sx={{
+              marginTop: '3rem',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <BotaoPadrao buttonName="Fechar" action={handleClose} />
+            {sucess ? (
+              <BotaoPadrao buttonName="Fazer Login" action={goToLoging} />
+            ) : (
+              <div></div>
+            )}
+          </Box>
         </Box>
       </Modal>
     </div>
