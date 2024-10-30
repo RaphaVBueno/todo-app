@@ -3,12 +3,19 @@ import { Box, Button, Typography, Stack } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card, Input } from '@/components'
-import { addUser } from '@/utils'
+import { addUserParams, api } from '@/utils'
+import { format } from 'date-fns'
 
 import { Fields, validations } from './fields'
+import { useState } from 'react'
+import ErrorMessage from '@/components/ErrorMessage'
+import axios from 'axios'
 
 function Cadastro() {
   const navigate = useNavigate()
+  const [message, setMessage] = useState('')
+  const [openMessage, setOpenMessage] = useState(false)
+  const [sucess, setSucess] = useState(false)
 
   const {
     register,
@@ -16,10 +23,28 @@ function Cadastro() {
     formState: { errors },
   } = useForm<Fields>()
 
-  const onSubmit: SubmitHandler<Fields> = async data => {
+  const onSubmit: SubmitHandler<Fields> = async (data) => {
     await addUser(data)
-    alert('Usuário adicionado com sucesso')
-    navigate('/login')
+    //navigate('/login')
+  }
+
+  const addUser = async (params: addUserParams) => {
+    try {
+      const res = await api.post(`/user/add`, {
+        ...params,
+        birthDate: format(params.birthDate, 'yyyy-MM-dd'), //arrumar data
+      })
+      setMessage(res.data.message)
+      setOpenMessage(true)
+      setSucess(true)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data.message)
+        setOpenMessage(true)
+      } else {
+        console.error('Erro inesperado:', error)
+      }
+    }
   }
 
   return (
@@ -83,6 +108,16 @@ function Cadastro() {
           </Typography>
         </Box>
       </Card>
+      {openMessage ? (
+        <ErrorMessage
+          message={message}
+          openMessage={openMessage}
+          setOpenMessage={setOpenMessage}
+          sucess={sucess}
+        />
+      ) : (
+        <div></div>
+      )}
     </Stack>
   )
 }
