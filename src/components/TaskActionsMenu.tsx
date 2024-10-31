@@ -7,6 +7,7 @@ import BotaoPadrao from './BotaoPadrao'
 import AutoCompleteTaskActions from './AutoCompleteTaskActions'
 import Input from './Input'
 import { Tag } from '../types/tag'
+import MultiSelect from './MultiSelect'
 
 type TaskActionsMenuProps = {
   anchorEl: HTMLElement | null
@@ -17,6 +18,7 @@ type TaskActionsMenuProps = {
   taskTitle: string
   taskListId: number | undefined
   tags: Tag[]
+  taskTagsId: Tag[]
 }
 
 export function TaskActionsMenu(props: TaskActionsMenuProps) {
@@ -29,13 +31,14 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
     taskTitle,
     taskListId,
     tags,
+    taskTagsId,
   } = props
   const [listId, setListId] = useState<number | null | undefined>(taskListId)
   const [title, setTitle] = useState<string>(taskTitle)
   const [description, setDescription] = useState<string>(
     taskDescription ? taskDescription : ''
   )
-  const [tagId, setTagId] = useState<number | null>(null)
+  const [tagId, setTagId] = useState<number[]>([])
   const { mutate } = useMutation({
     mutationFn: (params: updateTaskParams) => updateTask(params),
     onSuccess: () => {
@@ -76,12 +79,12 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
       }}
     >
       <Input
-        onChange={e => setTitle(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
         label="Título da tarefa"
         value={title}
       />
       <Input
-        onChange={e => setDescription(e.target.value)}
+        onChange={(e) => setDescription(e.target.value)}
         label="Descrição"
         value={description}
       />
@@ -94,7 +97,12 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         tagId={tagId}
         setTagId={setTagId}
       />
-
+      <MultiSelect
+        categories={categories}
+        tags={tags}
+        setTagId={setTagId}
+        taskTagsId={taskTagsId}
+      />
       <Stack
         direction="row"
         spacing={3}

@@ -78,6 +78,7 @@ export default function Lista(props: ListaProps) {
                     taskTitle={task.title}
                     taskListId={task.listId}
                     tags={tags}
+                    taskTagsId={task.tags}
                   />
                 }
                 disablePadding
@@ -170,6 +171,7 @@ export default function Lista(props: ListaProps) {
                     taskTitle={task.title}
                     taskListId={task.listId}
                     tags={tags}
+                    taskTagsId={task.tags}
                   />
                 }
                 disablePadding

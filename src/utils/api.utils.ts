@@ -86,7 +86,7 @@ export type updateTaskParams = {
   title: string | null
   description: string | null
   listId: number | null | undefined
-  tagId: number | null | undefined
+  tagId: number[] | null | undefined
   userId: number | null
 }
 

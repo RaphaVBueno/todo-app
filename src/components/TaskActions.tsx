@@ -14,11 +14,19 @@ type TaskActionsProps = {
   taskTitle: string
   taskListId: number | undefined
   tags: Tag[]
+  taskTagsId: Tag[]
 }
 
 export default function TaskActions(props: TaskActionsProps) {
-  const { taskId, categories, taskDescription, taskTitle, taskListId, tags } =
-    props
+  const {
+    taskId,
+    categories,
+    taskDescription,
+    taskTitle,
+    taskListId,
+    tags,
+    taskTagsId,
+  } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(taskId),
@@ -92,6 +100,7 @@ export default function TaskActions(props: TaskActionsProps) {
         taskTitle={taskTitle}
         taskListId={taskListId}
         tags={tags}
+        taskTagsId={taskTagsId}
       />
     </Box>
   )
