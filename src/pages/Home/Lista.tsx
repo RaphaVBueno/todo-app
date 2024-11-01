@@ -148,7 +148,7 @@ export default function Lista(props: ListaProps) {
       {completedTasks.length > 0 && (
         <Lists
           sx={{
-            width: '90%',
+            width: '100%',
             maxWidth: 1920,
             bgcolor: 'background.paper',
             borderRadius: '8px',

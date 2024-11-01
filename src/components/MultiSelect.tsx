@@ -19,13 +19,12 @@ type MultiSelectProps = {
   taskTagsId: Tag[]
 }
 
-const ITEM_HEIGHT = 48
+const ITEM_HEIGHT = 148
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
     },
   },
 }
@@ -64,8 +63,8 @@ export default function MultiSelect(props: MultiSelectProps) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+      <FormControl sx={{ width: '100%' }}>
+        <InputLabel id="demo-multiple-chip-label">Tag</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
@@ -87,6 +86,7 @@ export default function MultiSelect(props: MultiSelectProps) {
               key={tag.name}
               value={tag.name}
               style={getStyles(tag.name, tagName, theme)}
+              sx={{ marginY: '1px' }}
             >
               {tag.name}
             </MenuItem>
