@@ -1,6 +1,6 @@
 import IconeComTooltip from './iconeComTooltip'
 
-const colunaCategoria = (handleMenuOpen) => [
+const colunaTag = (handleMenuOpen) => [
   {
     field: 'título',
     headerName: 'Título',
@@ -16,6 +16,12 @@ const colunaCategoria = (handleMenuOpen) => [
     disableColumnMenu: true,
   },
   {
+    field: 'cor',
+    headerName: 'Cor',
+    width: 100,
+    disableColumnMenu: true,
+  },
+  {
     field: 'actions',
     headerName: '',
     width: 100,
@@ -23,11 +29,11 @@ const colunaCategoria = (handleMenuOpen) => [
     disableColumnMenu: true,
     renderCell: (params) => (
       <IconeComTooltip
-        onEditClick={(e) => handleMenuOpen(e, true)}
+        onEditClick={(e) => handleMenuOpen(e, false)}
         onDeleteClick={() => console.log('Deletar item', params.id)}
       />
     ),
   },
 ]
 
-export default colunaCategoria
+export default colunaTag

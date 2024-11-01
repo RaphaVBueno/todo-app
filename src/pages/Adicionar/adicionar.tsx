@@ -61,7 +61,7 @@ function Adicionar() {
           <div style={{ height: '80vh', marginTop: '20px' }}>
             <DataGrid
               rows={rows}
-              columns={colunaTag(handleMenuOpen)}
+              columns={colunaCategoria(handleMenuOpen)}
               hideFooter
             />
           </div>
@@ -92,7 +92,7 @@ function Adicionar() {
           <div style={{ height: '80vh', marginTop: '20px' }}>
             <DataGrid
               rows={rows}
-              columns={colunaCategoria(handleMenuOpen)}
+              columns={colunaTag(handleMenuOpen)}
               hideFooter
             />
           </div>
