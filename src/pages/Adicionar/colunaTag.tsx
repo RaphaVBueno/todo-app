@@ -1,4 +1,4 @@
-import IconeComTooltip from './iconeComTooltip'
+import IconeComTooltip from './EditTagButtons'
 
 const colunaCategoria = (handleMenuOpen) => [
   {

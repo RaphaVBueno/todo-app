@@ -160,3 +160,14 @@ export const getUser = async () => {
   const { user } = res.data as { user: Usuario }
   return user
 }
+
+export type AddListParams = {
+  listName: string
+  color?: string | null
+}
+
+export const addList = async (params: AddListParams) => {
+  const { listName, color } = params
+  const res = await api.post('/list/add ', { listName, color })
+  return res.data.message
+}

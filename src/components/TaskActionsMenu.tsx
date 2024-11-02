@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Menu, Stack, Box } from '@mui/material'
+import { Menu, Stack } from '@mui/material'
 import { List } from '../types/list'
 import { devUser, queryClient, updateTask, updateTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
@@ -66,10 +66,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           height: 360,
           display: 'flex',
           flexDirection: 'column',
-          paddingRight: '24px',
-          paddingBottom: '16px',
-          paddingTop: '16px',
-          paddingLeft: '16px',
+          padding: 10,
         },
       }}
       anchorOrigin={{
@@ -81,24 +78,16 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         horizontal: 'right',
       }}
     >
-      <Box>
-        <label style={{ marginBottom: '-10px', display: 'block' }}>
-          Título da tarefa
-        </label>
-        <Input onChange={(e) => setTitle(e.target.value)} value={title} />
-      </Box>
-
-      <Box>
-        <label
-          style={{ marginBottom: '-10px', marginTop: '8px', display: 'block' }}
-        >
-          Descrição
-        </label>
-        <Input
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        />
-      </Box>
+      <Input
+        onChange={(e) => setTitle(e.target.value)}
+        label="Título da tarefa"
+        value={title}
+      />
+      <Input
+        onChange={(e) => setDescription(e.target.value)}
+        label="Descrição"
+        value={description}
+      />
 
       <AutoCompleteTaskActions
         categories={categories}
@@ -118,7 +107,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         direction="row"
         spacing={3}
         justifyContent="center"
-        sx={{ mt: '20px' }}
+        sx={{ mt: '45px' }}
       >
         <BotaoPadrao action={handleSubmit} buttonName="Confirmar" />
         <BotaoPadrao action={handleClose} buttonName="Cancelar" />

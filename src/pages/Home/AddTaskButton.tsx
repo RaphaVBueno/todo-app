@@ -75,36 +75,27 @@ function AddTaskButton(props: AddTaskButtonProps) {
             sx: {
               height: '680px',
               width: anchorEl?.clientWidth || 'auto',
+              padding: '10px',
               display: 'flex',
               flexDirection: 'column',
-              padding: '16px',
             },
           },
         }}
       >
-        <Box>
-          <label style={{ marginBottom: '-10px', display: 'block' }}>
-            Título da tarefa
-          </label>
-          <Input onChange={(e) => setTitle(e.target.value)} value={title} />
+        <Box sx={{ p: 0, mt: '10px' }}>
+          <Input
+            onChange={(e) => setTitle(e.target.value)}
+            label="Título da tarefa"
+            value={title}
+          />
         </Box>
-
-        <Box>
-          <label
-            style={{
-              marginBottom: '-10px',
-              marginTop: '8px',
-              display: 'block',
-            }}
-          >
-            Descrição
-          </label>
+        <Box sx={{ p: 0, mt: '10px' }}>
           <Input
             onChange={(e) => setDescription(e.target.value)}
+            label="Descrição"
             value={description}
           />
         </Box>
-
         <AutoCompleteAddTask
           categories={categories}
           setListId={setListId}

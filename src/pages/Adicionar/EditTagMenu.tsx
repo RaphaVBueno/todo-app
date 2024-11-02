@@ -1,19 +1,26 @@
 import { Menu, Box, Button } from '@mui/material'
 import Input from '../../components/Input'
+import { useState, type Dispatch, type SetStateAction } from 'react'
+import BotaoPadrao from '@/components/BotaoPadrao'
 
-function EditarMenu({
-  anchorEl,
-  open,
-  isEditingTag,
-  editColor,
-  setEditColor,
-  handleClose,
-}) {
+type EditTagButtonsProps = {
+  anchorEl: HTMLElement | null
+  openMenu: boolean
+  setOpenMenu: Dispatch<SetStateAction<boolean>> //retirar isso
+}
+//criar logicca para quando clicar fora fechar a janela
+function EditTagMenu(props: EditTagButtonsProps) {
+  const { anchorEl, openMenu, setOpenMenu } = props
+  const [name, setName] = useState('')
+
+  const handleclose = () => setOpenMenu(false)
+
+  //const handleSubmit = () =>
+
   return (
     <Menu
       anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
+      open={openMenu}
       PaperProps={{
         style: {
           width: '400px',
@@ -39,24 +46,9 @@ function EditarMenu({
             onChange={(e) => {}}
             fullWidth
             sx={{ marginBottom: 2 }}
+            value={name}
           />
         </Box>
-
-        {!isEditingTag && (
-          <>
-            <input
-              type="color"
-              name="editColorInput"
-              id="edit-color-input"
-              value={editColor}
-              onChange={(e) => setEditColor(e.target.value)}
-              style={{ marginBottom: '10px' }}
-            />
-            <div
-              style={{ width: 40, height: 40, backgroundColor: editColor }}
-            />
-          </>
-        )}
 
         <Box
           sx={{
@@ -68,7 +60,6 @@ function EditarMenu({
           <Button
             variant="outlined"
             color="primary"
-            onClick={handleClose}
             sx={{
               height: '40px',
               width: '130px',
@@ -78,18 +69,11 @@ function EditarMenu({
           >
             Salvar
           </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={handleClose}
-            sx={{ height: '40px', width: '130px', fontSize: '1rem' }}
-          >
-            Cancelar
-          </Button>
+          <BotaoPadrao buttonName="Cancelar" action={handleclose} />
         </Box>
       </Box>
     </Menu>
   )
 }
 
-export default EditarMenu
+export default EditTagMenu

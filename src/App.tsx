@@ -13,7 +13,7 @@ import {
   Perfil,
   RecuperarSenha,
 } from './pages'
-import Adicionar from './pages/Adicionar/adicionar.tsx'
+import Adicionar from './pages/Adicionar/Adicionar.tsx'
 import theme from './theme'
 import { queryClient } from './utils'
 import { AuthProvider } from './contexts/AuthContext.tsx'

@@ -1,35 +1,39 @@
 import { useState } from 'react'
 import { Grid, Box, Button } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
-import EditarMenu from './menuEditar'
+
 import Input from '../../components/Input'
-import colunaCategoria from './colunaCategoria'
-import colunaTag from './colunaTag'
 
-const rows = [
-  { id: 1, título: 'Trabalho', quantidade: 10, cor: 'Azul' },
-  { id: 2, título: 'Escola', quantidade: 20, cor: 'Vermelho' },
-]
-
+import Tabela from './Tabela'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { List } from '@/types'
+import {
+  addList,
+  AddListParams,
+  devUser,
+  getUserLists,
+  queryClient,
+} from '@/utils'
+//arrumar label
 function Adicionar() {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [color, setColor] = useState('#7e7e7e')
-  const [editColor, setEditColor] = useState(color)
-  const [isEditingTag, setIsEditingTag] = useState(false)
+  const { error: categoriesError, data: categories } = useQuery<List[]>({
+    queryKey: ['list'],
+    queryFn: () => getUserLists(devUser),
+  })
+  if (categoriesError) return 'Erro'
 
-  const handleMenuOpen = (event, isTag) => {
-    setAnchorEl(event.currentTarget)
-    setIsEditingTag(isTag)
-    if (!isTag) {
-      setEditColor(color)
-    }
+  const { mutate } = useMutation({
+    mutationFn: (params: AddListParams) => addList(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['list'] })
+    },
+  })
+
+  const [newCategorieInput, setCategorieInput] = useState<string>('')
+
+  const handleSubmitList = () => {
+    mutate({ listName: newCategorieInput })
+    setCategorieInput('')
   }
-
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
-
-  const open = Boolean(anchorEl)
 
   return (
     <div>
@@ -39,10 +43,15 @@ function Adicionar() {
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-              <label style={{ marginBottom: '-10px', display: 'block' }}>
-                Adicionar Categoria
-              </label>
-              <Input name="categoria" required fullWidth />
+              Adicionar Categoria
+              <Input
+                name="categoria"
+                required
+                fullWidth
+                style={{ marginTop: '-10px' }} ///////////////
+                value={newCategorieInput}
+                onChange={(event) => setCategorieInput(event.target.value)}
+              />
             </Box>
             <Button
               variant="contained"
@@ -53,17 +62,14 @@ function Adicionar() {
                 width: '100px',
                 height: '38px',
               }}
+              onClick={handleSubmitList}
             >
               Salvar
             </Button>
           </Box>
 
           <div style={{ height: '80vh', marginTop: '20px' }}>
-            <DataGrid
-              rows={rows}
-              columns={colunaCategoria(handleMenuOpen)}
-              hideFooter
-            />
+            <Tabela categories={categories} />
           </div>
         </Grid>
 
@@ -89,24 +95,9 @@ function Adicionar() {
             </Button>
           </Box>
 
-          <div style={{ height: '80vh', marginTop: '20px' }}>
-            <DataGrid
-              rows={rows}
-              columns={colunaTag(handleMenuOpen)}
-              hideFooter
-            />
-          </div>
+          <div style={{ height: '80vh', marginTop: '20px' }}></div>
         </Grid>
       </Grid>
-
-      <EditarMenu
-        anchorEl={anchorEl}
-        open={open}
-        isEditingTag={isEditingTag}
-        editColor={editColor}
-        setEditColor={setEditColor}
-        handleClose={handleMenuClose}
-      />
     </div>
   )
 }
