@@ -59,11 +59,9 @@ export default function MultiSelect(props: MultiSelectProps) {
     setTagId(selectedTagIds)
   }
 
-  //const handleChange = () =>
-
   return (
     <div>
-      <FormControl sx={{ width: '100%' }}>
+      <FormControl sx={{ width: '100%', marginTop: '10px' }}>
         <InputLabel id="demo-multiple-chip-label">Tag</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

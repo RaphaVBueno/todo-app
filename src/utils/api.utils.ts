@@ -98,6 +98,7 @@ export const updateTask = async ({
   tagId,
   userId,
 }: updateTaskParams) => {
+  console.log(tagId)
   const res = await api.post('/tasks/${id}/update', {
     taskId,
     title,

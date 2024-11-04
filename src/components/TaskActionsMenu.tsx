@@ -93,9 +93,6 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         categories={categories}
         setListId={setListId}
         listId={listId}
-        tags={tags}
-        tagId={tagId}
-        setTagId={setTagId}
       />
       <MultiSelect
         categories={categories}
