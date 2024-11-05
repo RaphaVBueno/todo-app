@@ -1,7 +1,6 @@
 import { List } from '@/types'
 import { DataGrid } from '@mui/x-data-grid'
 import EditTagButtons from './EditTagButtons'
-import { useState } from 'react'
 
 type TabelaProps = {
   categories: List[] | undefined
@@ -34,7 +33,9 @@ const colunaTag = [
     width: 100,
     sortable: false,
     disableColumnMenu: true,
-    renderCell: (params: any) => <EditTagButtons />,
+    renderCell: (params: any) => (
+      <EditTagButtons name={params.row.name} listId={params.row.id} />
+    ),
   },
 ]
 

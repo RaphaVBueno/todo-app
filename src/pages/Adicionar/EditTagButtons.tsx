@@ -3,7 +3,13 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { useState } from 'react'
 import EditTagMenu from './EditTagMenu'
 
-function EditTagButtons() {
+type EditTagButtonsProps = {
+  name: string
+  listId: number
+}
+
+function EditTagButtons(props: EditTagButtonsProps) {
+  const { name, listId } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openMenu, setOpenMenu] = useState(false)
 
@@ -67,6 +73,8 @@ function EditTagButtons() {
         anchorEl={anchorEl}
         openMenu={openMenu}
         setOpenMenu={setOpenMenu}
+        name={name}
+        listId={listId}
       />
     </Box>
   )

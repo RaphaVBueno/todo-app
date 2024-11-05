@@ -172,3 +172,15 @@ export const addList = async (params: AddListParams) => {
   const res = await api.post('/list/add ', { listName, color })
   return res.data.message
 }
+
+export type UpdateListParams = {
+  listId: number
+  color: string | null
+  name: string
+}
+
+export const updateList = async (params: UpdateListParams) => {
+  const { listId, color, name } = params
+  const res = await api.put('/list/edit', { listId, color, name })
+  return res.data.message
+}

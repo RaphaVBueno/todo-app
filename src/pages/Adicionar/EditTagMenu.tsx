@@ -2,20 +2,38 @@ import { Menu, Box, Button } from '@mui/material'
 import Input from '../../components/Input'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import BotaoPadrao from '@/components/BotaoPadrao'
+import { useMutation } from '@tanstack/react-query'
+import { queryClient, updateList, UpdateListParams } from '@/utils'
 
 type EditTagButtonsProps = {
   anchorEl: HTMLElement | null
   openMenu: boolean
   setOpenMenu: Dispatch<SetStateAction<boolean>> //retirar isso
+  listId: number
+  name: string
 }
 //criar logicca para quando clicar fora fechar a janela
 function EditTagMenu(props: EditTagButtonsProps) {
-  const { anchorEl, openMenu, setOpenMenu } = props
-  const [name, setName] = useState('')
+  const { anchorEl, openMenu, setOpenMenu, listId, name } = props
+  const [editName, setEditName] = useState(name)
+  const [color, setColor] = useState('#ff1010')
 
-  const handleclose = () => setOpenMenu(false)
+  const handleclose = () => {
+    setOpenMenu(false), setEditName(name)
+  }
 
-  //const handleSubmit = () =>
+  const { mutate } = useMutation({
+    mutationFn: (params: UpdateListParams) => updateList(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['list'] })
+    },
+  })
+
+  const handleSubmit = () => {
+    mutate({ listId, color, name: editName })
+    setOpenMenu(false)
+    setEditName(name)
+  }
 
   return (
     <Menu
@@ -37,19 +55,17 @@ function EditTagMenu(props: EditTagButtonsProps) {
     >
       <Box sx={{ p: 2 }}>
         <Box sx={{ mb: 2 }}>
-          <label style={{ marginBottom: '-10px', display: 'block' }}>
-            Editar
-          </label>
+          Editar
           <Input
             name="editar"
             required
-            onChange={(e) => {}}
             fullWidth
             sx={{ marginBottom: 2 }}
-            value={name}
+            value={editName}
+            onChange={(event) => setEditName(event?.target.value)}
           />
         </Box>
-
+        <Box>colocar cor aqui</Box>
         <Box
           sx={{
             display: 'flex',
@@ -60,6 +76,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
           <Button
             variant="outlined"
             color="primary"
+            onClick={handleSubmit}
             sx={{
               height: '40px',
               width: '130px',
