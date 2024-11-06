@@ -27,7 +27,7 @@ export type AddTaskParams = {
   userId: number
   description: string | null
   listId: number | null
-  tagId: number | null
+  tagId: number[]
 }
 
 export const addTask = async ({

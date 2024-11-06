@@ -13,7 +13,6 @@ import { List } from '../types/list'
 import { Tag } from '../types/tag'
 
 type MultiSelectProps = {
-  categories: List[]
   tags: Tag[]
   setTagId: Dispatch<SetStateAction<number[]>>
   taskTagsId: Tag[]

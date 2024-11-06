@@ -13,6 +13,7 @@ import BotaoPadrao from '@/components/BotaoPadrao'
 import Input from '@/components/Input'
 
 import AutoCompleteAddTask from './AutoCompleteAddTask'
+import MultiSelect from '@/components/MultiSelect'
 
 type AddTaskButtonProps = {
   categories: List[]
@@ -27,7 +28,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [listId, setListId] = useState<number | null>(null)
-  const [tagId, SetTagId] = useState<number | null>(null)
+  const [tagId, SetTagId] = useState<number[]>([])
 
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
@@ -40,7 +41,14 @@ function AddTaskButton(props: AddTaskButtonProps) {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => setAnchorEl(null)
+  const handleClose = () => {
+    setAnchorEl(null)
+    setTitle('')
+    setDueDate(null)
+    setDescription('')
+    setListId(null)
+    SetTagId([])
+  }
 
   const handleSubmit = () => {
     mutate({ title, dueDate, userId: devUser, description, listId, tagId })
@@ -49,7 +57,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
     setDueDate(null)
     setDescription('')
     setListId(null)
-    SetTagId(null)
+    SetTagId([])
   }
 
   return (
@@ -96,12 +104,8 @@ function AddTaskButton(props: AddTaskButtonProps) {
             value={description}
           />
         </Box>
-        <AutoCompleteAddTask
-          categories={categories}
-          setListId={setListId}
-          tags={tags}
-          setTagId={SetTagId}
-        />
+        <AutoCompleteAddTask categories={categories} setListId={setListId} />
+        <MultiSelect tags={tags} setTagId={SetTagId} taskTagsId={[]} />
         <Box>
           <LocalizationProvider
             dateAdapter={AdapterDateFns}
