@@ -1,4 +1,4 @@
-import { Menu, Box, Button } from '@mui/material'
+import { Menu, Box, Button, Grid } from '@mui/material'
 import Input from '../../components/Input'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import BotaoPadrao from '@/components/BotaoPadrao'
@@ -12,14 +12,15 @@ type EditTagButtonsProps = {
   listId: number
   name: string
 }
-//criar logicca para quando clicar fora fechar a janela
+
 function EditTagMenu(props: EditTagButtonsProps) {
   const { anchorEl, openMenu, setOpenMenu, listId, name } = props
   const [editName, setEditName] = useState(name)
   const [color, setColor] = useState('#ff1010')
 
   const handleclose = () => {
-    setOpenMenu(false), setEditName(name)
+    setOpenMenu(false)
+    setEditName(name)
   }
 
   const { mutate } = useMutation({
@@ -62,10 +63,32 @@ function EditTagMenu(props: EditTagButtonsProps) {
             fullWidth
             sx={{ marginBottom: 2 }}
             value={editName}
-            onChange={(event) => setEditName(event?.target.value)}
+            onChange={(event) => setEditName(event.target.value)}
           />
         </Box>
-        <Box>colocar cor aqui</Box>
+
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <input
+              type="color"
+              name="input"
+              id="color-input"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              style={{ width: '100%' }}
+            />
+          </Grid>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                backgroundColor: color,
+                borderRadius: '50%',
+              }}
+            />
+          </Grid>
+        </Grid>
         <Box
           sx={{
             display: 'flex',
