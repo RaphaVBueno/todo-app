@@ -1,4 +1,4 @@
-import { Menu, Box, Button, Grid } from '@mui/material'
+import { Menu, Box, Button, Grid, Typography } from '@mui/material'
 import Input from '../../components/Input'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import BotaoPadrao from '@/components/BotaoPadrao'
@@ -8,7 +8,7 @@ import { queryClient, updateList, UpdateListParams } from '@/utils'
 type EditTagButtonsProps = {
   anchorEl: HTMLElement | null
   openMenu: boolean
-  setOpenMenu: Dispatch<SetStateAction<boolean>> //retirar isso
+  setOpenMenu: Dispatch<SetStateAction<boolean>>
   listId: number
   name: string
 }
@@ -40,9 +40,13 @@ function EditTagMenu(props: EditTagButtonsProps) {
     <Menu
       anchorEl={anchorEl}
       open={openMenu}
+      onClose={handleclose}
       PaperProps={{
         style: {
           width: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 10,
         },
       }}
       anchorOrigin={{
@@ -54,8 +58,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
         horizontal: 'right',
       }}
     >
-      <Box sx={{ p: 2 }}>
-        <Box sx={{ mb: 2 }}>
+        <Box>
           Editar
           <Input
             name="editar"
@@ -64,31 +67,28 @@ function EditTagMenu(props: EditTagButtonsProps) {
             sx={{ marginBottom: 2 }}
             value={editName}
             onChange={(event) => setEditName(event.target.value)}
+            style={{ marginTop: '-10px' }}
           />
         </Box>
 
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <input
-              type="color"
-              name="input"
-              id="color-input"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              style={{ width: '100%' }}
-            />
-          </Grid>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                backgroundColor: color,
-                borderRadius: '50%',
-              }}
-            />
-          </Grid>
-        </Grid>
+        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+          <Typography sx={{ mr: 2 }}>Selecione a cor</Typography>
+          <input
+            type="color"
+            name="input"
+            id="color-input"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            style={{
+              width: 24,
+              height: 24,
+              backgroundColor: color,
+              borderRadius: '50%',
+              border: 'none'
+          }}
+        />
+
+        </Box>
         <Box
           sx={{
             display: 'flex',
@@ -111,7 +111,6 @@ function EditTagMenu(props: EditTagButtonsProps) {
           </Button>
           <BotaoPadrao buttonName="Cancelar" action={handleclose} />
         </Box>
-      </Box>
     </Menu>
   )
 }

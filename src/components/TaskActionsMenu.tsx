@@ -82,11 +82,13 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         onChange={(e) => setTitle(e.target.value)}
         label="Título da tarefa"
         value={title}
+        style={{ marginTop: '-10px' }}
       />
       <Input
         onChange={(e) => setDescription(e.target.value)}
         label="Descrição"
         value={description}
+        style={{ marginTop: '-10px' }}
       />
 
       <AutoCompleteTaskActions

@@ -95,6 +95,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             onChange={(e) => setTitle(e.target.value)}
             label="Título da tarefa"
             value={title}
+            style={{ marginTop: '-10px' }}
           />
         </Box>
         <Box sx={{ p: 0, mt: '10px' }}>
@@ -102,6 +103,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
             onChange={(e) => setDescription(e.target.value)}
             label="Descrição"
             value={description}
+            style={{ marginTop: '-10px' }}
           />
         </Box>
         <AutoCompleteAddTask categories={categories} setListId={setListId} />
