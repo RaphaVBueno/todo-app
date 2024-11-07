@@ -1,21 +1,49 @@
 import { IconButton, Tooltip, Box } from '@mui/material'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { useState } from 'react'
+
+import { useMutation } from '@tanstack/react-query'
+import { deleteList, deleteTag, queryClient } from '@/utils'
 import EditTagMenu from './EditTagMenu'
 
 type EditTagButtonsProps = {
   name: string
-  listId: number
+  listId?: number
+  tagId?: number
+  listColor?: string
 }
 
 function EditTagButtons(props: EditTagButtonsProps) {
-  const { name, listId } = props
+  const { name, listId, tagId, listColor } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openMenu, setOpenMenu] = useState(false)
+
+  const { mutate: mutateList } = useMutation({
+    mutationFn: () => deleteList(listId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['list'] })
+    },
+  })
+
+  const { mutate: mutateTag } = useMutation({
+    mutationFn: () => deleteTag(tagId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tags'] })
+    },
+  })
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
     setOpenMenu(true)
+  }
+
+  const handleDelete = () => {
+    if (listId) {
+      mutateList()
+    }
+    if (tagId) {
+      mutateTag()
+    }
   }
 
   return (
@@ -65,7 +93,12 @@ function EditTagButtons(props: EditTagButtonsProps) {
           },
         }}
       >
-        <IconButton edge="end" aria-label="delete" sx={{ ml: 2 }}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          sx={{ ml: 2 }}
+          onClick={handleDelete}
+        >
           <DeleteIcon />
         </IconButton>
       </Tooltip>
@@ -75,6 +108,8 @@ function EditTagButtons(props: EditTagButtonsProps) {
         setOpenMenu={setOpenMenu}
         name={name}
         listId={listId}
+        tagId={tagId}
+        listColor={listColor}
       />
     </Box>
   )

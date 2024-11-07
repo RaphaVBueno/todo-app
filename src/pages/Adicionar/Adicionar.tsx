@@ -5,12 +5,13 @@ import Input from '../../components/Input'
 
 import Tabela from './Tabela'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { List } from '@/types'
+import { List, Tag } from '@/types'
 import {
   addList,
   AddListParams,
   devUser,
   getUserLists,
+  getUserTags,
   queryClient,
 } from '@/utils'
 //arrumar label
@@ -19,6 +20,13 @@ function Adicionar() {
     queryKey: ['list'],
     queryFn: () => getUserLists(devUser),
   })
+
+  const { error: tagsError, data: tags } = useQuery<Tag[]>({
+    queryKey: ['tags'],
+    queryFn: () => getUserTags(devUser),
+  })
+
+  if (tagsError) return 'Erro'
   if (categoriesError) return 'Erro'
 
   const { mutate } = useMutation({
@@ -95,7 +103,9 @@ function Adicionar() {
             </Button>
           </Box>
 
-          <div style={{ height: '80vh', marginTop: '20px' }}></div>
+          <div style={{ height: '80vh', marginTop: '20px' }}>
+            <Tabela tags={tags} />
+          </div>
         </Grid>
       </Grid>
     </div>

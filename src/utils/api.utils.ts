@@ -174,7 +174,7 @@ export const addList = async (params: AddListParams) => {
 }
 
 export type UpdateListParams = {
-  listId: number
+  listId: number | undefined
   color: string | null
   name: string
 }
@@ -182,5 +182,26 @@ export type UpdateListParams = {
 export const updateList = async (params: UpdateListParams) => {
   const { listId, color, name } = params
   const res = await api.put('/list/edit', { listId, color, name })
+  return res.data.message
+}
+
+export const deleteList = async (listId: number | undefined) => {
+  const res = await api.delete(`/list/${listId}`)
+  return res.data.message
+}
+
+export type UpdateTagParams = {
+  tagId: number | undefined
+  name: string
+}
+
+export const updateTag = async (params: UpdateTagParams) => {
+  const { tagId, name } = params
+  const res = await api.put('/tag/edit', { tagId, name })
+  return res.data.message
+}
+
+export const deleteTag = async (tagId: number | undefined) => {
+  const res = await api.delete(`/tag/${tagId}`)
   return res.data.message
 }
