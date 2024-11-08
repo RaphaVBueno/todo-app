@@ -205,3 +205,13 @@ export const deleteTag = async (tagId: number | undefined) => {
   const res = await api.delete(`/tag/${tagId}`)
   return res.data.message
 }
+
+export type AddTagParams = {
+  name: string | undefined
+}
+
+export const addTag = async (params: AddTagParams) => {
+  const { name } = params
+  const res = await api.post('/tag/add ', { name })
+  return res.data.message
+}

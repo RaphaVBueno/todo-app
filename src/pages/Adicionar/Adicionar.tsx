@@ -9,6 +9,8 @@ import { List, Tag } from '@/types'
 import {
   addList,
   AddListParams,
+  addTag,
+  AddTagParams,
   devUser,
   getUserLists,
   getUserTags,
@@ -36,11 +38,25 @@ function Adicionar() {
     },
   })
 
+  const { mutate: mutateTag } = useMutation({
+    mutationFn: (params: AddTagParams) => addTag(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tags'] })
+    },
+  })
+
   const [newCategorieInput, setCategorieInput] = useState<string>('')
 
   const handleSubmitList = () => {
     mutate({ listName: newCategorieInput })
     setCategorieInput('')
+  }
+
+  const [newTagInput, setTagInput] = useState<string>('')
+
+  const handleSubmitTag = () => {
+    mutateTag({ name: newTagInput })
+    setTagInput('')
   }
 
   return (
@@ -84,10 +100,15 @@ function Adicionar() {
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-              <label style={{ marginBottom: '-10px', display: 'block' }}>
-                Adicionar Tag
-              </label>
-              <Input name="tag" required fullWidth />
+              Adicionar Tag
+              <Input
+                name="tag"
+                required
+                fullWidth
+                style={{ marginTop: '-10px' }} ///////////////
+                value={newTagInput}
+                onChange={(event) => setTagInput(event.target.value)}
+              />
             </Box>
             <Button
               variant="contained"
@@ -98,6 +119,7 @@ function Adicionar() {
                 width: '100px',
                 height: '38px',
               }}
+              onClick={handleSubmitTag}
             >
               Salvar
             </Button>
