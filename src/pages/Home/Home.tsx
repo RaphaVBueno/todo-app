@@ -14,14 +14,15 @@ import Loading from '@/components/Loading'
 function Home() {
   const { date, setDate, filter, setFilter } =
     useOutletContext<DashboardContext>()
-  const [searchList, setSearchList] = useState<Task[] | null>(null)
+  const [search, setSearch] = useState<string>('')
   const {
     isPending,
+    isFetching,
     error: tasksError,
     data: tasks,
   } = useQuery<Task[]>({
-    queryKey: ['tasks', date],
-    queryFn: getTasks(date),
+    queryKey: ['tasks', date, search],
+    queryFn: getTasks(date, search),
   })
 
   const { error: categoriesError, data: categories } = useQuery<List[]>({
@@ -53,7 +54,9 @@ function Home() {
           filter={filter}
           setFilter={setFilter}
           categories={categories || []}
-          setSearchList={setSearchList}
+          setSearch={setSearch}
+          search={search}
+          isFetching={isFetching}
         />
 
         {isPending ? (
@@ -61,11 +64,7 @@ function Home() {
         ) : (
           <Lista
             tasksList={
-              searchList && searchList.length > 0
-                ? searchList
-                : filter
-                ? tasks?.filter((task) => task.listId === filter)
-                : tasks
+              filter ? tasks?.filter((task) => task.listId === filter) : tasks
             }
             categories={categories || []}
             date={date}

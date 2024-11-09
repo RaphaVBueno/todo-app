@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { Box, Button, Typography, Stack } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
+import { Box, Button, Typography, Stack, Alert } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Card, Input } from '@/components'
@@ -13,6 +13,7 @@ function Cadastro() {
   const [message, setMessage] = useState('')
   const [openMessage, setOpenMessage] = useState(false)
   const [sucess, setSucess] = useState(false)
+  const navigate = useNavigate()
 
   const {
     register,
@@ -21,17 +22,13 @@ function Cadastro() {
   } = useForm<Fields>()
 
   const onSubmit: SubmitHandler<Fields> = async (data) => {
-    type result = {
-      message: string
-      sucess: boolean
-    }
     const result = await addUser(data as AddUserParams)
 
-    setMessage(result.message)
-    setOpenMessage(true)
+    // setMessage(result.message)
+    // setOpenMessage(true)
 
     if (result.success) {
-      setSucess(result.success)
+      navigate('/login', { state: { result } })
     }
   }
 
@@ -85,6 +82,7 @@ function Cadastro() {
             type="password"
             error={errors.password?.message}
           />
+          <Alert severity="error">Erro ao adicionar usuario</Alert>
           <Button type="submit" fullWidth variant="contained">
             Inscrever-se
           </Button>

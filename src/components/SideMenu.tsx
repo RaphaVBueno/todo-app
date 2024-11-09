@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import MenuContent from './MenuContent'
 import OptionsMenu from './OptionsMenu'
+import { useAuth } from '@/hooks'
 
 const drawerWidth = 320
 
@@ -21,9 +22,8 @@ const Drawer = styled(MuiDrawer)({
   },
 })
 
-type SideMenuProps = {}
-
-export default function SideMenu(props: SideMenuProps) {
+export default function SideMenu() {
+  const { user } = useAuth()
   return (
     <Drawer
       variant="permanent"
@@ -60,10 +60,10 @@ export default function SideMenu(props: SideMenuProps) {
               variant="body2"
               sx={{ fontWeight: 500, lineHeight: '16px' }}
             >
-              Rapha
+              {user?.name}
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              rapha@gmail.com
+              {user?.email}
             </Typography>
           </Box>
           <OptionsMenu />

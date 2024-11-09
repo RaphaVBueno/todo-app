@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Box, Button, Typography, Stack } from '@mui/material'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Box, Button, Typography, Stack, Alert } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useState } from 'react'
 
@@ -12,6 +12,7 @@ import ErrorMessage from '@/components/ErrorMessage'
 export default function Login() {
   const { signIn } = useAuth()
   const navigate = useNavigate()
+  const { state } = useLocation()
   const {
     register,
     handleSubmit,
@@ -37,6 +38,9 @@ export default function Login() {
   return (
     <Stack sx={{ minHeight: '100vh' }}>
       <Card variant="outlined" sx={{ py: '2rem' }}>
+        {state?.result.success && (
+          <Alert severity="success">{state?.result.message}</Alert>
+        )}
         <Typography
           component="h1"
           variant="h4"

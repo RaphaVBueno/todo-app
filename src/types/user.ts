@@ -3,5 +3,5 @@ export type Usuario = {
   email: string
   name: string
   username: string
-  birthDate: Date | null
+  birthDate: string
 }

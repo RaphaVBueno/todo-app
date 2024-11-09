@@ -1,7 +1,7 @@
 import {
   Avatar,
   Button,
-  Grid,
+  Grid2 as Grid,
   TextField,
   Typography,
   Card,
@@ -18,17 +18,17 @@ const UserProfile = () => {
     <Card sx={{ maxWidth: 600, margin: 'auto', mt: 5 }}>
       <CardContent>
         <Grid container direction="column" alignItems="center" spacing={2}>
-          <Grid item>
+          <Grid>
             <Avatar
               alt="User Avatar"
               src="/avatar.jpg"
               sx={{ width: 100, height: 100 }}
             />
           </Grid>
-          <Grid item>
+          <Grid>
             <Typography variant="h5">{user?.username || 'Usuário'}</Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button variant="contained" color="primary">
               Adicionar Nova Foto
             </Button>
@@ -36,43 +36,43 @@ const UserProfile = () => {
         </Grid>
 
         <Grid container spacing={2} mt={2}>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               label="Nome"
-              defaultValue={user?.name}
+              defaultValue={user.name}
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               label="Nome de Usuário"
-              defaultValue={user?.username}
+              defaultValue={user.username}
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               label="Email"
-              defaultValue={user?.email}
+              defaultValue={user.email}
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               type="date"
               label="Data de Nascimento"
-              defaultValue={user?.birthDate.slice(0, 10)}
+              defaultValue={user.birthDate.slice(0, 10)}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               type="password"
@@ -80,7 +80,7 @@ const UserProfile = () => {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <TextField
               fullWidth
               type="password"

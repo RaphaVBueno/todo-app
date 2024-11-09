@@ -12,12 +12,28 @@ export const api = axios.create({
 
 export const devUser = 1
 
-export const getTasks = (dueDate: Date | null | string) => async () => {
-  const res = await api.get('/tasks', {
-    params: {
-      dueDate: format(dueDate, 'yyyy-MM-dd'),
-    },
-  })
+export const getTasks =
+  (dueDate: Date | null | string, search: string) => async () => {
+    if (search) {
+      await wait(1500)
+      const res = await api.get(`/tasks/busca/${search}`)
+      return res.data.tasks
+    } else {
+      const res = await api.get('/tasks', {
+        params: {
+          dueDate: format(dueDate, 'yyyy-MM-dd'),
+        },
+      })
+      return res.data.tasks
+    }
+  }
+
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+export const searchTask = async (search: string) => {
+  const res = await api.get(`/tasks/busca/${search}`)
   return res.data.tasks
 }
 
@@ -108,11 +124,6 @@ export const updateTask = async ({
     userId,
   })
   return res.data.message
-}
-
-export const searchTask = async (search: string) => {
-  const res = await api.get(`/tasks/busca/${search}`)
-  return res.data.tasks
 }
 
 export type AddUserParams = {

@@ -25,7 +25,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
   const { anchorEl, openMenu, setOpenMenu, listId, name, tagId, listColor } =
     props
   const [editName, setEditName] = useState(name)
-  const [color, setColor] = useState('#ff1010')
+  const [color, setColor] = useState(listColor || '#ff1010')
 
   const handleclose = () => {
     setOpenMenu(false)
@@ -94,26 +94,24 @@ function EditTagMenu(props: EditTagButtonsProps) {
         />
       </Box>
 
-      {listColor ? (
+      {listColor && (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography sx={{ mr: 2 }}>Selecione a cor</Typography>
           <input
             type="color"
             name="input"
             id="color-input"
-            value={listColor}
+            value={color}
             onChange={(e) => setColor(e.target.value)}
             style={{
               width: 24,
               height: 24,
-              backgroundColor: listColor,
+              backgroundColor: color,
               borderRadius: '50%',
               border: 'none',
             }}
           />
         </Box>
-      ) : (
-        <div></div>
       )}
       <Box
         sx={{

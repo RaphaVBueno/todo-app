@@ -8,7 +8,6 @@ import { showDate } from '../../utils'
 import FilterButton from '../../components/FilterButton'
 import type { List } from '../../types/list'
 import { greetings } from '../../utils/greetings'
-import { Task } from '../../types'
 
 type HeaderProps = {
   /**
@@ -19,11 +18,22 @@ type HeaderProps = {
   filter: number | null
   setFilter: Dispatch<SetStateAction<number | null>>
   categories: List[]
-  setSearchList: Dispatch<SetStateAction<Task[] | null>>
+  search: string
+  setSearch: Dispatch<SetStateAction<string>>
+  isFetching: boolean
 }
 
 export default function Header(props: HeaderProps) {
-  const { date, setDate, filter, setFilter, categories, setSearchList } = props
+  const {
+    date,
+    setDate,
+    filter,
+    setFilter,
+    categories,
+    search,
+    setSearch,
+    isFetching,
+  } = props
   const greeting = useMemo(() => greetings(), [])
 
   return (
@@ -52,7 +62,7 @@ export default function Header(props: HeaderProps) {
           filter={filter}
           setFilter={setFilter}
         />
-        <Search setSearchList={setSearchList} />
+        <Search search={search} setSearch={setSearch} isFetching={isFetching} />
         <CustomDatePicker date={date} setDate={setDate} />
       </Stack>
     </Stack>

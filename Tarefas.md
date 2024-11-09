@@ -4,25 +4,26 @@
 
 ## Features
 
-- [ ] CRUD tela perfil (tratamento de erro)
+- [ ] CRUD tela perfil (tratamento de erro) (@raphavbueno)
 - recuperar senha
   -- Envio programático de e-mails
   -- Tokens temporários de acesso único
   -- Geração de nova senha
 - Autorização (tela de lista de usuários)
-- middleware de erros (Rapha)
-- Criar snacks (toasts) de notificação
-- Confirmar ao deletar
+- middleware de erros (@raphavbueno)
+- Criar snacks (toasts) de notificação (@viniciusvbueno)
+- Confirmar ao deletar (@viniciusvbueno)
 
 ## Bugs e melhorias
 
-- revisar, refatorar e documentar o codigo
+- revisar, refatorar e documentar o codigo (@raphavbueno e @viniciusvbueno)
 - Arrumar tratamento de Datas na aplicação como um todo
 - arrumar mensagem de erro 22h10
-- Remover divs órfãs
+- Remover divs órfãs (@raphavbueno)
 - bug do refresh
-- bug de multiselect ao retirar uma tag
-- Labels dos inputs criar/editar tarefa (Vinicius)
+- bug de multiselect ao retirar uma tag (@raphavbueno)
+- Labels dos inputs criar/editar tarefa (@viniciusvbueno)
+- Refatorar codigo das tabelas
 
 ## Vídeos e recursos
 
