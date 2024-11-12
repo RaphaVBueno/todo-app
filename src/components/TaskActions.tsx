@@ -6,6 +6,7 @@ import { deleteTask, queryClient } from '../utils'
 import { List } from '../types/list'
 import { TaskActionsMenu } from './TaskActionsMenu'
 import { Tag } from '../types/tag'
+import DeleteDialog from './Delete'
 
 type TaskActionsProps = {
   taskId: number
@@ -27,7 +28,10 @@ export default function TaskActions(props: TaskActionsProps) {
     tags,
     taskTagsId,
   } = props
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
@@ -40,7 +44,12 @@ export default function TaskActions(props: TaskActionsProps) {
   }
 
   const handleDelete = () => {
-    mutate()
+    setOpenDeleteDialog(true)
+  }
+
+  const handleConfirmDelete = () => {
+    mutate();
+    setOpenDeleteDialog(false)
   }
 
   return (
@@ -86,7 +95,7 @@ export default function TaskActions(props: TaskActionsProps) {
           edge="end"
           aria-label="delete"
           sx={{ ml: 2 }}
-          onClick={() => handleDelete()}
+          onClick={handleDelete}
         >
           <DeleteIcon />
         </IconButton>
@@ -101,6 +110,12 @@ export default function TaskActions(props: TaskActionsProps) {
         taskListId={taskListId}
         tags={tags}
         taskTagsId={taskTagsId}
+      />
+
+      <DeleteDialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
       />
     </Box>
   )
