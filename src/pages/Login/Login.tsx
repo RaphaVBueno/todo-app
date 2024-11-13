@@ -87,14 +87,12 @@ export default function Login() {
           </Typography>
         </Box>
       </Card>
-      {openMessage ? (
+      {openMessage && (
         <ErrorMessage
           message={message}
           openMessage={openMessage}
           setOpenMessage={setOpenMessage}
         />
-      ) : (
-        <div></div>
       )}
     </Stack>
   )

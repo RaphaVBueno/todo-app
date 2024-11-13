@@ -19,9 +19,9 @@
 - revisar, refatorar e documentar o codigo (@raphavbueno e @viniciusvbueno)
 - Arrumar tratamento de Datas na aplicação como um todo
 - arrumar mensagem de erro 22h10
-- Remover divs órfãs (@raphavbueno)
+- [x]Remover divs órfãs (@raphavbueno)
 - bug do refresh
-- bug de multiselect ao retirar uma tag (@raphavbueno)
+- [x]bug de multiselect ao retirar uma tag (@raphavbueno)
 - Labels dos inputs criar/editar tarefa (@viniciusvbueno)
 - Refatorar codigo das tabelas
 

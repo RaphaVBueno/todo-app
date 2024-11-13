@@ -9,7 +9,6 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
-import { List } from '../types/list'
 import { Tag } from '../types/tag'
 
 type MultiSelectProps = {
@@ -17,7 +16,7 @@ type MultiSelectProps = {
   setTagId: Dispatch<SetStateAction<number[]>>
   taskTagsId: Tag[]
 }
-//colcocar isso em add task
+
 const ITEM_HEIGHT = 148
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -54,7 +53,6 @@ export default function MultiSelect(props: MultiSelectProps) {
     const selectedTagIds = tags
       .filter((tag) => selectedTagNames.includes(tag.name))
       .map((tag) => tag.id)
-
     setTagId(selectedTagIds)
   }
 

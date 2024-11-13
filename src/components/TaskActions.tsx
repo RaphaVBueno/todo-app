@@ -48,7 +48,7 @@ export default function TaskActions(props: TaskActionsProps) {
   }
 
   const handleConfirmDelete = () => {
-    mutate();
+    mutate()
     setOpenDeleteDialog(false)
   }
 

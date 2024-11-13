@@ -55,10 +55,8 @@ function ErrorMessage(props: ErrorMessageParams) {
             }}
           >
             <BotaoPadrao buttonName="Fechar" action={handleClose} />
-            {sucess ? (
+            {sucess && (
               <BotaoPadrao buttonName="Fazer Login" action={goToLoging} />
-            ) : (
-              <div></div>
             )}
           </Box>
         </Box>

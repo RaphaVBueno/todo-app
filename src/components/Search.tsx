@@ -15,11 +15,7 @@ export default function Search(props: SearchProps) {
   const { search, setSearch, isFetching } = props
 
   return (
-    <FormControl
-      sx={{ width: { xs: '100%', md: '25ch' } }}
-      variant="outlined"
-      // error={Boolean(searchError)}
-    >
+    <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
       <OutlinedInput
         size="small"
         id="search"
