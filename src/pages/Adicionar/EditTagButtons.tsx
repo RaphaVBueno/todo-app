@@ -1,50 +1,60 @@
-import { IconButton, Tooltip, Box } from '@mui/material'
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
-import { useState } from 'react'
-
-import { useMutation } from '@tanstack/react-query'
-import { deleteList, deleteTag, queryClient } from '@/utils'
-import EditTagMenu from './EditTagMenu'
+import { IconButton, Tooltip, Box } from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { deleteList, deleteTag, queryClient } from '@/utils';
+import EditTagMenu from './EditTagMenu';
+import DeleteConfirmationDialog from '../../components/Delete';
 
 type EditTagButtonsProps = {
-  name: string
-  listId?: number
-  tagId?: number
-  listColor?: string
-}
+  name: string;
+  listId?: number;
+  tagId?: number;
+  listColor?: string;
+};
 
 function EditTagButtons(props: EditTagButtonsProps) {
-  const { name, listId, tagId, listColor } = props
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [openMenu, setOpenMenu] = useState(false)
+  const { name, listId, tagId, listColor } = props;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const { mutate: mutateList } = useMutation({
     mutationFn: () => deleteList(listId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['list'] })
+      queryClient.invalidateQueries({ queryKey: ['list'] });
     },
-  })
+  });
 
   const { mutate: mutateTag } = useMutation({
     mutationFn: () => deleteTag(tagId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tags'] })
+      queryClient.invalidateQueries({ queryKey: ['tags'] });
     },
-  })
+  });
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-    setOpenMenu(true)
-  }
+    setAnchorEl(event.currentTarget);
+    setOpenMenu(true);
+  };
 
-  const handleDelete = () => {
+  const handleDeleteClick = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
     if (listId) {
-      mutateList()
+      mutateList();
     }
     if (tagId) {
-      mutateTag()
+      mutateTag();
     }
-  }
+    setConfirmOpen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setConfirmOpen(false);
+  };
 
   return (
     <Box
@@ -97,11 +107,18 @@ function EditTagButtons(props: EditTagButtonsProps) {
           edge="end"
           aria-label="delete"
           sx={{ ml: 2 }}
-          onClick={handleDelete}
+          onClick={handleDeleteClick}
         >
           <DeleteIcon />
         </IconButton>
       </Tooltip>
+
+      <DeleteConfirmationDialog
+        open={confirmOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+      />
+
       <EditTagMenu
         anchorEl={anchorEl}
         openMenu={openMenu}
@@ -112,6 +129,7 @@ function EditTagButtons(props: EditTagButtonsProps) {
         listColor={listColor}
       />
     </Box>
-  )
+  );
 }
-export default EditTagButtons
+
+export default EditTagButtons;
