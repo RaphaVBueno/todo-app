@@ -8,11 +8,25 @@ import {
   CardContent,
 } from '@mui/material'
 import { useAuth } from '@/hooks'
+import { Fields, validations } from '../Cadastro/fields'
+import { useForm, useWatch } from 'react-hook-form'
+import { Input } from '@/components'
+import { useState } from 'react'
 
 const UserProfile = () => {
   const { user } = useAuth()
+  const [confirmPassWord, setConfirmPassWord] = useState('')
+  const [password, setPassword] = useState('')
+  //fazer uma verificação para cada campo alterado e enviar na requisição só o que foi alterado
+  //fazer a verificação de senhas
 
   if (!user) return ''
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Fields>()
 
   return (
     <Card sx={{ maxWidth: 600, margin: 'auto', mt: 5 }}>
@@ -37,55 +51,53 @@ const UserProfile = () => {
 
         <Grid container spacing={2} mt={2}>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
+            <Input
+              {...register('name', validations.name)}
               label="Nome"
+              error={errors.name?.message}
               defaultValue={user.name}
-              variant="outlined"
             />
           </Grid>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
-              label="Nome de Usuário"
+            <Input
+              {...register('username', validations.username)}
+              label="Nome de usuário"
+              error={errors.username?.message}
               defaultValue={user.username}
-              variant="outlined"
             />
           </Grid>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
+            <Input
+              {...register('email', validations.email)}
               label="Email"
+              type="email"
+              placeholder="seu@email.com"
+              error={errors.email?.message}
               defaultValue={user.email}
-              variant="outlined"
             />
           </Grid>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
-              type="date"
+            <Input
+              {...register('birthDate', validations.birthDate)}
               label="Data de Nascimento"
+              type="date"
+              error={errors.birthDate?.message}
               defaultValue={user.birthDate.slice(0, 10)}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
             />
           </Grid>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
-              type="password"
+            <Input
+              {...register('password', validations.password)}
               label="Senha"
-              variant="outlined"
+              type="password"
+              error={errors.password?.message}
             />
           </Grid>
           <Grid size={{ xs: 6 }}>
-            <TextField
-              fullWidth
-              type="password"
-              label="Confirmar Senha"
-              variant="outlined"
+            <Input
+              label=" Confirmar Senha"
+              type="Confirm password"
+              error={errors.password?.message}
             />
           </Grid>
         </Grid>

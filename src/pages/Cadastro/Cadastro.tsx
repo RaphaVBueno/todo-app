@@ -94,15 +94,13 @@ function Cadastro() {
           </Typography>
         </Box>
       </Card>
-      {openMessage ? (
+      {openMessage && (
         <ErrorMessage
           message={message}
           openMessage={openMessage}
           setOpenMessage={setOpenMessage}
           sucess={sucess}
         />
-      ) : (
-        <div></div>
       )}
     </Stack>
   )
