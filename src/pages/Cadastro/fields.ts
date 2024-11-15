@@ -4,6 +4,7 @@ export type Fields = {
   name: string
   birthDate: string
   username: string
+  confirmPassword: string
 }
 
 export const validations = {
@@ -30,4 +31,15 @@ export const validations = {
   birthDate: {
     required: 'Insira uma data de nascimento',
   },
+}
+
+export const passwordValidation = (password: string) => {
+  return {
+    confirmPassword: {
+      required: 'Confirme sua senha',
+      validate: (value: string) =>
+        value === password || 'As senhas não coincidem1',
+      message: 'As senhas não coincidem2',
+    },
+  }
 }

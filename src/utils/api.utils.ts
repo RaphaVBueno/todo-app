@@ -1,4 +1,5 @@
 import { Usuario } from '@/types'
+import { pickersArrowSwitcherClasses } from '@mui/x-date-pickers/internals'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -224,5 +225,18 @@ export type AddTagParams = {
 export const addTag = async (params: AddTagParams) => {
   const { name } = params
   const res = await api.post('/tag/add ', { name })
+  return res.data.message
+}
+
+export type UpdateUserParams = {
+  name: string | undefined
+  password: string | undefined
+  email: string | undefined
+  username: string | undefined
+}
+
+export const updateUser = async (params: UpdateUserParams) => {
+  const { name, password, email, username } = params
+  const res = await api.put('/user/', { name, password, email, username })
   return res.data.message
 }
