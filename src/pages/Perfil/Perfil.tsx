@@ -5,10 +5,11 @@ import {
   Typography,
   Card,
   CardContent,
+  Box,
 } from '@mui/material'
 import { useAuth } from '@/hooks'
-import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
 import { updateUser, UpdateUserParams } from '@/utils'
 
@@ -52,7 +53,7 @@ const UserProfile = () => {
             </Button>
           </Grid>
         </Grid>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <Input
             {...register('name', validations.name)}
             label="Nome"
@@ -109,7 +110,7 @@ const UserProfile = () => {
           >
             Atualizar Informações
           </Button>
-        </form>
+        </Box>
       </CardContent>
     </Card>
   )
