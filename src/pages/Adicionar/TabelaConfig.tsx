@@ -1,14 +1,8 @@
-import { List, Tag } from '@/types'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import EditTagButtons from './EditTagButtons'
 import Brightness1Icon from '@mui/icons-material/Brightness1'
 
-type TabelaProps = {
-  categories?: List[] | undefined
-  tags?: Tag[] | undefined
-}
-
-const colunaList: GridColDef[] = [
+export const colunaList: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Título',
@@ -72,7 +66,7 @@ const colunaList: GridColDef[] = [
   },
 ]
 
-const colunaTag: GridColDef[] = [
+export const colunaTag: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Título',
@@ -104,17 +98,3 @@ const colunaTag: GridColDef[] = [
     align: 'center',
   },
 ]
-
-function Tabela(props: TabelaProps) {
-  const { categories, tags } = props
-
-  return (
-    <DataGrid
-      columns={categories ? colunaList : colunaTag}
-      hideFooter
-      rows={categories ? categories : tags}
-    />
-  )
-}
-
-export default Tabela

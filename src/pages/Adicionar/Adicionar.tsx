@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Grid, Box, Button } from '@mui/material'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import Input from '../../components/Input'
 
-import Tabela from './Tabela'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { colunaList, colunaTag } from './TabelaConfig'
+import { DataGrid } from '@mui/x-data-grid'
 import { List, Tag } from '@/types'
 import {
   addList,
@@ -93,7 +94,7 @@ function Adicionar() {
           </Box>
 
           <div style={{ height: '80vh', marginTop: '20px' }}>
-            <Tabela categories={categories} />
+            <DataGrid columns={colunaList} hideFooter rows={categories} />
           </div>
         </Grid>
 
@@ -126,7 +127,7 @@ function Adicionar() {
           </Box>
 
           <div style={{ height: '80vh', marginTop: '20px' }}>
-            <Tabela tags={tags} />
+            <DataGrid columns={colunaTag} hideFooter rows={tags} />
           </div>
         </Grid>
       </Grid>

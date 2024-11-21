@@ -23,7 +23,7 @@
 - bug do refresh
 - [x]bug de multiselect ao retirar uma tag (@raphavbueno)
 - Labels dos inputs criar/editar tarefa (@viniciusvbueno)
-- Refatorar codigo das tabelas
+- [x]Refatorar codigo das tabelas
 
 ## Vídeos e recursos
 
