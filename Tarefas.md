@@ -4,7 +4,7 @@
 
 ## Features
 
-- [ ] CRUD tela perfil (tratamento de erro) (@raphavbueno)
+- [x] CRUD tela perfil (tratamento de erro) (@raphavbueno)
 - recuperar senha
   -- Envio programático de e-mails
   -- Tokens temporários de acesso único

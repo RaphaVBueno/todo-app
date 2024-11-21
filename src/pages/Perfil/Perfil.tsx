@@ -6,18 +6,21 @@ import {
   Card,
   CardContent,
   Box,
+  Alert,
 } from '@mui/material'
 import { useAuth } from '@/hooks'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
 import { updateUser, UpdateUserParams } from '@/utils'
+import { useState } from 'react'
 
 const UserProfile = () => {
   const { user } = useAuth()
   if (!user) return ''
-
-  //fazer uma verificação para cada campo alterado e enviar na requisição só o que foi alterado
+  //pensar em como enviar o fomulario sem precisa adicionar a senha e usar navigate para home quando success
+  const [message, setMessage] = useState('')
+  const [openMessage, setOpenMessage] = useState(false)
 
   const {
     register,
@@ -29,8 +32,14 @@ const UserProfile = () => {
   const passwordValue = useWatch({ control, name: 'password' })
 
   const onSubmit: SubmitHandler<Fields> = async (data) => {
-    console.log('chegou aqui')
-    await updateUser(data as UpdateUserParams)
+    const result = await updateUser(data as UpdateUserParams)
+
+    if (result.success) {
+      alert('atualizado com sucesso')
+    } else {
+      setOpenMessage(true)
+      setMessage(result.message)
+    }
   }
 
   return (
@@ -101,15 +110,27 @@ const UserProfile = () => {
             type="confirmPassword"
             error={errors.confirmPassword?.message}
           />
-
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            type="submit"
+          {openMessage && (
+            <Alert sx={{ marginTop: '1rem' }} severity="error">
+              {message}
+            </Alert>
+          )}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
           >
-            Atualizar Informações
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              sx={{ marginTop: '2rem' }}
+            >
+              Atualizar Informações
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>

@@ -1,5 +1,4 @@
 import { Usuario } from '@/types'
-import { pickersArrowSwitcherClasses } from '@mui/x-date-pickers/internals'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -236,7 +235,19 @@ export type UpdateUserParams = {
 }
 
 export const updateUser = async (params: UpdateUserParams) => {
-  const { name, password, email, username } = params
-  const res = await api.put('/user/', { name, password, email, username })
-  return res.data.message
+  try {
+    const { name, password, email, username } = params
+    const res = await api.put('/user/', { name, password, email, username })
+    return { success: true, message: res.data.message }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        message: error.response?.data.message || 'Erro ao atualizar usuário',
+      }
+    } else {
+      console.error('Erro inesperado:', error)
+      return { success: false, message: 'Erro inesperado' }
+    }
+  }
 }

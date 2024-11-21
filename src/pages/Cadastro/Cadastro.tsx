@@ -7,12 +7,10 @@ import { AddUserParams, addUser } from '@/utils'
 
 import { Fields, validations } from './fields'
 import { useState } from 'react'
-import ErrorMessage from '@/components/ErrorMessage'
 
 function Cadastro() {
   const [message, setMessage] = useState('')
   const [openMessage, setOpenMessage] = useState(false)
-  const [sucess, setSucess] = useState(false)
   const navigate = useNavigate()
 
   const {
@@ -24,11 +22,11 @@ function Cadastro() {
   const onSubmit: SubmitHandler<Fields> = async (data) => {
     const result = await addUser(data as AddUserParams)
 
-    // setMessage(result.message)
-    // setOpenMessage(true)
-
     if (result.success) {
       navigate('/login', { state: { result } })
+    } else {
+      setMessage(result.message)
+      setOpenMessage(true)
     }
   }
 
@@ -82,7 +80,7 @@ function Cadastro() {
             type="password"
             error={errors.password?.message}
           />
-          <Alert severity="error">Erro ao adicionar usuario</Alert>
+          {openMessage && <Alert severity="error">{message}</Alert>}
           <Button type="submit" fullWidth variant="contained">
             Inscrever-se
           </Button>
@@ -94,14 +92,6 @@ function Cadastro() {
           </Typography>
         </Box>
       </Card>
-      {openMessage && (
-        <ErrorMessage
-          message={message}
-          openMessage={openMessage}
-          setOpenMessage={setOpenMessage}
-          sucess={sucess}
-        />
-      )}
     </Stack>
   )
 }

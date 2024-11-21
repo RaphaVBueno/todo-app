@@ -38,8 +38,7 @@ export const passwordValidation = (password: string) => {
     confirmPassword: {
       required: 'Confirme sua senha',
       validate: (value: string) =>
-        value === password || 'As senhas não coincidem1',
-      message: 'As senhas não coincidem2',
+        value === password || 'As senhas não coincidem',
     },
   }
 }
