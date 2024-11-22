@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Grid, Box, Button } from '@mui/material'
+import {
+  Grid,
+  Box,
+  Button,
+  Snackbar,
+  SnackbarCloseReason,
+  Alert,
+} from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import Input from '../../components/Input'
@@ -17,6 +24,7 @@ import {
   getUserTags,
   queryClient,
 } from '@/utils'
+import SnackbarMessage from '@/components/SnackbarMessage'
 //arrumar label
 function Adicionar() {
   const { error: categoriesError, data: categories } = useQuery<List[]>({
@@ -34,19 +42,37 @@ function Adicionar() {
 
   const { mutate } = useMutation({
     mutationFn: (params: AddListParams) => addList(params),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['list'] })
+      setMessage(response.message)
+      setOpenMessage(true)
+      setStatusSuccess(true)
+    },
+    onError: () => {
+      setMessage('Erro ao adicionar categoria'),
+        setOpenMessage(true),
+        setStatusSuccess(false)
     },
   })
 
   const { mutate: mutateTag } = useMutation({
     mutationFn: (params: AddTagParams) => addTag(params),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['tags'] })
+      setMessage(response.message)
+      setOpenMessage(true)
+      setStatusSuccess(true)
+    },
+    onError: () => {
+      setMessage('Erro ao adicionar tag'),
+        setOpenMessage(true),
+        setStatusSuccess(false)
     },
   })
-
+  const [openMessage, setOpenMessage] = useState(false)
+  const [message, setMessage] = useState('')
   const [newCategorieInput, setCategorieInput] = useState<string>('')
+  const [statusSuccess, setStatusSuccess] = useState(true)
 
   const handleSubmitList = () => {
     mutate({ listName: newCategorieInput })
@@ -58,6 +84,17 @@ function Adicionar() {
   const handleSubmitTag = () => {
     mutateTag({ name: newTagInput })
     setTagInput('')
+  }
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenMessage(false)
   }
 
   return (
@@ -124,6 +161,12 @@ function Adicionar() {
             >
               Salvar
             </Button>
+            <SnackbarMessage
+              openMessage={openMessage}
+              statusSuccess={statusSuccess}
+              setOpenMessage={setOpenMessage}
+              message={message}
+            />
           </Box>
 
           <div style={{ height: '80vh', marginTop: '20px' }}>

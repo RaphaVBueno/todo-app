@@ -181,7 +181,7 @@ export type AddListParams = {
 export const addList = async (params: AddListParams) => {
   const { listName, color } = params
   const res = await api.post('/list/add ', { listName, color })
-  return res.data.message
+  return { message: res.data.message }
 }
 
 export type UpdateListParams = {
@@ -224,7 +224,7 @@ export type AddTagParams = {
 export const addTag = async (params: AddTagParams) => {
   const { name } = params
   const res = await api.post('/tag/add ', { name })
-  return res.data.message
+  return { message: res.data.message }
 }
 
 export type UpdateUserParams = {
