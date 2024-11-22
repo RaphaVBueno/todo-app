@@ -1,12 +1,5 @@
 import { useState } from 'react'
-import {
-  Grid,
-  Box,
-  Button,
-  Snackbar,
-  SnackbarCloseReason,
-  Alert,
-} from '@mui/material'
+import { Grid, Box, Button } from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import Input from '../../components/Input'
@@ -84,17 +77,6 @@ function Adicionar() {
   const handleSubmitTag = () => {
     mutateTag({ name: newTagInput })
     setTagInput('')
-  }
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason
-  ) => {
-    if (reason === 'clickaway') {
-      return
-    }
-
-    setOpenMessage(false)
   }
 
   return (

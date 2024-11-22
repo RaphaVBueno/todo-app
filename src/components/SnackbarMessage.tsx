@@ -12,7 +12,7 @@ function SnackbarMessage(props: SnackbarMessageProps) {
   const { openMessage, statusSuccess, message, setOpenMessage } = props
 
   const handleClose = (
-    event: React.SyntheticEvent | Event,
+    __event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason
   ) => {
     if (reason === 'clickaway') {

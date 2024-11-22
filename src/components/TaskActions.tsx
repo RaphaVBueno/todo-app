@@ -7,6 +7,7 @@ import { List } from '../types/list'
 import { TaskActionsMenu } from './TaskActionsMenu'
 import { Tag } from '../types/tag'
 import DeleteDialog from './Delete'
+import SnackbarMessage from './SnackbarMessage'
 
 type TaskActionsProps = {
   taskId: number
@@ -31,11 +32,23 @@ export default function TaskActions(props: TaskActionsProps) {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [openMessage, setOpenMessage] = useState(false)
+  const [statusSuccess, setStatusSuccess] = useState(true)
+  const [message, setMessage] = useState('')
+  //rendeizar o snackbar um componente acima
 
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      setMessage('Tarefa Deletada')
+      setStatusSuccess(true)
+      setOpenMessage(true)
+    },
+    onError: () => {
+      setMessage('Erro ao deletarr Tarefa'),
+        setStatusSuccess(false),
+        setOpenMessage(true)
     },
   })
 
@@ -116,6 +129,12 @@ export default function TaskActions(props: TaskActionsProps) {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={handleConfirmDelete}
+      />
+      <SnackbarMessage
+        openMessage={openMessage}
+        statusSuccess={statusSuccess}
+        message={message}
+        setOpenMessage={setOpenMessage}
       />
     </Box>
   )
