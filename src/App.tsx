@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'react-hot-toast'
 
 import Dashboard from './components/Dashboard.tsx'
 import ProtectedRoutes from './components/ProtectedRoutes.tsx'
@@ -44,6 +45,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </AuthProvider>
         <CssBaseline enableColorScheme />
       </ThemeProvider>

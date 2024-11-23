@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { IconButton, Tooltip, Box } from '@mui/material'
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+
 import { deleteTask, queryClient } from '../utils'
 import { List } from '../types/list'
-import { TaskActionsMenu } from './TaskActionsMenu'
 import { Tag } from '../types/tag'
+
+import { TaskActionsMenu } from './TaskActionsMenu'
 import DeleteDialog from './Delete'
-import SnackbarMessage from './SnackbarMessage'
 
 type TaskActionsProps = {
   taskId: number
@@ -32,23 +34,15 @@ export default function TaskActions(props: TaskActionsProps) {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [openMessage, setOpenMessage] = useState(false)
-  const [statusSuccess, setStatusSuccess] = useState(true)
-  const [message, setMessage] = useState('')
-  //rendeizar o snackbar um componente acima
 
   const { mutate } = useMutation({
     mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
-      setMessage('Tarefa Deletada')
-      setStatusSuccess(true)
-      setOpenMessage(true)
+      toast.success('Tarefa deletada com sucesso')
     },
     onError: () => {
-      setMessage('Erro ao deletarr Tarefa'),
-        setStatusSuccess(false),
-        setOpenMessage(true)
+      toast.error('Erro ao deletar tarefa')
     },
   })
 
@@ -129,12 +123,6 @@ export default function TaskActions(props: TaskActionsProps) {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={handleConfirmDelete}
-      />
-      <SnackbarMessage
-        openMessage={openMessage}
-        statusSuccess={statusSuccess}
-        message={message}
-        setOpenMessage={setOpenMessage}
       />
     </Box>
   )
