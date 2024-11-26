@@ -20,6 +20,11 @@ const mainListItems = [
     icon: <AddCircleIcon />,
     route: '/adicionar',
   },
+  {
+    text: 'Lista de Perfil',
+    icon: <PeopleRoundedIcon />,
+    route: '/lista-perfil',
+  },
 ]
 
 export default function MenuContent() {
