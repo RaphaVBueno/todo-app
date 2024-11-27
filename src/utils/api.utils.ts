@@ -251,3 +251,17 @@ export const updateUser = async (params: UpdateUserParams) => {
     }
   }
 }
+
+export const newPassword = async (
+  id: number | undefined,
+  password: string,
+  token: string | undefined
+) => {
+  const res = await api.put('/user/new-password', { id, password, token })
+  return res.data.message
+}
+
+export const validateToken = async (token: string | undefined) => {
+  const res = await api.post(`/validate-token/${token}`)
+  return res.data.userId
+}
