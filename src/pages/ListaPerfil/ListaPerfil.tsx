@@ -6,8 +6,18 @@ import ListItemText from '@mui/material/ListItemText'
 import IconButton from '@mui/material/IconButton'
 import CommentIcon from '@mui/icons-material/Comment'
 import Typography from '@mui/material/Typography'
+import { useQuery } from '@tanstack/react-query'
+import { Usuario } from '@/types'
+import { getUserLists, devUser } from '@/utils'
 
 function ListaPerfil() {
+  const { error: listUserError, data: users } = useQuery<Usuario[]>({
+    queryKey: ['users'],
+    queryFn: () => getUserLists(devUser),
+  })
+
+  if (listUserError) return 'Erro ao carregar usuários'
+
   return (
     <Box
       sx={{
@@ -31,33 +41,25 @@ function ListaPerfil() {
           component="div"
           sx={{ mb: '16px', mt: '4px', textAlign: 'center' }}
         >
-          Lista de Users
+          Lista de Usuários
         </Typography>
-
         <List>
-          {[0, 1, 2, 3].map((value) => {
-            const labelId = `checkbox-list-label-${value}`
-
-            return (
-              <ListItem
-                key={value}
-                secondaryAction={
-                  <IconButton edge="end" aria-label="comments">
-                    <CommentIcon />
-                  </IconButton>
-                }
-                disablePadding
-                sx={{ mb: '12px' }}
-              >
-                <ListItemButton role={undefined} dense>
-                  <ListItemText
-                    id={labelId}
-                    primary={`Line item ${value + 1}`}
-                  />
-                </ListItemButton>
-              </ListItem>
-            )
-          })}
+          {users?.map((user) => (
+            <ListItem
+              key={user.id}
+              secondaryAction={
+                <IconButton edge="end" aria-label="comments">
+                  <CommentIcon />
+                </IconButton>
+              }
+              disablePadding
+              sx={{ mb: '12px' }}
+            >
+              <ListItemButton role={undefined} dense>
+                <ListItemText primary={user.username} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Box>
     </Box>
