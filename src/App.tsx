@@ -18,6 +18,7 @@ import Adicionar from './pages/Adicionar/Adicionar.tsx'
 import theme from './theme'
 import { queryClient } from './utils'
 import { AuthProvider } from './contexts/AuthContext.tsx'
+import ListaPerfil from './pages/ListaPerfil/ListaPerfil.tsx'
 
 function App() {
   const router = createBrowserRouter([
@@ -36,6 +37,7 @@ function App() {
         { index: true, path: ':date?', element: <Home /> },
         { path: 'perfil', element: <Perfil /> },
         { path: 'adicionar', element: <Adicionar /> },
+        { path: 'lista-perfil', element: <ListaPerfil /> },
       ],
     },
   ])
