@@ -2,11 +2,12 @@ import { Button, Box, Card, CardContent } from '@mui/material'
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
-import { newPassword, validateToken } from '@/utils'
-import { useQuery } from '@tanstack/react-query'
+import { newPassword, NewPasswordParams, validateToken } from '@/utils'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Loading from '@/components/Loading'
-
+import toast from 'react-hot-toast'
+//fazer requisição para gerar token(passar email e receber link), testar todo o fluxo, criar email html, e mostrar msg de erro ou sucesso (toast)
 function NovaSenha() {
   const { token } = useParams()
 
@@ -20,6 +21,16 @@ function NovaSenha() {
     enabled: !!token,
     retry: false,
   })
+  //adicionar botão para ir a tela de login
+  const mutation = useMutation({
+    mutationFn: (params: NewPasswordParams) => newPassword(params),
+    onSuccess: () => {
+      toast.success('Senha alterada com sucesso')
+    },
+    onError: () => {
+      toast.error('Ocorreu um erro')
+    },
+  })
 
   const {
     register,
@@ -32,7 +43,7 @@ function NovaSenha() {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const { password } = data
-    await newPassword(userId, password, token)
+    mutation.mutate({ id: userId, password, token })
   }
 
   if (validateError) {
