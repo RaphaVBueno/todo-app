@@ -274,3 +274,8 @@ export const tokenGenerate = async (email: string) => {
   const res = await api.post('/token-generate', { email })
   return res.data.message
 }
+
+export const getUserLista = async () => {
+  const res = await api.get(`/user`)
+  return res.data.users
+}

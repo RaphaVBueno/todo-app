@@ -8,12 +8,12 @@ import CommentIcon from '@mui/icons-material/Comment'
 import Typography from '@mui/material/Typography'
 import { useQuery } from '@tanstack/react-query'
 import { Usuario } from '@/types'
-import { getUserLists, devUser } from '@/utils'
+import { getUserLista } from '@/utils'
 
 function ListaPerfil() {
   const { error: listUserError, data: users } = useQuery<Usuario[]>({
-    queryKey: ['users'],
-    queryFn: () => getUserLists(devUser),
+    queryKey: ['usersList'],
+    queryFn: () => getUserLista(),
   })
 
   if (listUserError) return 'Erro ao carregar usuários'
