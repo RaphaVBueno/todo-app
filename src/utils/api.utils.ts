@@ -279,3 +279,8 @@ export const getUserLista = async () => {
   const res = await api.get(`/user`)
   return res.data.users
 }
+
+export const deleteUser = async (userId: number) => {
+  const res = await api.delete(`/user`, { data: { id: userId } })
+  return res.data.message
+}

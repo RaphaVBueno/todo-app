@@ -4,17 +4,53 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import IconButton from '@mui/material/IconButton'
-import CommentIcon from '@mui/icons-material/Comment'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { useQuery } from '@tanstack/react-query'
 import { Usuario } from '@/types'
 import { getUserLista } from '@/utils'
+import { useState } from 'react'
+import DeleteConfirmationDialog from '../../components/Delete'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { deleteUser } from '@/utils'
 
 function ListaPerfil() {
   const { error: listUserError, data: users } = useQuery<Usuario[]>({
     queryKey: ['usersList'],
     queryFn: () => getUserLista(),
   })
+
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (userId: number) => deleteUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userList'] })
+    },
+    onError: (error) => {
+      console.error('Erro ao deletar usuário:', error)
+    },
+  })
+
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+
+  const handleDeleteClick = (userId: number) => {
+    setSelectedUserId(userId)
+    setConfirmOpen(true)
+  }
+
+  const handleConfirmDelete = () => {
+    if (selectedUserId) {
+      mutation.mutate(selectedUserId)
+    }
+    setConfirmOpen(false)
+  }
+
+  const handleCloseDialog = () => {
+    setConfirmOpen(false)
+  }
 
   if (listUserError) return 'Erro ao carregar usuários'
 
@@ -48,9 +84,30 @@ function ListaPerfil() {
             <ListItem
               key={user.id}
               secondaryAction={
-                <IconButton edge="end" aria-label="comments">
-                  <CommentIcon />
-                </IconButton>
+                <Tooltip
+                  title="Deletar"
+                  placement="top"
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        {
+                          name: 'offset',
+                          options: {
+                            offset: [0, -14],
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                >
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDeleteClick(user.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
               }
               disablePadding
               sx={{ mb: '12px' }}
@@ -62,6 +119,12 @@ function ListaPerfil() {
           ))}
         </List>
       </Box>
+
+      <DeleteConfirmationDialog
+        open={confirmOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+      />
     </Box>
   )
 }
