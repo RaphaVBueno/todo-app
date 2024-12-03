@@ -26,7 +26,7 @@ function ListaPerfil() {
   const mutation = useMutation({
     mutationFn: (userId: number) => deleteUser(userId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userList'] })
+      queryClient.invalidateQueries({ queryKey: ['usersList'] })
     },
     onError: (error) => {
       console.error('Erro ao deletar usuário:', error)
