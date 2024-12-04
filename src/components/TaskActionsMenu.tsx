@@ -78,30 +78,31 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         horizontal: 'right',
       }}
     >
-      <Input
-        onChange={(e) => setTitle(e.target.value)}
-        label="Título da tarefa"
-        value={title}
-        style={{ marginTop: '-10px' }}
-      />
-      <Input
-        onChange={(e) => setDescription(e.target.value)}
-        label="Descrição"
-        value={description}
-        style={{ marginTop: '-10px' }}
-      />
-
-      <AutoCompleteTaskActions
-        categories={categories}
-        setListId={setListId}
-        listId={listId}
-      />
-      <MultiSelect tags={tags} setTagId={setTagId} taskTagsId={taskTagsId} />
+      <Stack spacing={'4px'}>
+        <Input
+          style={{ marginTop: '-8px' }}
+          onChange={(e) => setTitle(e.target.value)}
+          label="Título da tarefa"
+          value={title}
+        />
+        <Input
+          style={{ marginTop: '-8px' }}
+          onChange={(e) => setDescription(e.target.value)}
+          label="Descrição"
+          value={description}
+        />
+        <AutoCompleteTaskActions
+          categories={categories}
+          setListId={setListId}
+          listId={listId}
+        />
+        <MultiSelect tags={tags} setTagId={setTagId} taskTagsId={taskTagsId} />
+      </Stack>
       <Stack
         direction="row"
         spacing={3}
         justifyContent="center"
-        sx={{ mt: '45px' }}
+        sx={{ mt: '29px' }}
       >
         <BotaoPadrao action={handleSubmit} buttonName="Confirmar" />
         <BotaoPadrao action={handleClose} buttonName="Cancelar" />

@@ -1,6 +1,7 @@
-import { Box, TextField, Autocomplete } from '@mui/material'
+import { Box, Autocomplete } from '@mui/material'
 import { Fragment } from 'react'
 import { List } from '../types/list'
+import Input from './Input'
 import type { Dispatch, SetStateAction } from 'react'
 
 type AutoCompleteTaskActionsProps = {
@@ -14,37 +15,36 @@ function AutoCompleteTaskActions(props: AutoCompleteTaskActionsProps) {
 
   return (
     <Fragment>
-      <Box sx={{ p: 0, mt: '10px' }}>
-        <Autocomplete
-          disablePortal
-          options={[...categories, { id: null, name: 'Remover Categoria' }]}
-          getOptionLabel={(option) => option.name}
-          value={categories.find((category) => category.id === listId) || null}
-          onChange={(_, newValue) => {
-            if (newValue) {
-              setListId(newValue.id)
-            } else {
-              setListId(null)
-            }
-          }}
-          onClose={(_, reason) => {
-            if (reason === 'blur') {
-              setListId(listId)
-            }
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Categoria"
-              sx={{
-                '& .MuiInputBase-root': { height: '44px', fontSize: '1.1rem' },
-                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-              }}
-            />
-          )}
-          fullWidth
-        />
-      </Box>
+      <Autocomplete
+        disablePortal
+        options={[...categories, { id: null, name: 'Remover Categoria' }]}
+        getOptionLabel={(option) => option.name}
+        value={categories.find((category) => category.id === listId) || null}
+        onChange={(_, newValue) => {
+          if (newValue) {
+            setListId(newValue.id)
+          } else {
+            setListId(null)
+          }
+        }}
+        renderInput={(params) => (
+          <Input
+            style={{ marginTop: '-8px' }}
+            {...params.InputProps}
+            label="Categoria"
+            {...params}
+          />
+        )}
+        fullWidth
+        sx={{
+          '& .MuiAutocomplete-clearIndicator': {
+            display: 'none', // remove o botão
+          },
+          '& .MuiAutocomplete-popupIndicator': {
+            display: 'none', // remove o botão
+          },
+        }}
+      />
     </Fragment>
   )
 }

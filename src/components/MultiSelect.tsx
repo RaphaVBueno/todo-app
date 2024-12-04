@@ -3,13 +3,13 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { Theme, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
 import { Tag } from '../types/tag'
+import Input from './Input'
 
 type MultiSelectProps = {
   tags: Tag[]
@@ -58,15 +58,21 @@ export default function MultiSelect(props: MultiSelectProps) {
 
   return (
     <div>
-      <FormControl sx={{ width: '100%', marginTop: '10px' }}>
-        <InputLabel id="demo-multiple-chip-label">Tag</InputLabel>
+      <FormControl sx={{ width: '100%' }}>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={tagName}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={
+            <Input
+              style={{ marginTop: '-8px' }}
+              id="select-multiple-chip"
+              label="Tag"
+              required={false}
+            />
+          }
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
