@@ -5,12 +5,12 @@
 ## Features
 
 - [x] CRUD tela perfil (tratamento de erro) (@raphavbueno)
-- recuperar senha
-  -- Envio programático de e-mails
-  -- Tokens temporários de acesso único
-  -- Geração de nova senha
+- [x] recuperar senha
+      -- Envio programático de e-mails
+      -- Tokens temporários de acesso único
+      -- Geração de nova senha
 - Autorização (tela de lista de usuários)
-- middleware de erros (@raphavbueno)
+- [x] middleware de erros (@raphavbueno)
 - [x] Criar snacks (toasts) de notificação (@viniciusvbueno)
 - [x] Confirmar ao deletar (@viniciusvbueno)
 

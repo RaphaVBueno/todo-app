@@ -4,12 +4,15 @@ import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
 import { newPassword, NewPasswordParams, validateToken } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loading from '@/components/Loading'
 import toast from 'react-hot-toast'
-//fazer requisição para gerar token(passar email e receber link), testar todo o fluxo, criar email html, e mostrar msg de erro ou sucesso (toast)
+import { useState } from 'react'
+//navegar para tela de login após resetar senha
 function NovaSenha() {
   const { token } = useParams()
+  const [loginButton, setLoginButton] = useState(false)
+  const navigate = useNavigate()
 
   const {
     isPending,
@@ -21,11 +24,12 @@ function NovaSenha() {
     enabled: !!token,
     retry: false,
   })
-  //adicionar botão para ir a tela de login
+
   const mutation = useMutation({
     mutationFn: (params: NewPasswordParams) => newPassword(params),
     onSuccess: () => {
       toast.success('Senha alterada com sucesso')
+      setLoginButton(true)
     },
     onError: () => {
       toast.error('Ocorreu um erro')
@@ -108,6 +112,24 @@ function NovaSenha() {
                   Atualizar Senha
                 </Button>
               </Box>
+              {loginButton && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{ marginTop: '2rem' }}
+                    onClick={() => navigate('/login')}
+                  >
+                    Ir para Tela de Login
+                  </Button>
+                </Box>
+              )}
             </Box>
           </CardContent>
         </Card>
