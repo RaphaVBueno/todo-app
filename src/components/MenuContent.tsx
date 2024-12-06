@@ -12,6 +12,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 import { useAuth } from '@/hooks'
 
+/**
+ * A lista principal de itens de navegação para o menu lateral
+ * Cada item contém um texto, um ícone e uma rota associada
+ */
 const mainListItems = [
   { text: 'Pagina Inicial', icon: <HomeRoundedIcon />, route: '/' },
   { text: 'Meu Perfil', icon: <PeopleRoundedIcon />, route: '/perfil' },
@@ -27,11 +31,23 @@ const mainListItems = [
   },
 ]
 
+/**
+ * Componente que exibe o conteúdo do menu lateral com navegação entre páginas
+ * e a opção de sair da aplicação
+ *
+ * @component
+ * @returns {JSX.Element} O componente que renderiza o menu com itens de navegação e botão de logout
+ */
 export default function MenuContent() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { signOut } = useAuth()
+  const navigate = useNavigate() // Hook do React Router para navegação
+  const location = useLocation() // Hook do React Router para obter a localização atual da página
+  const { signOut } = useAuth() // Hook para autenticação, incluindo função de logout
 
+  /**
+   * Função que manipula a navegação entre as páginas
+   *
+   * @param {string} route A rota para a qual o usuário será redirecionado
+   */
   const handleNavigation = (route: string) => {
     navigate(route)
   }
@@ -52,6 +68,8 @@ export default function MenuContent() {
         ))}
         <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton onClick={() => signOut()}>
+            {' '}
+            {/* Chama a função de logout */}
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

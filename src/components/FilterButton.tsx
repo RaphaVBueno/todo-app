@@ -18,26 +18,52 @@ type FilterButtonProps = {
   setFilter: Dispatch<SetStateAction<number | null>>
 }
 
+/**
+ * Componente que renderiza um botão de filtro com um menu suspenso.
+ *
+ * @param props - Propriedades do componente
+ * @param props.categories - Lista de categorias para o menu de filtro
+ * @param props.filter - ID do filtro selecionado atualmente ou null para nenhum filtro
+ * @param props.setFilter - Função para atualizar o filtro selecionado
+ * @returns O componente FilterButton
+ */
 export default function FilterButton(props: FilterButtonProps) {
   const { categories, filter, setFilter } = props
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLDivElement>(null)
   const [filterName, setFilterName] = useState<string>('Filtro')
 
+  /**
+   * Alterna o estado de abertura do menu suspenso
+   */
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen)
   }
 
+  /**
+   * Define o filtro e fecha o menu suspenso
+   *
+   * @param optionName - Nome da opção selecionada
+   * @param filterId - ID do filtro correspondente
+   */
   const handleMenuItemClick = (optionName: string, filterId: number) => {
     setFilterName(optionName)
     setFilter(filterId)
     setOpen(false)
   }
 
+  /**
+   * Alterna o estado de abertura do menu suspenso.
+   */
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
   }
 
+  /**
+   * Fecha o menu suspenso quando ocorre um clique fora do elemento associado.
+   *
+   * @param event - Evento de clique
+   */
   const handleClose = (event: Event) => {
     if (
       anchorRef.current &&
@@ -89,7 +115,9 @@ export default function FilterButton(props: FilterButtonProps) {
                   <MenuItem
                     key={'Todos'}
                     onClick={() => {
-                      setFilterName('Filtro'), setFilter(null), setOpen(false) //melhor dentro de uma função?
+                      setFilterName('Filtro')
+                      setFilter(null)
+                      setOpen(false)
                     }}
                   >
                     Todos

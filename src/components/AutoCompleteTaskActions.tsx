@@ -10,6 +10,15 @@ type AutoCompleteTaskActionsProps = {
   listId: number | null | undefined
 }
 
+/**
+ * Componente que renderiza um campo de autocompletar para seleção de categorias
+ *
+ * @param props - Propriedades do componente
+ * @param props.categories - Lista de categorias disponíveis
+ * @param props.setListId - Função para atualizar o ID da categoria selecionada
+ * @param props.listId - ID da categoria atualmente selecionada, ou null/undefined se nenhuma estiver selecionada
+ * @returns O componente AutoCompleteTaskActions
+ */
 function AutoCompleteTaskActions(props: AutoCompleteTaskActionsProps) {
   const { categories, setListId, listId } = props
 

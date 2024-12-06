@@ -27,9 +27,20 @@ const Toolbar = styled(MuiToolbar)({
   },
 })
 
+/**
+ * Componente que renderiza a barra de navegação do aplicativo para dispositivos móveis
+ *
+ * @returns O componente AppNavbar
+ */
 export default function AppNavbar() {
   const [open, setOpen] = React.useState(false)
 
+  /**
+   * Função para alternar a abertura do menu lateral.
+   *
+   * @param newOpen - Estado de abertura do menu lateral
+   * @returns Uma função que altera o estado de `open`
+   */
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen)
   }
@@ -77,6 +88,11 @@ export default function AppNavbar() {
   )
 }
 
+/**
+ * Componente que renderiza um ícone personalizado
+ *
+ * @returns O componente CustomIcon
+ */
 export function CustomIcon() {
   return (
     <Box
