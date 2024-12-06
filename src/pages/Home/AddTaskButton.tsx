@@ -94,7 +94,7 @@ function AddTaskButton(props: AddTaskButtonProps) {
         slotProps={{
           paper: {
             sx: {
-              height: '680px',
+              height: '684px',
               width: anchorEl?.clientWidth || 'auto',
               padding: '10px',
               display: 'flex',
@@ -103,20 +103,20 @@ function AddTaskButton(props: AddTaskButtonProps) {
           },
         }}
       >
-        <Box sx={{ p: 0, mt: '10px' }}>
+        <Box sx={{ p: 0, mt: '0px' }}>
           <Input
             onChange={(e) => setTitle(e.target.value)}
             label="Título da tarefa"
             value={title}
-            style={{ marginTop: '-10px' }}
+            style={{ marginTop: '-8px' }}
           />
         </Box>
-        <Box sx={{ p: 0, mt: '10px' }}>
+        <Box sx={{ p: 0, mt: '4px' }}>
           <Input
             onChange={(e) => setDescription(e.target.value)}
             label="Descrição"
             value={description}
-            style={{ marginTop: '-10px' }}
+            style={{ marginTop: '-8px' }}
           />
         </Box>
         <AutoCompleteAddTask categories={categories} setListId={setListId} />

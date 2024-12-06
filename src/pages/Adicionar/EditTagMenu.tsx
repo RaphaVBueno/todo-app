@@ -90,7 +90,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
           sx={{ marginBottom: 2 }}
           value={editName}
           onChange={(event) => setEditName(event.target.value)}
-          style={{ marginTop: '-10px' }}
+          style={{ marginTop: '-8px' }}
         />
       </Box>
 

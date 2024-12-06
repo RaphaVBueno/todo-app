@@ -1,6 +1,7 @@
-import { Box, TextField, Autocomplete } from '@mui/material'
+import { Box, Autocomplete } from '@mui/material'
 import { Fragment } from 'react'
 import { List } from '../../types/list'
+import Input from '../../components/Input'
 import type { Dispatch, SetStateAction } from 'react'
 
 type AutoCompleteAddTask = {
@@ -13,7 +14,7 @@ function AutoCompleteAddTask(props: AutoCompleteAddTask) {
 
   return (
     <Fragment>
-      <Box sx={{ p: 0, mt: '10px' }}>
+      <Box sx={{ p: 0, mt: '4px', mb: '4px' }}>
         <Autocomplete
           disablePortal
           options={categories}
@@ -25,18 +26,21 @@ function AutoCompleteAddTask(props: AutoCompleteAddTask) {
             }
           }}
           renderInput={(params) => (
-            <TextField
-              {...params}
+            <Input
+              {...params.InputProps}
               label="Categoria"
-              sx={{
-                '& .MuiInputBase-root': {
-                  height: '44px',
-                  fontSize: '1.1rem',
-                },
-                '& .MuiFormLabel-root': { fontSize: '1.1rem' },
-              }}
+              {...params}
+              style={{ marginTop: '-8px' }}
             />
           )}
+          sx={{
+            '& .MuiAutocomplete-clearIndicator': {
+              display: 'none', // remove o botão
+            },
+            '& .MuiAutocomplete-popupIndicator': {
+              display: 'none', // remove o botão
+            },
+          }}
         />
       </Box>
     </Fragment>
