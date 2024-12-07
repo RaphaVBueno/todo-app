@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 import { useAuth } from '@/hooks'
+import { Role } from '@/types'
 
 /**
  * A lista principal de itens de navegação para o menu lateral
@@ -28,6 +29,7 @@ const mainListItems = [
     text: 'Lista de Perfil',
     icon: <PeopleRoundedIcon />,
     route: '/lista-perfil',
+    roles: [Role.ADMIN],
   },
 ]
 
@@ -41,7 +43,7 @@ const mainListItems = [
 export default function MenuContent() {
   const navigate = useNavigate() // Hook do React Router para navegação
   const location = useLocation() // Hook do React Router para obter a localização atual da página
-  const { signOut } = useAuth() // Hook para autenticação, incluindo função de logout
+  const { signOut, user } = useAuth() // Hook para autenticação, incluindo função de logout
 
   /**
    * Função que manipula a navegação entre as páginas
@@ -52,10 +54,18 @@ export default function MenuContent() {
     navigate(route)
   }
 
+  if (!user) return null
+
+  const items = mainListItems.filter(({ roles }) => {
+    if (!roles) return true
+
+    return roles.includes(user.role)
+  })
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
-        {mainListItems.map((item, index) => (
+        {items.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               onClick={() => handleNavigation(item.route)}

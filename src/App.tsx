@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 
+import { Role } from '@/types'
+
 import Dashboard from './components/Dashboard.tsx'
 import ProtectedRoutes from './components/ProtectedRoutes.tsx'
 import {
@@ -37,7 +39,14 @@ function App() {
         { index: true, path: ':date?', element: <Home /> },
         { path: 'perfil', element: <Perfil /> },
         { path: 'adicionar', element: <Adicionar /> },
-        { path: 'lista-perfil', element: <ListaPerfil /> },
+        {
+          path: 'lista-perfil',
+          element: (
+            <ProtectedRoutes authorizedRoles={[Role.ADMIN]}>
+              <ListaPerfil />
+            </ProtectedRoutes>
+          ),
+        },
       ],
     },
   ])
@@ -47,8 +56,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <RouterProvider router={router} />
-          <Toaster />
         </AuthProvider>
+        <Toaster />
         <CssBaseline enableColorScheme />
       </ThemeProvider>
     </QueryClientProvider>

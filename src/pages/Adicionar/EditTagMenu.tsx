@@ -89,26 +89,33 @@ function EditTagMenu(props: EditTagButtonsProps) {
           fullWidth
           sx={{ marginBottom: 2 }}
           value={editName}
-          onChange={(event) => setEditName(event.target.value)}
+          onChange={event => setEditName(event.target.value)}
           style={{ marginTop: '-8px' }}
         />
       </Box>
 
       {listColor && (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography sx={{ mr: 2 }}>Selecione a cor</Typography>
+          <Typography
+            sx={{ mr: 2, cursor: 'pointer' }}
+            component="label"
+            htmlFor="color-input"
+          >
+            Selecione a cor
+          </Typography>
           <input
             type="color"
             name="input"
             id="color-input"
             value={color}
-            onChange={(e) => setColor(e.target.value)}
+            onChange={e => setColor(e.target.value)}
             style={{
               width: 24,
               height: 24,
               backgroundColor: color,
               borderRadius: '50%',
               border: 'none',
+              cursor: 'pointer',
             }}
           />
         </Box>

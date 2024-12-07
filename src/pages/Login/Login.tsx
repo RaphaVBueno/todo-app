@@ -1,13 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, Typography, Stack, Alert } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 import { Card, Input } from '@/components'
 import { useAuth } from '@/hooks'
 
 import { validations, Fields } from './fields'
-import ErrorMessage from '@/components/ErrorMessage'
 
 export default function Login() {
   const { signIn } = useAuth()
@@ -18,19 +17,17 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<Fields>()
-  const [message, setMessage] = useState('')
-  const [openMessage, setOpenMessage] = useState(false)
 
-  const onSubmit: SubmitHandler<Fields> = async (data) => {
+  const onSubmit: SubmitHandler<Fields> = async data => {
     try {
       await signIn(data)
       navigate('/')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
-        setMessage('Usuário ou senha incorretos. Tente novamente.')
-        setOpenMessage(true)
+        toast.error('Usuário ou senha incorretos. Tente novamente.')
       } else {
-        setMessage('Ocorreu um erro. Tente novamente mais tarde.')
+        toast.error('Algo deu errado. Tente novamente mais tarde.')
       }
     }
   }
@@ -87,13 +84,6 @@ export default function Login() {
           </Typography>
         </Box>
       </Card>
-      {openMessage && (
-        <ErrorMessage
-          message={message}
-          openMessage={openMessage}
-          setOpenMessage={setOpenMessage}
-        />
-      )}
     </Stack>
   )
 }
