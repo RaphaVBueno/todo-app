@@ -1,13 +1,13 @@
-import { Box, Typography, IconButton, Tooltip, Menu, Button } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import DeleteConfirmationDialog from '../../components/Delete';
-import BotaoPadrao from '@/components/BotaoPadrao';
+import { Box, Typography, IconButton, Tooltip, Menu, Button } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
+import DeleteConfirmationDialog from '../../components/Delete'
+import BotaoPadrao from '@/components/BotaoPadrao'
 import Input from '../../components/Input'
-import { Usuario } from '@/types';
-import { getUserLista, deleteUser } from '@/utils';
+import { Usuario } from '@/types'
+import { getUserLista, deleteUser } from '@/utils'
 
 function ListaPerfilAdm() {
     const { error: listUserError, data: users } = useQuery<Usuario[]>({
@@ -15,22 +15,22 @@ function ListaPerfilAdm() {
         queryFn: () => getUserLista(),
     });
 
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
 
     const mutation = useMutation({
         mutationFn: (userId: number) => deleteUser(userId),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['usersList'] });
+            queryClient.invalidateQueries({ queryKey: ['usersList'] })
         },
         onError: (error) => {
-            console.error('Erro ao deletar usuário:', error);
+            console.error('Erro ao deletar usuário:', error)
         },
     });
 
-    const [confirmOpen, setConfirmOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [editName, setEditName] = useState('');
+    const [confirmOpen, setConfirmOpen] = useState(false)
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const [editName, setEditName] = useState('')
 
     const handleDeleteClick = (userId: number) => {
         setSelectedUserId(userId);
@@ -39,13 +39,13 @@ function ListaPerfilAdm() {
 
     const handleConfirmDelete = () => {
         if (selectedUserId) {
-            mutation.mutate(selectedUserId);
+            mutation.mutate(selectedUserId)
         }
-        setConfirmOpen(false);
+        setConfirmOpen(false)
     };
 
     const handleCloseDialog = () => {
-        setConfirmOpen(false);
+        setConfirmOpen(false)
     };
 
     const handleEditClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -57,12 +57,12 @@ function ListaPerfilAdm() {
     };
 
     const handleSubmit = () => {
-        console.log('Salvar clicado');
+        console.log('Salvar clicado')
     };
 
-    if (listUserError) return 'Erro ao carregar usuários';
+    if (listUserError) return 'Erro ao carregar usuários'
 
-    const openMenu = Boolean(anchorEl);
+    const openMenu = Boolean(anchorEl)
 
     const columns: GridColDef[] = [
         {
@@ -73,9 +73,9 @@ function ListaPerfilAdm() {
             disableColumnMenu: true,
         },
         {
-            field: 'papéis',
+            field: 'role',
             headerName: 'Papéis',
-            width: 110,
+            width: 180,
             sortable: false,
             disableColumnMenu: true,
             headerAlign: 'center',
@@ -146,9 +146,11 @@ function ListaPerfilAdm() {
             ),
         },
     ];
+
     const rows = users?.map((user) => ({
         id: user.id,
         username: user.username,
+        role: user.role,
     })) || [];
 
     return (

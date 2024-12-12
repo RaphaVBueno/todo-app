@@ -21,9 +21,9 @@ function ListaPerfil() {
       disableColumnMenu: true,
     },
     {
-      field: 'papéis',
+      field: 'role',
       headerName: 'Papéis',
-      width: 110,
+      width: 180,
       sortable: false,
       disableColumnMenu: true,
       headerAlign: 'center',
@@ -34,6 +34,7 @@ function ListaPerfil() {
   const rows = users?.map((user) => ({
     id: user.id,
     username: user.username,
+    role: user.role,
   })) || [];
 
   return (
