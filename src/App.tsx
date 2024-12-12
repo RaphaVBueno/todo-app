@@ -43,7 +43,7 @@ function App() {
         {
           path: 'lista-perfil',
           element: (
-            <ProtectedRoutes authorizedRoles={[Role.ADMIN]}>
+            <ProtectedRoutes authorizedRoles={[Role.ADMIN, Role.SUPERADMIN]}>
               <ListaPerfil />
             </ProtectedRoutes>
           ),
@@ -51,7 +51,7 @@ function App() {
         {
           path: 'lista-perfil-admin',
           element: (
-            <ProtectedRoutes authorizedRoles={[Role.ADMIN]}>
+            <ProtectedRoutes authorizedRoles={[Role.SUPERADMIN]}>
               <ListaPerfilAdm />
             </ProtectedRoutes>
           ),

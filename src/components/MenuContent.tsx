@@ -26,10 +26,16 @@ const mainListItems = [
     route: '/adicionar',
   },
   {
-    text: 'Lista de Perfil',
+    text: 'Lista de Perfis',
     icon: <PeopleRoundedIcon />,
     route: '/lista-perfil',
-    roles: [Role.ADMIN],
+    roles: [Role.ADMIN, Role.SUPERADMIN],
+  },
+  {
+    text: 'Lista de Perfis Admin',
+    icon: <PeopleRoundedIcon />,
+    route: '/lista-perfil-admin',
+    roles: [Role.SUPERADMIN],
   },
 ]
 
