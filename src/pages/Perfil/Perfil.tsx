@@ -14,11 +14,12 @@ import { Fields, passwordValidation, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
 import { updateUser, UpdateUserParams } from '@/utils'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 const UserProfile = () => {
   const { user } = useAuth()
   if (!user) return ''
-  //pensar em como enviar o fomulario sem precisa adicionar a senha e usar navigate para home quando success
+
   const [message, setMessage] = useState('')
   const [openMessage, setOpenMessage] = useState(false)
 
@@ -35,7 +36,7 @@ const UserProfile = () => {
     const result = await updateUser(data as UpdateUserParams)
 
     if (result.success) {
-      alert('atualizado com sucesso')
+      toast.success('Perfil atualizado com sucesso')
     } else {
       setOpenMessage(true)
       setMessage(result.message)

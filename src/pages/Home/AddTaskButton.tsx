@@ -6,6 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 
 import { List, Tag } from '@/types'
 import { addTask, devUser, queryClient, AddTaskParams } from '@/utils'
@@ -14,7 +15,6 @@ import Input from '@/components/Input'
 
 import AutoCompleteAddTask from './AutoCompleteAddTask'
 import MultiSelect from '@/components/MultiSelect'
-import SnackbarMessage from '@/components/SnackbarMessage'
 
 type AddTaskButtonProps = {
   categories: List[]
@@ -31,22 +31,14 @@ function AddTaskButton(props: AddTaskButtonProps) {
   const [listId, setListId] = useState<number | null>(null)
   const [tagId, SetTagId] = useState<number[]>([])
 
-  const [openMessage, setOpenMessage] = useState(false)
-  const [statusSuccess, setStatusSuccess] = useState(true)
-  const [message, setMessage] = useState('')
-
   const { mutate } = useMutation({
     mutationFn: (params: AddTaskParams) => addTask(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
-      setMessage('Tarefa adicionada com sucesso!')
-      setStatusSuccess(true)
-      setOpenMessage(true)
+      toast.success('Tarefa adicionada com sucesso')
     },
     onError: () => {
-      setMessage('Erro ao adicionar a tarefa!')
-      setStatusSuccess(false)
-      setOpenMessage(true)
+      toast.error('Erro ao adicionar a tarefa!')
     },
   })
 
@@ -158,12 +150,6 @@ function AddTaskButton(props: AddTaskButtonProps) {
           <BotaoPadrao action={handleSubmit} buttonName="Adicionar" />
         </Stack>
       </Menu>
-      <SnackbarMessage
-        openMessage={openMessage}
-        statusSuccess={statusSuccess}
-        setOpenMessage={setOpenMessage}
-        message={message}
-      />
     </Box>
   )
 }

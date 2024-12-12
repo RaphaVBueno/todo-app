@@ -7,11 +7,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from '@/components/Loading'
 import toast from 'react-hot-toast'
-import { useState } from 'react'
-//navegar para tela de login após resetar senha
+
 function NovaSenha() {
   const { token } = useParams()
-  const [loginButton, setLoginButton] = useState(false)
   const navigate = useNavigate()
 
   const {
@@ -29,7 +27,7 @@ function NovaSenha() {
     mutationFn: (params: NewPasswordParams) => newPassword(params),
     onSuccess: () => {
       toast.success('Senha alterada com sucesso')
-      setLoginButton(true)
+      navigate('/login')
     },
     onError: () => {
       toast.error('Ocorreu um erro')
@@ -112,24 +110,6 @@ function NovaSenha() {
                   Atualizar Senha
                 </Button>
               </Box>
-              {loginButton && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    sx={{ marginTop: '2rem' }}
-                    onClick={() => navigate('/login')}
-                  >
-                    Ir para Tela de Login
-                  </Button>
-                </Box>
-              )}
             </Box>
           </CardContent>
         </Card>
