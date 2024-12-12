@@ -21,6 +21,7 @@ import theme from './theme'
 import { queryClient } from './utils'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import ListaPerfil from './pages/ListaPerfil/ListaPerfil.tsx'
+import ListaPerfilAdm from './pages/ListaPerfilAdm/ListaPerfilAdm.tsx'
 
 function App() {
   const router = createBrowserRouter([
@@ -44,6 +45,14 @@ function App() {
           element: (
             <ProtectedRoutes authorizedRoles={[Role.ADMIN]}>
               <ListaPerfil />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: 'lista-perfil-admin',
+          element: (
+            <ProtectedRoutes authorizedRoles={[Role.ADMIN]}>
+              <ListaPerfilAdm />
             </ProtectedRoutes>
           ),
         },
