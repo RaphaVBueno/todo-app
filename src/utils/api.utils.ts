@@ -1,4 +1,4 @@
-import { Usuario } from '@/types'
+import { Role, Usuario } from '@/types'
 import axios from 'axios'
 import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
@@ -282,5 +282,16 @@ export const getUserLista = async () => {
 
 export const deleteUser = async (userId: number) => {
   const res = await api.delete(`/user`, { data: { id: userId } })
+  return res.data.message
+}
+
+export type UpdateUserRoleParams = {
+  userId: number
+  newRole: Role
+}
+
+export const updateUserRole = async (params: UpdateUserRoleParams) => {
+  const { userId, newRole } = params
+  const res = await api.put(`/user/change-role`, { userId, newRole })
   return res.data.message
 }
