@@ -22,6 +22,7 @@ import { queryClient } from './utils'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import ListaPerfil from './pages/ListaPerfil/ListaPerfil.tsx'
 import ListaPerfilAdm from './pages/ListaPerfilAdm/ListaPerfilAdm.tsx'
+import TrocarSenha from './pages/Perfil/TrocarSenha.tsx'
 
 function App() {
   const router = createBrowserRouter([
@@ -40,6 +41,7 @@ function App() {
         { index: true, path: ':date?', element: <Home /> },
         { path: 'perfil', element: <Perfil /> },
         { path: 'adicionar', element: <Adicionar /> },
+        { path: 'trocar-senha', element: <TrocarSenha /> },
         {
           path: 'lista-perfil',
           element: (

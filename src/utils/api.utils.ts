@@ -228,10 +228,10 @@ export const addTag = async (params: AddTagParams) => {
 }
 
 export type UpdateUserParams = {
-  name: string | undefined
-  password: string | undefined
-  email: string | undefined
-  username: string | undefined
+  name?: string | undefined
+  password?: string | undefined
+  email?: string | undefined
+  username?: string | undefined
 }
 
 export const updateUser = async (params: UpdateUserParams) => {

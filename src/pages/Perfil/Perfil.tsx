@@ -9,14 +9,16 @@ import {
   Alert,
 } from '@mui/material'
 import { useAuth } from '@/hooks'
-import { SubmitHandler, useForm, useWatch } from 'react-hook-form'
-import { Fields, passwordValidation, validations } from '../Cadastro/fields'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Fields, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
 import { updateUser, UpdateUserParams } from '@/utils'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfile = () => {
+  const navigate = useNavigate()
   const { user } = useAuth()
   if (!user) return ''
 
@@ -26,11 +28,8 @@ const UserProfile = () => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<Fields>()
-
-  const passwordValue = useWatch({ control, name: 'password' })
 
   const onSubmit: SubmitHandler<Fields> = async (data) => {
     const result = await updateUser(data as UpdateUserParams)
@@ -95,27 +94,27 @@ const UserProfile = () => {
             defaultValue={user.birthDate.slice(0, 10)}
           />
 
-          <Input
-            {...register('password', validations.password)}
-            label="Senha"
-            type="password"
-            error={errors.password?.message}
-          />
-
-          <Input
-            {...register(
-              'confirmPassword',
-              passwordValidation(passwordValue).confirmPassword
-            )}
-            label=" Confirmar Senha"
-            type="confirmPassword"
-            error={errors.confirmPassword?.message}
-          />
           {openMessage && (
             <Alert sx={{ marginTop: '1rem' }} severity="error">
               {message}
             </Alert>
           )}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => navigate('/trocar-senha')}
+              sx={{ marginTop: '2rem' }}
+            >
+              Trocar senha
+            </Button>
+          </Box>
           <Box
             sx={{
               display: 'flex',
