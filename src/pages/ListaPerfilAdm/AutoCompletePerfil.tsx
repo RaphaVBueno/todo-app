@@ -1,6 +1,5 @@
 import { Autocomplete } from '@mui/material'
 import { Input } from '@/components'
-import { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
 type AutoCompletePerfilParams = {
@@ -8,7 +7,10 @@ type AutoCompletePerfilParams = {
   setUsersRole: Dispatch<SetStateAction<string>>
 }
 
-function AutoCompletePerfil() {
+function AutoCompletePerfil({
+  usersRole,
+  setUsersRole,
+}: AutoCompletePerfilParams) {
   const roles = ['ADMIN', 'USER', 'SUPERADMIN']
 
   return (
@@ -16,6 +18,7 @@ function AutoCompletePerfil() {
       disablePortal
       options={roles}
       fullWidth
+      value={usersRole}
       getOptionLabel={(option) => option}
       onChange={(_, newValue) => {
         if (newValue) {

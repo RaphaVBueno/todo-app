@@ -13,7 +13,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import DeleteConfirmationDialog from '../../components/Delete'
 import BotaoPadrao from '@/components/BotaoPadrao'
 import { Usuario } from '@/types'
-import { getUserLista, deleteUser } from '@/utils'
+import { getUserLista, deleteUser, updateUserRole } from '@/utils'
 import AutoCompletePerfil from './AutoCompletePerfil'
 
 function ListaPerfilAdm() {
@@ -24,13 +24,24 @@ function ListaPerfilAdm() {
 
   const queryClient = useQueryClient()
 
-  const mutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: (userId: number) => deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['usersList'] })
     },
     onError: (error) => {
       console.error('Erro ao deletar usuário:', error)
+    },
+  })
+
+  const updateRoleMutation = useMutation({
+    mutationFn: ({ userId, newRole }: { userId: number; newRole: string }) =>
+      updateUserRole({ userId, newRole }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['usersList'] })
+    },
+    onError: (error) => {
+      console.error('Erro ao atualizar papel do usuário:', error)
     },
   })
 
@@ -46,7 +57,7 @@ function ListaPerfilAdm() {
 
   const handleConfirmDelete = () => {
     if (selectedUserId) {
-      mutation.mutate(selectedUserId)
+      deleteMutation.mutate(selectedUserId)
     }
     setConfirmOpen(false)
   }
@@ -55,16 +66,26 @@ function ListaPerfilAdm() {
     setConfirmOpen(false)
   }
 
-  const handleEditClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleEditClick = (
+    event: React.MouseEvent<HTMLElement>,
+    user: Usuario
+  ) => {
     setAnchorEl(event.currentTarget)
+    setSelectedUserId(user.id)
+    setUsersRole(user.role) // Inicializa o papel atual no AutoComplete
   }
 
   const handleCloseMenu = () => {
     setAnchorEl(null)
+    setSelectedUserId(null)
+    setUsersRole('')
   }
 
-  const handleSubmit = () => {
-    console.log('Salvar clicado')
+  const handleRoleChange = (newRole: string) => {
+    if (selectedUserId) {
+      updateRoleMutation.mutate({ userId: selectedUserId, newRole })
+    }
+    handleCloseMenu()
   }
 
   if (listUserError) return 'Erro ao carregar usuários'
@@ -117,7 +138,7 @@ function ListaPerfilAdm() {
             <IconButton
               edge="start"
               aria-label="edit"
-              onClick={handleEditClick}
+              onClick={(event) => handleEditClick(event, params.row)}
               sx={{ mt: '5px' }}
             >
               <EditIcon />
@@ -211,7 +232,10 @@ function ListaPerfilAdm() {
         <Box>
           Editar
           <Box sx={{ p: 0, mt: '4px', mb: '4px' }}>
-            <AutoCompletePerfil userRole={usersRole} />
+            <AutoCompletePerfil
+              usersRole={usersRole}
+              setUsersRole={setUsersRole}
+            />
           </Box>
         </Box>
         <Box
@@ -224,7 +248,7 @@ function ListaPerfilAdm() {
           <Button
             variant="outlined"
             color="primary"
-            onClick={handleSubmit}
+            onClick={() => handleRoleChange(usersRole)}
             sx={{
               height: '40px',
               width: '130px',
