@@ -51,8 +51,8 @@ export default function SideMenu() {
         >
           <Avatar
             sizes="small"
-            alt="Rapha"
-            src="/static/images/avatar/7.jpg"
+            alt={user?.name}
+            src={`http://localhost:3000/static/perfilImage_${user?.username}.jpg`}
             sx={{ width: 36, height: 36 }}
           />
           <Box sx={{ mr: 'auto' }}>

@@ -49,7 +49,7 @@ const UserProfile = () => {
           <Grid>
             <Avatar
               alt="User Avatar"
-              src="/avatar.jpg"
+              src={`http://localhost:3000/static/perfilImage_${user.username}.jpg`}
               sx={{ width: 100, height: 100 }}
             />
           </Grid>
@@ -57,9 +57,10 @@ const UserProfile = () => {
             <Typography variant="h5">{user?.username || 'Usuário'}</Typography>
           </Grid>
           <Grid>
-            <Button variant="contained" color="primary">
+            {/* <Button variant="contained" color="primary">
               Adicionar Nova Foto
-            </Button>
+            </Button> */}
+            <input type="file" accept="image/*" />
           </Grid>
         </Grid>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -112,7 +113,7 @@ const UserProfile = () => {
               onClick={() => navigate('/trocar-senha')}
               sx={{ marginTop: '2rem' }}
             >
-              Trocar senha
+              Alterar senha
             </Button>
           </Box>
           <Box
