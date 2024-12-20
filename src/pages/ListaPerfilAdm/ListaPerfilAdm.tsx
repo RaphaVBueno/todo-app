@@ -3,7 +3,7 @@ import {
   Typography,
   IconButton,
   Tooltip,
-  Menu,
+  Dialog,
   Button,
 } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
@@ -208,8 +208,7 @@ function ListaPerfilAdm() {
         <DataGrid rows={rows} columns={columns} hideFooter />
       </Box>
 
-      <Menu
-        anchorEl={anchorEl}
+      <Dialog
         open={openMenu}
         onClose={handleCloseMenu}
         PaperProps={{
@@ -217,20 +216,16 @@ function ListaPerfilAdm() {
             width: '400px',
             display: 'flex',
             flexDirection: 'column',
-            padding: 10,
+            padding: "20px",
           },
         }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+        BackdropProps={{
+          style: {
+            backgroundColor: 'transparent', // Remove o fundo escuro
+          },
         }}
       >
         <Box>
-          Editar
           <Box sx={{ p: 0, mt: '4px', mb: '4px' }}>
             <AutoCompletePerfil
               usersRole={usersRole}
@@ -242,7 +237,7 @@ function ListaPerfilAdm() {
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            marginTop: '10px',
+            marginTop: '16px',
           }}
         >
           <Button
@@ -260,7 +255,7 @@ function ListaPerfilAdm() {
           </Button>
           <BotaoPadrao buttonName="Cancelar" action={handleCloseMenu} />
         </Box>
-      </Menu>
+      </Dialog>
 
       <DeleteConfirmationDialog
         open={confirmOpen}

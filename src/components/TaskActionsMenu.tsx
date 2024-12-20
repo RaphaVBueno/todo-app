@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Menu, Stack } from '@mui/material'
+import { Dialog, Stack } from '@mui/material'
 import { List } from '../types/list'
 import { devUser, queryClient, updateTask, updateTaskParams } from '../utils'
 import { useMutation } from '@tanstack/react-query'
@@ -35,9 +35,7 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
   } = props
   const [listId, setListId] = useState<number | null | undefined>(taskListId)
   const [title, setTitle] = useState<string>(taskTitle)
-  const [description, setDescription] = useState<string>(
-    taskDescription ? taskDescription : ''
-  )
+  const [description, setDescription] = useState<string>(taskDescription ? taskDescription : '')
   const [tagId, setTagId] = useState<number[]>([])
   const { mutate } = useMutation({
     mutationFn: (params: updateTaskParams) => updateTask(params),
@@ -56,26 +54,22 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
   }
 
   return (
-    <Menu
-      anchorEl={anchorEl}
+    <Dialog
       open={Boolean(anchorEl)}
       onClose={handleClose}
       PaperProps={{
         style: {
-          width: 400,
-          height: 360,
+          width: '480px',
+          height: '388px',
           display: 'flex',
           flexDirection: 'column',
-          padding: 10,
+          padding: '20px',
         },
       }}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+      BackdropProps={{
+        style: {
+          backgroundColor: 'transparent', // Remove o fundo escuro
+        },
       }}
     >
       <Stack spacing={'4px'}>
@@ -86,10 +80,12 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
           value={title}
         />
         <Input
-          style={{ marginTop: '-8px' }}
           onChange={(e) => setDescription(e.target.value)}
           label="Descrição"
           value={description}
+          style={{ marginTop: '-8px', height: '80px' }}
+          multiline
+          rows={3}
         />
         <AutoCompleteTaskActions
           categories={categories}
@@ -102,11 +98,11 @@ export function TaskActionsMenu(props: TaskActionsMenuProps) {
         direction="row"
         spacing={3}
         justifyContent="center"
-        sx={{ mt: '29px' }}
+        sx={{ mt: '16px' }}
       >
-        <BotaoPadrao action={handleSubmit} buttonName="Confirmar" />
         <BotaoPadrao action={handleClose} buttonName="Cancelar" />
+        <BotaoPadrao action={handleSubmit} buttonName="Confirmar" />
       </Stack>
-    </Menu>
+    </Dialog>
   )
 }

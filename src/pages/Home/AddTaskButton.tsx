@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Menu, Box, Stack } from '@mui/material'
+import { Button, Dialog, Box, Stack } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { ptBR } from 'date-fns/locale'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
@@ -66,7 +66,16 @@ function AddTaskButton(props: AddTaskButtonProps) {
   }
 
   return (
-    <Box sx={{ maxWidth: { md: '50%' }, mb: 4 }}>
+    <Box
+      sx={{
+        position: 'fixed', // Fixe o botão na tela
+        top: '95%', // Posicione a partir do centro da tela
+        left: '50%', // Centralize horizontalmente
+        transform: 'translate(-50%, -50%)', // Ajuste para realmente centralizar
+        zIndex: 9999, // Garantir que o botão fique na frente
+        width: "480px"
+      }}
+    >
       <Button
         variant="contained"
         color="primary"
@@ -76,22 +85,21 @@ function AddTaskButton(props: AddTaskButtonProps) {
       >
         Adicionar tarefa
       </Button>
-      <Menu
-        anchorEl={anchorEl}
+      <Dialog
         open={isMenuOpen}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{ mt: '-62px' }}
-        slotProps={{
-          paper: {
-            sx: {
-              height: '684px',
-              width: anchorEl?.clientWidth || 'auto',
-              padding: '10px',
-              display: 'flex',
-              flexDirection: 'column',
-            },
+        PaperProps={{
+          style: {
+            width: "480px",
+            height: "710px",
+            display: 'flex',
+            flexDirection: 'column',
+            padding: "20px",
+          },
+        }}
+        BackdropProps={{
+          style: {
+            backgroundColor: 'transparent', // Remove o fundo escuro
           },
         }}
       >
@@ -108,7 +116,9 @@ function AddTaskButton(props: AddTaskButtonProps) {
             onChange={(e) => setDescription(e.target.value)}
             label="Descrição"
             value={description}
-            style={{ marginTop: '-8px' }}
+            style={{ marginTop: '-8px', height: '80px' }}
+            multiline
+            rows={3}
           />
         </Box>
         <AutoCompleteAddTask categories={categories} setListId={setListId} />
@@ -122,10 +132,10 @@ function AddTaskButton(props: AddTaskButtonProps) {
               value={dueDate}
               onChange={setDueDate}
               sx={{
-                width: '335px',
+                width: '80%',
                 '& .MuiPickersArrowSwitcher-root': {
                   justifyContent: 'space-between',
-                  '& button': { ml: '4px' },
+                  '& button': { mr: '11px' },
                 },
                 '& .MuiTypography-root': {
                   fontSize: '1.1rem',
@@ -142,15 +152,14 @@ function AddTaskButton(props: AddTaskButtonProps) {
         </Box>
         <Stack
           direction="row"
-          spacing={5}
+          spacing={"46px"}
           justifyContent="center"
-          sx={{ mt: '17px' }}
         >
           <BotaoPadrao action={handleClose} buttonName="Cancelar" />
           <BotaoPadrao action={handleSubmit} buttonName="Adicionar" />
         </Stack>
-      </Menu>
-    </Box>
+      </Dialog>
+    </Box >
   )
 }
 

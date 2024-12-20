@@ -1,4 +1,4 @@
-import { Menu, Box, Button, Typography } from '@mui/material'
+import { Dialog, Box, Button, Typography } from '@mui/material'
 import Input from '../../components/Input'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import BotaoPadrao from '@/components/BotaoPadrao'
@@ -60,8 +60,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
   }
 
   return (
-    <Menu
-      anchorEl={anchorEl}
+    <Dialog
       open={openMenu}
       onClose={handleclose}
       PaperProps={{
@@ -69,16 +68,13 @@ function EditTagMenu(props: EditTagButtonsProps) {
           width: '400px',
           display: 'flex',
           flexDirection: 'column',
-          padding: 10,
+          padding: "20px",
         },
       }}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+      BackdropProps={{
+        style: {
+          backgroundColor: 'transparent', // Remove o fundo escuro
+        },
       }}
     >
       <Box>
@@ -142,7 +138,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
         </Button>
         <BotaoPadrao buttonName="Cancelar" action={handleclose} />
       </Box>
-    </Menu>
+    </Dialog>
   )
 }
 

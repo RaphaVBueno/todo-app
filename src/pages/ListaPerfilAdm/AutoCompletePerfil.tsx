@@ -28,7 +28,7 @@ function AutoCompletePerfil({
       renderInput={(params) => (
         <Input
           {...params.InputProps}
-          label="Categoria"
+          label="Papéis"
           {...params}
           style={{ marginTop: '-8px' }}
         />
