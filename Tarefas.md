@@ -28,7 +28,7 @@
 - [x] Tela de Perfil - confirmar senha (nova senha) (@RaphaVBueno)
 - [x] Tela de Perfil - alerta de confirmação ao alterar o perfil (@RaphaVBueno)
 - [x] sTela de Confirmar senha - navegar para login ao alterar com sucesso- bug na inicialização da pagina
-- [ ] Menu de adicionar tarefa (trocar para elemento dialog) (@will-amaral)
+- [x] Menu de adicionar tarefa (trocar para elemento dialog) (@will-amaral)
 
 ## Vídeos e recursos
 
