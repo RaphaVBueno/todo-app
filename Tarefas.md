@@ -20,6 +20,7 @@
 
 - [ ] revisar, refatorar e documentar o codigo (@raphavbueno e @viniciusvbueno)
 - [ ] Arrumar tratamento de Datas na aplicação como um todo
+- [x] Atualizar foto de perfil
 - [x] Remover divs órfãs (@raphavbueno)
 - [x] bug do refresh
 - [x] bug de multiselect ao retirar uma tag (@raphavbueno)

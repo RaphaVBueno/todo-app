@@ -12,15 +12,36 @@ import { useAuth } from '@/hooks'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Fields, validations } from '../Cadastro/fields'
 import { Input } from '@/components'
-import { updateUser, UpdateUserParams } from '@/utils'
+import { updateUser, UpdateUserParams, uploadImage } from '@/utils'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
 
 const UserProfile = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
   if (!user) return ''
+
+  const { mutate } = useMutation({
+    mutationFn: (image: File) => uploadImage(image),
+    onSuccess: () => {
+      window.location.reload()
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar foto')
+    },
+  })
+
+  const handleAddImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return 'erro ao adiconar foto'
+    }
+    const file = event.target.files[0] ? event.target.files[0] : undefined
+    if (file) {
+      await mutate(file)
+    }
+  }
 
   const [message, setMessage] = useState('')
   const [openMessage, setOpenMessage] = useState(false)
@@ -48,7 +69,7 @@ const UserProfile = () => {
         <Grid container direction="column" alignItems="center" spacing={2}>
           <Grid>
             <Avatar
-              alt="User Avatar"
+              alt="user avatar"
               src={`http://localhost:3000/static/perfilImage_${user.username}.jpg`}
               sx={{ width: 100, height: 100 }}
             />
@@ -56,11 +77,8 @@ const UserProfile = () => {
           <Grid>
             <Typography variant="h5">{user?.username || 'Usuário'}</Typography>
           </Grid>
-          <Grid>
-            {/* <Button variant="contained" color="primary">
-              Adicionar Nova Foto
-            </Button> */}
-            <input type="file" accept="image/*" />
+          <Grid component={'form'}>
+            <input type="file" accept="image/*" onChange={handleAddImage} />
           </Grid>
         </Grid>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>

@@ -295,3 +295,10 @@ export const updateUserRole = async (params: UpdateUserRoleParams) => {
   const res = await api.put(`/user/change-role`, { userId, newRole })
   return res.data.message
 }
+
+export const uploadImage = async (image: File) => {
+  const formData = new FormData()
+  formData.append('file', image)
+  const res = await api.post('/upload/image', formData)
+  return res.data.message
+}
