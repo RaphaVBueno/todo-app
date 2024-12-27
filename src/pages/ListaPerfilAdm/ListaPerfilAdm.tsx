@@ -1,20 +1,12 @@
-import {
-  Box,
-  Typography,
-  IconButton,
-  Tooltip,
-  Dialog,
-  Button,
-} from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { Box, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import DeleteConfirmationDialog from '../../components/Delete'
-import BotaoPadrao from '@/components/BotaoPadrao'
 import { Usuario } from '@/types'
 import { getUserLista, deleteUser, updateUserRole } from '@/utils'
-import AutoCompletePerfil from './AutoCompletePerfil'
+import EditDialog from './EditDialog'
+import { columns } from './GridConfig'
 
 function ListaPerfilAdm() {
   const { error: listUserError, data: users } = useQuery<Usuario[]>({
@@ -49,6 +41,7 @@ function ListaPerfilAdm() {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [usersRole, setUsersRole] = useState('')
+  const [openMenu, setOpenMenu] = useState(false)
 
   const handleDeleteClick = (userId: number) => {
     setSelectedUserId(userId)
@@ -72,13 +65,15 @@ function ListaPerfilAdm() {
   ) => {
     setAnchorEl(event.currentTarget)
     setSelectedUserId(user.id)
-    setUsersRole(user.role) // Inicializa o papel atual no AutoComplete
+    setUsersRole(user.role)
+    setOpenMenu(true)
   }
 
   const handleCloseMenu = () => {
     setAnchorEl(null)
     setSelectedUserId(null)
     setUsersRole('')
+    setOpenMenu(false)
   }
 
   const handleRoleChange = (newRole: string) => {
@@ -90,96 +85,13 @@ function ListaPerfilAdm() {
 
   if (listUserError) return 'Erro ao carregar usuários'
 
-  const openMenu = Boolean(anchorEl)
-
-  const columns: GridColDef[] = [
-    {
-      field: 'username',
-      headerName: 'Nome do Usuário',
-      width: 220,
-      sortable: false,
-      disableColumnMenu: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Papéis',
-      width: 180,
-      sortable: false,
-      disableColumnMenu: true,
-      headerAlign: 'center',
-      align: 'center',
-    },
-    {
-      field: 'actions',
-      headerName: '',
-      flex: 0.5,
-      sortable: false,
-      disableColumnMenu: true,
-      headerAlign: 'center',
-      align: 'center',
-      renderCell: (params) => (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Tooltip
-            title="Editar"
-            placement="top"
-            slotProps={{
-              popper: {
-                modifiers: [
-                  {
-                    name: 'offset',
-                    options: {
-                      offset: [0, -14],
-                    },
-                  },
-                ],
-              },
-            }}
-          >
-            <IconButton
-              edge="start"
-              aria-label="edit"
-              onClick={(event) => handleEditClick(event, params.row)}
-              sx={{ mt: '5px' }}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip
-            title="Deletar"
-            placement="top"
-            slotProps={{
-              popper: {
-                modifiers: [
-                  {
-                    name: 'offset',
-                    options: {
-                      offset: [0, -14],
-                    },
-                  },
-                ],
-              },
-            }}
-          >
-            <IconButton
-              edge="end"
-              aria-label="delete"
-              onClick={() => handleDeleteClick(params.row.id)}
-              sx={{ ml: '4px', mr: '0px', mt: '5px' }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      ),
-    },
-  ]
-
   const rows =
     users?.map((user) => ({
       id: user.id,
       username: user.username,
       role: user.role,
+      onEditClick: (event: React.MouseEvent<HTMLElement>) => handleEditClick(event, user),
+      onDeleteClick: () => handleDeleteClick(user.id),
     })) || []
 
   return (
@@ -205,57 +117,16 @@ function ListaPerfilAdm() {
           width: '75vh',
         }}
       >
-        <DataGrid rows={rows} columns={columns} hideFooter />
+        <DataGrid rows={rows} columns={columns(handleEditClick, handleDeleteClick)} hideFooter />
       </Box>
 
-      <Dialog
+      <EditDialog
         open={openMenu}
         onClose={handleCloseMenu}
-        PaperProps={{
-          style: {
-            width: '400px',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: "20px",
-          },
-        }}
-        BackdropProps={{
-          style: {
-            backgroundColor: 'transparent', // Remove o fundo escuro
-          },
-        }}
-      >
-        <Box>
-          <Box sx={{ p: 0, mt: '4px', mb: '4px' }}>
-            <AutoCompletePerfil
-              usersRole={usersRole}
-              setUsersRole={setUsersRole}
-            />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '16px',
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => handleRoleChange(usersRole)}
-            sx={{
-              height: '40px',
-              width: '130px',
-              fontSize: '1rem',
-              marginRight: 2,
-            }}
-          >
-            Salvar
-          </Button>
-          <BotaoPadrao buttonName="Cancelar" action={handleCloseMenu} />
-        </Box>
-      </Dialog>
+        onSave={handleRoleChange}
+        usersRole={usersRole}
+        setUsersRole={setUsersRole}
+      />
 
       <DeleteConfirmationDialog
         open={confirmOpen}
