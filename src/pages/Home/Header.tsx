@@ -13,8 +13,8 @@ type HeaderProps = {
   /**
    * Data a ser exibida no cabeçalho
    */
-  date: Date | null
-  setDate: Dispatch<SetStateAction<Date | null>>
+  date: Date
+  setDate: Dispatch<SetStateAction<Date>>
   filter: number | null
   setFilter: Dispatch<SetStateAction<number | null>>
   categories: List[]

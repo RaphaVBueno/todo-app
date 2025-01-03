@@ -21,7 +21,7 @@ export default function Dashboard() {
   const now = toZonedTime(new Date(), 'America/Sao_Paulo')
 
   /** Estado que armazena a data atualmente selecionada */
-  const [date, setDate] = useState<Date | null>(now)
+  const [date, setDate] = useState<Date>(now)
 
   /** Estado que armazena o filtro atualmente aplicado */
   const [filter, setFilter] = useState<number | null>(null)

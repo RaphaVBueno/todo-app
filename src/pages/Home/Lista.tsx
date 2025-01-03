@@ -9,7 +9,7 @@ import TaskItem from './TaskItem'
 type ListaProps = {
   tasksList: Task[] | null | undefined
   categories: List[]
-  date: Date | null
+  date: Date
   tags: Tag[]
 }
 

@@ -4,8 +4,9 @@ import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000',
-  //baseURL: 'https://bueno-devs-todo-api.fly.dev',
+  baseURL: import.meta.env.DEV
+    ? 'http://localhost:3000'
+    : 'https://bueno-devs-todo-api.fly.dev',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   },
@@ -14,7 +15,7 @@ export const api = axios.create({
 export const devUser = 1
 
 export const getTasks =
-  (dueDate: Date | null | string, search: string) => async () => {
+  (dueDate: Date | string, search: string) => async () => {
     if (search) {
       await wait(1500)
       const res = await api.get(`/tasks/busca/${search}`)
@@ -72,7 +73,7 @@ export const addTask = async ({
 export const updateTaskStatus = async (params: {
   taskId: number
   status: boolean
-  date: Date | string | null
+  date: Date | string
 }) => {
   const { taskId, status, date } = params
   return await api.post(`/tasks/${taskId}/status`, {

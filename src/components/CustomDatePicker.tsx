@@ -67,9 +67,9 @@ function ButtonField(props: ButtonFieldProps) {
  */
 type CustomDatePickerProps = {
   /** Data atualmente selecionada */
-  date: Date | null
+  date: Date
   /** Função para atualizar a data selecionada */
-  setDate: Dispatch<SetStateAction<Date | null>>
+  setDate: Dispatch<SetStateAction<Date>>
 }
 
 /**
@@ -91,7 +91,11 @@ export default function CustomDatePicker(props: CustomDatePickerProps) {
         label={
           date == null ? null : format(date, 'dd MMM, yyyy', { locale: ptBR })
         }
-        onChange={(newValue) => setDate(newValue)}
+        onChange={(newValue) => {
+          if (newValue) {
+            setDate(newValue)
+          }
+        }}
         slots={{ field: ButtonField }}
         slotProps={{
           field: { setOpen } as any,
