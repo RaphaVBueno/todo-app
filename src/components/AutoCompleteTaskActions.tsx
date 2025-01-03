@@ -1,4 +1,4 @@
-import { Box, Autocomplete } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import { Fragment } from 'react'
 import { List } from '../types/list'
 import Input from './Input'

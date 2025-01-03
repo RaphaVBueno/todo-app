@@ -1,10 +1,11 @@
 import { Autocomplete } from '@mui/material'
 import { Input } from '@/components'
 import type { Dispatch, SetStateAction } from 'react'
+import { Role } from '@/types'
 
 type AutoCompletePerfilParams = {
-  usersRole: string
-  setUsersRole: Dispatch<SetStateAction<string>>
+  usersRole: Role | null
+  setUsersRole: Dispatch<SetStateAction<Role | null>>
 }
 
 function AutoCompletePerfil({
@@ -20,7 +21,7 @@ function AutoCompletePerfil({
       fullWidth
       value={usersRole}
       getOptionLabel={(option) => option}
-      onChange={(_, newValue) => {
+      onChange={(_, newValue: any) => {
         if (newValue) {
           setUsersRole(newValue)
         }

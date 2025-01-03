@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import DeleteConfirmationDialog from '../../components/Delete'
-import { Usuario } from '@/types'
-import { getUserLista, deleteUser, updateUserRole } from '@/utils'
+import { Role, Usuario } from '@/types'
+import { getUserLista, deleteUser, updateUserRole, queryClient } from '@/utils'
 import EditDialog from './EditDialog'
 import { columns } from './GridConfig'
 
@@ -13,8 +13,6 @@ function ListaPerfilAdm() {
     queryKey: ['usersList'],
     queryFn: () => getUserLista(),
   })
-
-  const queryClient = useQueryClient()
 
   const deleteMutation = useMutation({
     mutationFn: (userId: number) => deleteUser(userId),
@@ -27,8 +25,13 @@ function ListaPerfilAdm() {
   })
 
   const updateRoleMutation = useMutation({
-    mutationFn: ({ userId, newRole }: { userId: number; newRole: string }) =>
-      updateUserRole({ userId, newRole }),
+    mutationFn: ({
+      userId,
+      newRole,
+    }: {
+      userId: number
+      newRole: Role | null
+    }) => updateUserRole({ userId, newRole }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['usersList'] })
     },
@@ -39,8 +42,8 @@ function ListaPerfilAdm() {
 
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [usersRole, setUsersRole] = useState('')
+  const [__anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [usersRole, setUsersRole] = useState<Role | null>(null)
   const [openMenu, setOpenMenu] = useState(false)
 
   const handleDeleteClick = (userId: number) => {
@@ -72,11 +75,11 @@ function ListaPerfilAdm() {
   const handleCloseMenu = () => {
     setAnchorEl(null)
     setSelectedUserId(null)
-    setUsersRole('')
+    setUsersRole(null)
     setOpenMenu(false)
   }
 
-  const handleRoleChange = (newRole: string) => {
+  const handleRoleChange = (newRole: Role | null) => {
     if (selectedUserId) {
       updateRoleMutation.mutate({ userId: selectedUserId, newRole })
     }
@@ -90,7 +93,8 @@ function ListaPerfilAdm() {
       id: user.id,
       username: user.username,
       role: user.role,
-      onEditClick: (event: React.MouseEvent<HTMLElement>) => handleEditClick(event, user),
+      onEditClick: (event: React.MouseEvent<HTMLElement>) =>
+        handleEditClick(event, user),
       onDeleteClick: () => handleDeleteClick(user.id),
     })) || []
 
@@ -117,7 +121,11 @@ function ListaPerfilAdm() {
           width: '75vh',
         }}
       >
-        <DataGrid rows={rows} columns={columns(handleEditClick, handleDeleteClick)} hideFooter />
+        <DataGrid
+          rows={rows}
+          columns={columns(handleEditClick, handleDeleteClick)}
+          hideFooter
+        />
       </Box>
 
       <EditDialog

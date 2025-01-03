@@ -13,9 +13,9 @@ function Dialog(props: DialogProps) {
     dialogRef.current?.showModal()
   }
 
-  const handleClose = () => {
-    dialogRef.current?.close()
-  }
+  //const handleClose = () => {
+  //dialogRef.current?.close()
+  //}
 
   return (
     <>

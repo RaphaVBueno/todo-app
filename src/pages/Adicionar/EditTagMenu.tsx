@@ -22,8 +22,7 @@ type EditTagButtonsProps = {
 }
 
 function EditTagMenu(props: EditTagButtonsProps) {
-  const { anchorEl, openMenu, setOpenMenu, listId, name, tagId, listColor } =
-    props
+  const { openMenu, setOpenMenu, listId, name, tagId, listColor } = props
   const [editName, setEditName] = useState(name)
   const [color, setColor] = useState(listColor || '#ff1010')
 
@@ -68,7 +67,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
           width: '400px',
           display: 'flex',
           flexDirection: 'column',
-          padding: "20px",
+          padding: '20px',
         },
       }}
       BackdropProps={{
@@ -85,7 +84,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
           fullWidth
           sx={{ marginBottom: 2 }}
           value={editName}
-          onChange={event => setEditName(event.target.value)}
+          onChange={(event) => setEditName(event.target.value)}
           style={{ marginTop: '-8px' }}
         />
       </Box>
@@ -104,7 +103,7 @@ function EditTagMenu(props: EditTagButtonsProps) {
             name="input"
             id="color-input"
             value={color}
-            onChange={e => setColor(e.target.value)}
+            onChange={(e) => setColor(e.target.value)}
             style={{
               width: 24,
               height: 24,
