@@ -4,8 +4,8 @@ import { format } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 
 export const api = axios.create({
-  //baseURL: 'http://localhost:3000',
-  baseURL: 'https://bueno-devs-todo-api.fly.dev',
+  baseURL: 'http://localhost:3000',
+  //baseURL: 'https://bueno-devs-todo-api.fly.dev',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   },
