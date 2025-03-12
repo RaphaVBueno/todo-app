@@ -39,7 +39,7 @@ O aplicativo estará rodando em `http://localhost:5173`
 
 Este frontend consome a API desenvolvida no backend do projeto, disponível no seguinte repositório:
 
-🔗 [Backend Repository](https://github.com/bueno-devs/todo-api)
+🔗 [Backend Repository](https://github.com/RaphaVBueno/todo-api)
 
 ## 📜 Licença
 
